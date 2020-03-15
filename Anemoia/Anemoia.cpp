@@ -19,6 +19,7 @@
 #include "Locator.h"
 
 const float anemoia::Engine::m_TimeStep = 0.016f;
+const float anemoia::Engine::m_MaxElapsedSec = 0.128f;
 
 void anemoia::Engine::Initialise()
 {
@@ -122,7 +123,7 @@ void anemoia::Engine::Run()
 		{
 			//Get current time, and deduce deltaTime from it
 			const std::chrono::steady_clock::time_point currentTime = std::chrono::steady_clock::now();
-			const float elapsedSec = std::chrono::duration<float>(currentTime - prevTime).count();
+			const float elapsedSec = std::fminf(std::chrono::duration<float>(currentTime - prevTime).count(), m_MaxElapsedSec);
 			lag += elapsedSec;
 
 			//Update previous time

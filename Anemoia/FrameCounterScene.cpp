@@ -26,7 +26,7 @@ void anemoia::FrameCounterScene::FixedUpdate(float timeStep)
 	Scene::FixedUpdate(timeStep);
 
 	//Update text with elapsed Sec as text
-	m_pText->SetText(std::to_string( (int)m_pFPSComp->GetFPS()));
+	m_pText->SetText(std::to_string( (int)m_pFPSComp->GetFPS()) + " FPS");
 }
 
 void anemoia::FrameCounterScene::Update(float elapsedSec)
