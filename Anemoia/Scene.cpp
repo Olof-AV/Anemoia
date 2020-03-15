@@ -24,6 +24,7 @@ void anemoia::Scene::AddChild(GameObject* const pObject)
 {
 	//Just adds an object to the scene
 	m_Objects.push_back(pObject);
+	pObject->SetParentScene(this);
 }
 
 void anemoia::Scene::FixedUpdate(float timeStep)

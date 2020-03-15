@@ -4,12 +4,13 @@
 namespace anemoia
 {
 	class BaseComponent;
+	class Scene;
 
 	class GameObject final
 	{
 	public:
 #pragma region Constructors
-		GameObject() = default;
+		GameObject(Scene* const pParentScene = nullptr);
 		virtual ~GameObject();
 
 		GameObject(const GameObject& other) = delete;
@@ -23,10 +24,14 @@ namespace anemoia
 		void Update(float elapsedSec);
 		void Render() const;
 
-		//Transform
+#pragma region GettersSetters
 		const glm::vec3& GetPosition() const;
 		void SetPosition(const glm::vec3& newPos);
 		void SetPosition(float x, float y, float z);
+
+		Scene* const GetParentScene() const;
+		void SetParentScene(Scene* const pScene);
+#pragma endregion GettersSetters
 
 #pragma region Components
 		//Adding/removing comps
@@ -78,6 +83,8 @@ namespace anemoia
 #pragma endregion Components
 
 	private:
+		Scene* m_pParentScene;
+
 		glm::vec3 m_Position;
 		std::vector<BaseComponent*> m_Components;
 	};

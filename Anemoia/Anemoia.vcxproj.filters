@@ -26,13 +26,13 @@
     <Filter Include="Scenes">
       <UniqueIdentifier>{7f972ae0-814f-4502-96df-85c034c211de}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Misc">
+      <UniqueIdentifier>{2c93c421-4ad8-4545-8c3f-4f9aa5fa4251}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Singleton.h">
       <Filter>Patterns</Filter>
-    </ClInclude>
-    <ClInclude Include="GameObject.h">
-      <Filter>Main</Filter>
     </ClInclude>
     <ClInclude Include="SceneManager.h">
       <Filter>Managers</Filter>
@@ -51,9 +51,6 @@
     </ClInclude>
     <ClInclude Include="Texture2D.h">
       <Filter>Wrappers</Filter>
-    </ClInclude>
-    <ClInclude Include="Transform.h">
-      <Filter>Components</Filter>
     </ClInclude>
     <ClInclude Include="AnemoiaPCH.h">
       <Filter>PCH</Filter>
@@ -85,12 +82,15 @@
     <ClInclude Include="FPSComponent.h">
       <Filter>Components</Filter>
     </ClInclude>
+    <ClInclude Include="Transform.h">
+      <Filter>Misc</Filter>
+    </ClInclude>
+    <ClInclude Include="GameObject.h">
+      <Filter>Misc</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main.cpp">
-      <Filter>Main</Filter>
-    </ClCompile>
-    <ClCompile Include="GameObject.cpp">
       <Filter>Main</Filter>
     </ClCompile>
     <ClCompile Include="SceneManager.cpp">
@@ -110,9 +110,6 @@
     </ClCompile>
     <ClCompile Include="Texture2D.cpp">
       <Filter>Wrappers</Filter>
-    </ClCompile>
-    <ClCompile Include="Transform.cpp">
-      <Filter>Components</Filter>
     </ClCompile>
     <ClCompile Include="AnemoiaPCH.cpp">
       <Filter>PCH</Filter>
@@ -143,6 +140,12 @@
     </ClCompile>
     <ClCompile Include="FPSComponent.cpp">
       <Filter>Components</Filter>
+    </ClCompile>
+    <ClCompile Include="Transform.cpp">
+      <Filter>Misc</Filter>
+    </ClCompile>
+    <ClCompile Include="GameObject.cpp">
+      <Filter>Misc</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

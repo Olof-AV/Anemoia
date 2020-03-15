@@ -6,6 +6,11 @@
 #include "BaseComponent.h"
 #include <algorithm>
 
+anemoia::GameObject::GameObject(Scene* const pParentScene)
+	: m_pParentScene{ pParentScene }
+{
+}
+
 anemoia::GameObject::~GameObject()
 {
 	std::for_each(m_Components.cbegin(), m_Components.cend(), [](BaseComponent* const pComp)
@@ -41,6 +46,7 @@ void anemoia::GameObject::Render() const
 	});
 }
 
+#pragma region GettersSetters
 const glm::vec3& anemoia::GameObject::GetPosition() const
 {
 	return m_Position;
@@ -55,6 +61,17 @@ void anemoia::GameObject::SetPosition(float x, float y, float z)
 {
 	m_Position = glm::vec3(x, y, z);
 }
+
+anemoia::Scene* const anemoia::GameObject::GetParentScene() const
+{
+	return m_pParentScene;
+}
+
+void anemoia::GameObject::SetParentScene(Scene* const pScene)
+{
+	m_pParentScene = pScene;
+}
+#pragma endregion GettersSetters
 
 void anemoia::GameObject::AddComponent(BaseComponent* const pComp)
 {
