@@ -29,6 +29,9 @@ namespace anemoia
 		//Scene stuff
 		virtual void Initialise();
 
+		//Getter
+		const std::string& GetName() const;
+
 	private:
 		std::string m_Name;
 		std::vector<GameObject*> m_Objects{};

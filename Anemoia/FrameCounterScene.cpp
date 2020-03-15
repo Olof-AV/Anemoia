@@ -26,7 +26,7 @@ void anemoia::FrameCounterScene::FixedUpdate(float timeStep)
 	Scene::FixedUpdate(timeStep);
 
 	//Update text with elapsed Sec as text
-	m_pText->SetText(std::to_string(m_pFPSComp->GetFPS()));
+	m_pText->SetText(std::to_string( (int)m_pFPSComp->GetFPS()));
 }
 
 void anemoia::FrameCounterScene::Update(float elapsedSec)
@@ -36,7 +36,7 @@ void anemoia::FrameCounterScene::Update(float elapsedSec)
 
 	//Rotate
 	Transform transform = m_pText->GetTransform();
-	transform.SetAngle(transform.GetAngle() + elapsedSec * 10.f);
+	transform.SetAngle(transform.GetAngle() + elapsedSec * 50.f);
 	m_pText->SetTransform(transform);
 }
 

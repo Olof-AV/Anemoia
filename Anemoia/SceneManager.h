@@ -18,11 +18,16 @@ namespace anemoia
 		void AddScene(Scene* const pScene);
 		void InitialiseScenes() const;
 
+		void SetActiveScene(Scene* const pScene);
+		void SetActiveScene(const std::string &name);
+
 	private:
 		friend class Singleton<SceneManager>;
 
 		SceneManager() = default;
 		virtual ~SceneManager();
 		std::vector<Scene*> m_Scenes;
+
+		Scene* m_pActiveScene = nullptr;
 	};
 }

@@ -57,3 +57,8 @@ void anemoia::Scene::Initialise()
 {
 }
 
+const std::string& anemoia::Scene::GetName() const
+{
+	return m_Name;
+}
+

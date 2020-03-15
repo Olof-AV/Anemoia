@@ -58,6 +58,7 @@ void anemoia::Engine::LoadGame() const
 {
 	Scene* const pScene = new FrameCounterScene();
 	SceneManager::GetInstance()->AddScene(pScene);
+	SceneManager::GetInstance()->SetActiveScene(pScene);
 
 	//Make scene
 
