@@ -1,35 +1,38 @@
 #pragma once
 #include "SceneManager.h"
 
-class GameObject;
-
-class Scene
+namespace anemoia
 {
-public:
-#pragma region Constructors
-	explicit Scene(const std::string& name);
-	virtual ~Scene();
+	class GameObject;
 
-	Scene(const Scene& other) = delete;
-	Scene(Scene&& other) = delete;
-	Scene& operator=(const Scene& other) = delete;
-	Scene& operator=(Scene&& other) = delete;
+	class Scene
+	{
+	public:
+#pragma region Constructors
+		explicit Scene(const std::string& name);
+		virtual ~Scene();
+
+		Scene(const Scene& other) = delete;
+		Scene(Scene&& other) = delete;
+		Scene& operator=(const Scene& other) = delete;
+		Scene& operator=(Scene&& other) = delete;
 #pragma endregion Constructors
 
-	//GameObject stuff
-	void AddChild(GameObject* const pObject);
+		//GameObject stuff
+		void AddChild(GameObject* const pObject);
 
-	//Update loop stuff
-	virtual void FixedUpdate(float timeStep);
-	virtual void Update(float elapsedSec);
-	virtual void Render() const;
+		//Update loop stuff
+		virtual void FixedUpdate(float timeStep);
+		virtual void Update(float elapsedSec);
+		virtual void Render() const;
 
-	//Scene stuff
-	virtual void Initialise();
+		//Scene stuff
+		virtual void Initialise();
 
-private: 
-	std::string m_Name;
-	std::vector<GameObject*> m_Objects{};
+	private:
+		std::string m_Name;
+		std::vector<GameObject*> m_Objects{};
 
-	static unsigned int m_IdCounter; 
-};
+		//static unsigned int m_IdCounter;
+	};
+}

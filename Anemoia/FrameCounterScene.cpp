@@ -11,16 +11,16 @@
 
 #include "Locator.h"
 
-FrameCounterScene::FrameCounterScene()
+anemoia::FrameCounterScene::FrameCounterScene()
 	: Scene("FrameCounterScene")
 {
 }
 
-FrameCounterScene::~FrameCounterScene()
+anemoia::FrameCounterScene::~FrameCounterScene()
 {
 }
 
-void FrameCounterScene::FixedUpdate(float timeStep)
+void anemoia::FrameCounterScene::FixedUpdate(float timeStep)
 {
 	//Call root fixed update
 	Scene::FixedUpdate(timeStep);
@@ -29,7 +29,7 @@ void FrameCounterScene::FixedUpdate(float timeStep)
 	m_pText->SetText(std::to_string(m_pFPSComp->GetFPS()));
 }
 
-void FrameCounterScene::Update(float elapsedSec)
+void anemoia::FrameCounterScene::Update(float elapsedSec)
 {
 	//Call root update
 	Scene::Update(elapsedSec);
@@ -40,13 +40,13 @@ void FrameCounterScene::Update(float elapsedSec)
 	m_pText->SetTransform(transform);
 }
 
-void FrameCounterScene::Render() const
+void anemoia::FrameCounterScene::Render() const
 {
 	//Call root render
 	Scene::Render();
 }
 
-void FrameCounterScene::Initialise()
+void anemoia::FrameCounterScene::Initialise()
 {
 	//Call root initialise
 	Scene::Initialise();

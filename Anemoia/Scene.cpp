@@ -3,15 +3,15 @@
 #include "GameObject.h"
 #include <algorithm>
 
-unsigned int Scene::m_IdCounter = 0;
+//unsigned int anemoia::Scene::m_IdCounter = 0;
 
-Scene::Scene(const std::string& name)
+anemoia::Scene::Scene(const std::string& name)
 	: m_Name(name)
 {
 	Initialise();
 }
 
-Scene::~Scene()
+anemoia::Scene::~Scene()
 {
 	//Added objects are taken care of
 	std::for_each(m_Objects.cbegin(), m_Objects.cend(), [](GameObject* const pObject)
@@ -20,13 +20,13 @@ Scene::~Scene()
 	});
 }
 
-void Scene::AddChild(GameObject* const pObject)
+void anemoia::Scene::AddChild(GameObject* const pObject)
 {
 	//Just adds an object to the scene
 	m_Objects.push_back(pObject);
 }
 
-void Scene::FixedUpdate(float timeStep)
+void anemoia::Scene::FixedUpdate(float timeStep)
 {
 	//Update all objects
 	std::for_each(m_Objects.cbegin(), m_Objects.cend(), [timeStep](GameObject* const pObject)
@@ -35,7 +35,7 @@ void Scene::FixedUpdate(float timeStep)
 	});
 }
 
-void Scene::Update(float elapsedSec)
+void anemoia::Scene::Update(float elapsedSec)
 {
 	//Update all objects
 	std::for_each(m_Objects.cbegin(), m_Objects.cend(), [elapsedSec](GameObject* const pObject)
@@ -44,7 +44,7 @@ void Scene::Update(float elapsedSec)
 	});
 }
 
-void Scene::Render() const
+void anemoia::Scene::Render() const
 {
 	//Render all objects
 	std::for_each(m_Objects.cbegin(), m_Objects.cend(), [](GameObject* const pObject)
@@ -53,7 +53,7 @@ void Scene::Render() const
 	});
 }
 
-void Scene::Initialise()
+void anemoia::Scene::Initialise()
 {
 }
 

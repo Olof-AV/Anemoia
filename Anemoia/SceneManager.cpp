@@ -4,7 +4,7 @@
 
 #include <algorithm>
 
-void SceneManager::FixedUpdate(float timeStep)
+void anemoia::SceneManager::FixedUpdate(float timeStep)
 {
 	//Just update all for now (please fix)
 	std::for_each(m_Scenes.cbegin(), m_Scenes.cend(), [timeStep](Scene* const pScene)
@@ -13,7 +13,7 @@ void SceneManager::FixedUpdate(float timeStep)
 	});
 }
 
-void SceneManager::Update(float elapsedSec)
+void anemoia::SceneManager::Update(float elapsedSec)
 {
 	//Just update all for now (please fix)
 	std::for_each(m_Scenes.cbegin(), m_Scenes.cend(), [elapsedSec](Scene* const pScene)
@@ -22,7 +22,7 @@ void SceneManager::Update(float elapsedSec)
 	});
 }
 
-void SceneManager::Render()
+void anemoia::SceneManager::Render()
 {
 	//Just render all for now (please fix)
 	std::for_each(m_Scenes.cbegin(), m_Scenes.cend(), [](Scene* const pScene)
@@ -31,7 +31,7 @@ void SceneManager::Render()
 	});
 }
 
-void SceneManager::AddScene(Scene* const pScene)
+void anemoia::SceneManager::AddScene(Scene* const pScene)
 {
 	//Try to find scene being added
 	std::vector<Scene*>::const_iterator cIt = std::find(m_Scenes.cbegin(), m_Scenes.cend(), pScene);
@@ -47,7 +47,7 @@ void SceneManager::AddScene(Scene* const pScene)
 	}
 }
 
-void SceneManager::InitialiseScenes() const
+void anemoia::SceneManager::InitialiseScenes() const
 {
 	//Just initialise all scenes
 	std::for_each(m_Scenes.cbegin(), m_Scenes.cend(), [](Scene* const pScene)
@@ -56,7 +56,7 @@ void SceneManager::InitialiseScenes() const
 	});
 }
 
-SceneManager::~SceneManager()
+anemoia::SceneManager::~SceneManager()
 {
 	//Delete managed scenes
 	std::for_each(m_Scenes.cbegin(), m_Scenes.cend(), [](Scene* const pScene)

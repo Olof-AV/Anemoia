@@ -12,7 +12,7 @@
 
 #include "Locator.h"
 
-void ResourceManager::Init(const std::string& dataPath)
+void anemoia::ResourceManager::Init(const std::string& dataPath)
 {
 	m_DataPath = dataPath;
 
@@ -33,7 +33,7 @@ void ResourceManager::Init(const std::string& dataPath)
 	}
 }
 
-Texture2D* ResourceManager::LoadTexture(const std::string& file)
+anemoia::Texture2D* anemoia::ResourceManager::LoadTexture(const std::string& file)
 {
 	//Look for filename
 	std::unordered_map<const std::string, Resource*>::const_iterator cIt = m_SavedResources.find(file);
@@ -61,7 +61,7 @@ Texture2D* ResourceManager::LoadTexture(const std::string& file)
 	return dynamic_cast<Texture2D*>((*cIt).second);
 }
 
-Font* ResourceManager::LoadFont(const std::string& file, unsigned int size)
+anemoia::Font* anemoia::ResourceManager::LoadFont(const std::string& file, unsigned int size)
 {
 	//Look for filename
 	std::unordered_map<const std::string, Resource*>::const_iterator cIt = m_SavedResources.find(file);
@@ -78,7 +78,7 @@ Font* ResourceManager::LoadFont(const std::string& file, unsigned int size)
 	return dynamic_cast<Font*>((*cIt).second);
 }
 
-ResourceManager::~ResourceManager()
+anemoia::ResourceManager::~ResourceManager()
 {
 	//Delete all distributed resources
 	std::for_each(m_SavedResources.cbegin(), m_SavedResources.cend(), [](const std::pair<std::string, Resource*> &pair)

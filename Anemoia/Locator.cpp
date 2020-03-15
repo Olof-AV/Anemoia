@@ -1,25 +1,25 @@
 #include "AnemoiaPCH.h"
 #include "Locator.h"
 
-SDL_Window* Locator::m_pWindow = nullptr;
-SDL_Renderer* Locator::m_pRenderer = nullptr;
+SDL_Window* anemoia::Locator::m_pWindow = nullptr;
+SDL_Renderer* anemoia::Locator::m_pRenderer = nullptr;
 
-SDL_Window* const Locator::GetWindow()
+SDL_Window* const anemoia::Locator::GetWindow()
 {
 	return m_pWindow;
 }
 
-SDL_Renderer* const Locator::GetRenderer()
+SDL_Renderer* const anemoia::Locator::GetRenderer()
 {
 	return m_pRenderer;
 }
 
-void Locator::SetSDL_Window(SDL_Window* const pWindow)
+void anemoia::Locator::SetSDL_Window(SDL_Window* const pWindow)
 {
 	m_pWindow = pWindow;
 }
 
-void Locator::SetSDL_Renderer(SDL_Renderer* const pRenderer)
+void anemoia::Locator::SetSDL_Renderer(SDL_Renderer* const pRenderer)
 {
 	m_pRenderer = pRenderer;
 }

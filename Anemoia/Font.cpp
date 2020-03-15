@@ -2,11 +2,11 @@
 #include <SDL_ttf.h>
 #include "Font.h"
 
-TTF_Font* Font::GetFont() const {
+TTF_Font* anemoia::Font::GetFont() const {
 	return m_Font;
 }
 
-Font::Font(const std::string& fullPath, unsigned int size)
+anemoia::Font::Font(const std::string& fullPath, unsigned int size)
 	: Resource(), m_Font(nullptr), m_Size(size)
 {
 	m_Font = TTF_OpenFont(fullPath.c_str(), size);
@@ -16,7 +16,7 @@ Font::Font(const std::string& fullPath, unsigned int size)
 	}
 }
 
-Font::~Font()
+anemoia::Font::~Font()
 {
 	TTF_CloseFont(m_Font);
 }

@@ -3,7 +3,6 @@
 
 struct SDL_Window;
 struct SDL_Renderer;
-class Texture2D;
 
 #include <SDL_render.h>
 
@@ -15,24 +14,30 @@ class Texture2D;
 	/**
 	* Simple RAII wrapper for the SDL renderer
 	*/
-class Renderer final : public Singleton<Renderer>
+
+namespace anemoia
 {
-public:
-	void Init(SDL_Window* const pWindow);
-	void Render() const;
+	class Texture2D;
 
-	//Texture render stuff
-	void RenderTexture(Texture2D* const pTexture, float x, float y) const;
-	void RenderTexture(Texture2D* const pTexture, float x, float y, float width, float height) const;
-	void RenderTexture(Texture2D* const pTexture, float x, float y, float width, float height, float angle, const glm::vec2 &pivotCenter, SDL_RendererFlip flip) const;
+	class Renderer final : public Singleton<Renderer>
+	{
+	public:
+		void Init(SDL_Window* const pWindow);
+		void Render() const;
 
-	//Replaced by locator
-	//SDL_Renderer* GetSDLRenderer() const { return m_Renderer; }
+		//Texture render stuff
+		void RenderTexture(Texture2D* const pTexture, float x, float y) const;
+		void RenderTexture(Texture2D* const pTexture, float x, float y, float width, float height) const;
+		void RenderTexture(Texture2D* const pTexture, float x, float y, float width, float height, float angle, const glm::vec2& pivotCenter, SDL_RendererFlip flip) const;
 
-private:
-	friend class Singleton<Renderer>;
+		//Replaced by locator
+		//SDL_Renderer* GetSDLRenderer() const { return m_Renderer; }
 
-	virtual ~Renderer();
-	void Destroy();
-	SDL_Renderer* m_Renderer{};
-};
+	private:
+		friend class Singleton<Renderer>;
+
+		virtual ~Renderer();
+		void Destroy();
+		SDL_Renderer* m_pRenderer{};
+	};
+}

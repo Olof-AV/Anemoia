@@ -6,7 +6,7 @@
 #include "BaseComponent.h"
 #include <algorithm>
 
-GameObject::~GameObject()
+anemoia::GameObject::~GameObject()
 {
 	std::for_each(m_Components.cbegin(), m_Components.cend(), [](BaseComponent* const pComp)
 	{
@@ -14,7 +14,7 @@ GameObject::~GameObject()
 	});
 }
 
-void GameObject::FixedUpdate(float timeStep)
+void anemoia::GameObject::FixedUpdate(float timeStep)
 {
 	//Just fixed update (physics and stuff)
 	std::for_each(m_Components.cbegin(), m_Components.cend(), [timeStep](BaseComponent* const pComp)
@@ -23,7 +23,7 @@ void GameObject::FixedUpdate(float timeStep)
 	});
 }
 
-void GameObject::Update(float elapsedSec)
+void anemoia::GameObject::Update(float elapsedSec)
 {
 	//Just update
 	std::for_each(m_Components.cbegin(), m_Components.cend(), [elapsedSec](BaseComponent* const pComp)
@@ -32,7 +32,7 @@ void GameObject::Update(float elapsedSec)
 	});
 }
 
-void GameObject::Render() const
+void anemoia::GameObject::Render() const
 {
 	//Just render
 	std::for_each(m_Components.cbegin(), m_Components.cend(), [](BaseComponent* const pComp)
@@ -41,22 +41,22 @@ void GameObject::Render() const
 	});
 }
 
-const glm::vec3& GameObject::GetPosition() const
+const glm::vec3& anemoia::GameObject::GetPosition() const
 {
 	return m_Position;
 }
 
-void GameObject::SetPosition(const glm::vec3& newPos)
+void anemoia::GameObject::SetPosition(const glm::vec3& newPos)
 {
 	m_Position = newPos;
 }
 
-void GameObject::SetPosition(float x, float y, float z)
+void anemoia::GameObject::SetPosition(float x, float y, float z)
 {
 	m_Position = glm::vec3(x, y, z);
 }
 
-void GameObject::AddComponent(BaseComponent* const pComp)
+void anemoia::GameObject::AddComponent(BaseComponent* const pComp)
 {
 	//Try to find component being added
 	std::vector<BaseComponent*>::const_iterator cIt = std::find(m_Components.cbegin(), m_Components.cend(), pComp);
@@ -72,7 +72,7 @@ void GameObject::AddComponent(BaseComponent* const pComp)
 	}
 }
 
-bool GameObject::RemoveComponent(BaseComponent* const pComp)
+bool anemoia::GameObject::RemoveComponent(BaseComponent* const pComp)
 {
 	//Try to find component being removed
 	std::vector<BaseComponent*>::const_iterator cIt = std::find(m_Components.cbegin(), m_Components.cend(), pComp);

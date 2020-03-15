@@ -5,23 +5,23 @@
 #include "Texture2D.h"
 #include "GameObject.h"
 
-TextureComponent::TextureComponent(GameObject* const pParent, const Transform& transform,
+anemoia::TextureComponent::TextureComponent(GameObject* const pParent, const Transform& transform,
 	Texture2D* const pTexture)
 	: BaseComponent(pParent, transform), m_pTexture(pTexture)
 {
 }
 
-void TextureComponent::FixedUpdate(float timeStep)
+void anemoia::TextureComponent::FixedUpdate(float timeStep)
 {
 	UNREFERENCED_PARAMETER(timeStep);
 }
 
-void TextureComponent::Update(float elapsedSec)
+void anemoia::TextureComponent::Update(float elapsedSec)
 {
 	UNREFERENCED_PARAMETER(elapsedSec);
 }
 
-void TextureComponent::Render() const
+void anemoia::TextureComponent::Render() const
 {
 	//Calculate params
 	const glm::vec2 size = m_pTexture->GetDimensions() * m_Transform.GetScale();

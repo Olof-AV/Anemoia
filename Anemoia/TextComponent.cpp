@@ -11,7 +11,7 @@
 
 #include "GameObject.h"
 
-TextComponent::TextComponent(GameObject* const pParent, const Transform& transform,
+anemoia::TextComponent::TextComponent(GameObject* const pParent, const Transform& transform,
 	const std::string& text, Font* const pFont, const SDL_Colour& textColour)
 	: BaseComponent(pParent, transform),
 	m_NeedsUpdate(true), m_Text(text), m_pFont(pFont), m_TextColour{textColour},
@@ -20,13 +20,13 @@ TextComponent::TextComponent(GameObject* const pParent, const Transform& transfo
 
 }
 
-TextComponent::~TextComponent()
+anemoia::TextComponent::~TextComponent()
 {
 	//Delete texture but not font, font is managed by resource manager
 	delete m_pTexture;
 }
 
-void TextComponent::FixedUpdate(float timeStep)
+void anemoia::TextComponent::FixedUpdate(float timeStep)
 {
 	//Mark as unreferenced for now
 	UNREFERENCED_PARAMETER(timeStep);
@@ -59,12 +59,12 @@ void TextComponent::FixedUpdate(float timeStep)
 	}
 }
 
-void TextComponent::Update(float elapsedSec)
+void anemoia::TextComponent::Update(float elapsedSec)
 {
 	UNREFERENCED_PARAMETER(elapsedSec);
 }
 
-void TextComponent::Render() const
+void anemoia::TextComponent::Render() const
 {
 	if (m_pTexture != nullptr)
 	{
@@ -79,7 +79,7 @@ void TextComponent::Render() const
 }
 
 // This implementation uses the "dirty flag" pattern
-void TextComponent::SetText(const std::string& text)
+void anemoia::TextComponent::SetText(const std::string& text)
 {
 	m_Text = text;
 	m_NeedsUpdate = true;

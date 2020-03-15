@@ -9,19 +9,22 @@
 struct SDL_Window;
 struct SDL_Renderer;
 
-class Locator
+namespace anemoia
 {
-	friend Anemoia::Engine;
-	friend Renderer;
+	class Locator
+	{
+		friend Engine;
+		friend Renderer;
 
-public:
-	static SDL_Window* const GetWindow();
-	static SDL_Renderer* const GetRenderer();
+	public:
+		static SDL_Window* const GetWindow();
+		static SDL_Renderer* const GetRenderer();
 
-private:
-	void static SetSDL_Window(SDL_Window* const pWindow);
-	void static SetSDL_Renderer(SDL_Renderer* const pRenderer);
+	private:
+		void static SetSDL_Window(SDL_Window* const pWindow);
+		void static SetSDL_Renderer(SDL_Renderer* const pRenderer);
 
-	static SDL_Window* m_pWindow;
-	static SDL_Renderer* m_pRenderer;
-};
+		static SDL_Window* m_pWindow;
+		static SDL_Renderer* m_pRenderer;
+	};
+}

@@ -1,7 +1,7 @@
 #pragma once
 struct SDL_Window;
 
-namespace Anemoia
+namespace anemoia
 {
 	class Engine
 	{

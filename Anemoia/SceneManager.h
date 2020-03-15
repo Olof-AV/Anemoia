@@ -1,24 +1,28 @@
 #pragma once
 #include "Singleton.h"
 
-class Scene;
 
-class SceneManager final : public Singleton<SceneManager>
+namespace anemoia
 {
-public:
-	//Update loop stuff
-	void FixedUpdate(float timeStep);
-	void Update(float elapsedSec);
-	void Render();
+	class Scene;
 
-	//Scene stuff
-	void AddScene(Scene* const pScene);
-	void InitialiseScenes() const;
+	class SceneManager final : public Singleton<SceneManager>
+	{
+	public:
+		//Update loop stuff
+		void FixedUpdate(float timeStep);
+		void Update(float elapsedSec);
+		void Render();
 
-private:
-	friend class Singleton<SceneManager>;
+		//Scene stuff
+		void AddScene(Scene* const pScene);
+		void InitialiseScenes() const;
 
-	SceneManager() = default;
-	virtual ~SceneManager();
-	std::vector<Scene*> m_Scenes;
-};
+	private:
+		friend class Singleton<SceneManager>;
+
+		SceneManager() = default;
+		virtual ~SceneManager();
+		std::vector<Scene*> m_Scenes;
+	};
+}

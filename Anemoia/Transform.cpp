@@ -1,7 +1,7 @@
 #include "AnemoiaPCH.h"
 #include "Transform.h"
 
-Transform::Transform(const glm::vec3& pos,
+anemoia::Transform::Transform(const glm::vec3& pos,
 	const glm::vec2& pivot,
 	const glm::vec2& scale,
 	float angle,
@@ -12,67 +12,67 @@ Transform::Transform(const glm::vec3& pos,
 
 
 #pragma region GettersSetters
-const glm::vec3& Transform::GetPosition() const
+const glm::vec3& anemoia::Transform::GetPosition() const
 {
 	return m_Position;
 }
 
-void Transform::SetPosition(const float x, const float y, const float z)
+void anemoia::Transform::SetPosition(const float x, const float y, const float z)
 {
 	m_Position.x = x;
 	m_Position.y = y;
 	m_Position.z = z;
 }
 
-void Transform::SetPosition(const glm::vec3& newPos)
+void anemoia::Transform::SetPosition(const glm::vec3& newPos)
 {
 	m_Position = newPos;
 }
 
-const glm::vec2& Transform::GetPivot() const
+const glm::vec2& anemoia::Transform::GetPivot() const
 {
 	return m_Pivot;
 }
 
-void Transform::SetPivot(const glm::vec2& pivot)
+void anemoia::Transform::SetPivot(const glm::vec2& pivot)
 {
 	m_Pivot = pivot;
 }
 
-void Transform::SetPivot(float x, float y)
+void anemoia::Transform::SetPivot(float x, float y)
 {
 	m_Pivot.x = x;
 	m_Pivot.y = y;
 }
 
-const glm::vec2& Transform::GetScale() const
+const glm::vec2& anemoia::Transform::GetScale() const
 {
 	return m_Scale;
 }
 
-void Transform::SetScale(const glm::vec2& scale)
+void anemoia::Transform::SetScale(const glm::vec2& scale)
 {
 	m_Scale = scale;
 }
 
-void Transform::SetScale(float x, float y)
+void anemoia::Transform::SetScale(float x, float y)
 {
 	m_Scale.x = x;
 	m_Scale.y = y;
 }
-float Transform::GetAngle() const
+float anemoia::Transform::GetAngle() const
 {
 	return m_Angle;
 }
-void Transform::SetAngle(float angle)
+void anemoia::Transform::SetAngle(float angle)
 {
 	m_Angle = angle;
 }
-SDL_RendererFlip Transform::GetFlip() const
+SDL_RendererFlip anemoia::Transform::GetFlip() const
 {
 	return m_Flip;
 }
-void Transform::SetFlip(SDL_RendererFlip flip)
+void anemoia::Transform::SetFlip(SDL_RendererFlip flip)
 {
 	m_Flip = flip;
 }

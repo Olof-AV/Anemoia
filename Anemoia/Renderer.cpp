@@ -6,65 +6,65 @@
 
 #include "Locator.h"
 
-void Renderer::Init(SDL_Window * const pWindow)
+void anemoia::Renderer::Init(SDL_Window * const pWindow)
 {
 	//Create accelerated renderer, in VSYNC mode
-	m_Renderer = SDL_CreateRenderer(pWindow, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
-	if (m_Renderer == nullptr) 
+	m_pRenderer = SDL_CreateRenderer(pWindow, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
+	if (m_pRenderer == nullptr)
 	{
 		throw std::runtime_error(std::string("SDL_CreateRenderer Error: ") + SDL_GetError());
 	}
 
 	//Setup locator
-	Locator::SetSDL_Renderer(m_Renderer);
+	Locator::SetSDL_Renderer(m_pRenderer);
 }
 
-void Renderer::Render() const
+void anemoia::Renderer::Render() const
 {
 	//Clear renderer
-	SDL_RenderClear(m_Renderer);
+	SDL_RenderClear(m_pRenderer);
 
 	//Render everything in scenes
 	SceneManager::GetInstance()->Render();
 	
 	//Present
-	SDL_RenderPresent(m_Renderer);
+	SDL_RenderPresent(m_pRenderer);
 }
 
-void Renderer::Destroy()
+void anemoia::Renderer::Destroy()
 {
-	if (m_Renderer != nullptr)
+	if (m_pRenderer != nullptr)
 	{
-		SDL_DestroyRenderer(m_Renderer);
-		m_Renderer = nullptr;
+		SDL_DestroyRenderer(m_pRenderer);
+		m_pRenderer = nullptr;
 	}
 }
 
-Renderer::~Renderer()
+anemoia::Renderer::~Renderer()
 {
 	Destroy();
 }
 
-void Renderer::RenderTexture(Texture2D* const pTexture, const float x, const float y) const
+void anemoia::Renderer::RenderTexture(anemoia::Texture2D* const pTexture, const float x, const float y) const
 {
 	SDL_Rect dst;
 	dst.x = static_cast<int>(x);
 	dst.y = static_cast<int>(y);
 	SDL_QueryTexture(pTexture->GetSDLTexture(), nullptr, nullptr, &dst.w, &dst.h);
-	SDL_RenderCopy(m_Renderer, pTexture->GetSDLTexture(), nullptr, &dst);
+	SDL_RenderCopy(m_pRenderer, pTexture->GetSDLTexture(), nullptr, &dst);
 }
 
-void Renderer::RenderTexture(Texture2D* const pTexture, const float x, const float y, const float width, const float height) const
+void anemoia::Renderer::RenderTexture(anemoia::Texture2D* const pTexture, const float x, const float y, const float width, const float height) const
 {
 	SDL_Rect dst;
 	dst.x = static_cast<int>(x);
 	dst.y = static_cast<int>(y);
 	dst.w = static_cast<int>(width);
 	dst.h = static_cast<int>(height);
-	SDL_RenderCopy(m_Renderer, pTexture->GetSDLTexture(), nullptr, &dst);
+	SDL_RenderCopy(m_pRenderer, pTexture->GetSDLTexture(), nullptr, &dst);
 }
 
-void Renderer::RenderTexture(Texture2D* const pTexture, float x, float y, float width, float height, float angle, const glm::vec2 &pivotCenter, SDL_RendererFlip flip) const
+void anemoia::Renderer::RenderTexture(anemoia::Texture2D* const pTexture, float x, float y, float width, float height, float angle, const glm::vec2 &pivotCenter, SDL_RendererFlip flip) const
 {
 	//Setup
 	SDL_Rect dst;
@@ -78,5 +78,5 @@ void Renderer::RenderTexture(Texture2D* const pTexture, float x, float y, float 
 	point.y = (int)pivotCenter.y;
 
 	//Render
-	SDL_RenderCopyEx(m_Renderer, pTexture->GetSDLTexture(), nullptr, &dst, angle, &point, flip);
+	SDL_RenderCopyEx(m_pRenderer, pTexture->GetSDLTexture(), nullptr, &dst, angle, &point, flip);
 }

@@ -1,38 +1,40 @@
 #pragma once
 
-template <typename T>	
-
-class Singleton
+namespace anemoia
 {
-public:
-	static T* GetInstance()
+	template <typename T>
+	class Singleton
 	{
-		if (m_pInstance)
+	public:
+		static T* GetInstance()
 		{
+			if (m_pInstance)
+			{
+				return m_pInstance;
+			}
+			m_pInstance = new T;
 			return m_pInstance;
 		}
-		m_pInstance = new T;
-		return m_pInstance;
-	}
 
-	static void DestroyInstance()
-	{
-		if (m_pInstance)
+		static void DestroyInstance()
 		{
-			delete m_pInstance;
-			m_pInstance = nullptr;
+			if (m_pInstance)
+			{
+				delete m_pInstance;
+				m_pInstance = nullptr;
+			}
 		}
-	}
 
-	Singleton(const Singleton& other) = delete;
-	Singleton(Singleton&& other) = delete;
-	Singleton& operator=(const Singleton& other) = delete;
-	Singleton& operator=(Singleton&& other) = delete;
+		Singleton(const Singleton& other) = delete;
+		Singleton(Singleton&& other) = delete;
+		Singleton& operator=(const Singleton& other) = delete;
+		Singleton& operator=(Singleton&& other) = delete;
 
-protected:
-	Singleton() = default;
-	virtual ~Singleton() = default;
+	protected:
+		Singleton() = default;
+		virtual ~Singleton() = default;
 
-private:
-	inline static T* m_pInstance = nullptr;
-};
+	private:
+		inline static T* m_pInstance = nullptr;
+	};
+}

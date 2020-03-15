@@ -18,9 +18,9 @@
 
 #include "Locator.h"
 
-const float Anemoia::Engine::m_TimeStep = 0.016f;
+const float anemoia::Engine::m_TimeStep = 0.016f;
 
-void Anemoia::Engine::Initialise()
+void anemoia::Engine::Initialise()
 {
 	//Try to initiate video
 	if (SDL_Init(SDL_INIT_VIDEO) != 0) 
@@ -54,7 +54,7 @@ void Anemoia::Engine::Initialise()
 /**
  * Code constructing the scene world starts here
  */
-void Anemoia::Engine::LoadGame() const
+void anemoia::Engine::LoadGame() const
 {
 	Scene* const pScene = new FrameCounterScene();
 	SceneManager::GetInstance()->AddScene(pScene);
@@ -76,7 +76,7 @@ void Anemoia::Engine::LoadGame() const
 	scene.Add(to);*/
 }
 
-void Anemoia::Engine::Cleanup()
+void anemoia::Engine::Cleanup()
 {
 	//Destroy all managers
 	Renderer::DestroyInstance();
@@ -90,7 +90,7 @@ void Anemoia::Engine::Cleanup()
 	SDL_Quit();
 }
 
-void Anemoia::Engine::Run()
+void anemoia::Engine::Run()
 {
 	//Initialise the game
 	Initialise();

@@ -3,7 +3,7 @@
 #include <SDL.h>
 
 
-bool InputManager::ProcessInput()
+bool anemoia::InputManager::ProcessInput()
 {
 	ZeroMemory(&m_CurrentState, sizeof(XINPUT_STATE));
 	XInputGetState(0, &m_CurrentState);
@@ -24,7 +24,7 @@ bool InputManager::ProcessInput()
 	return true;
 }
 
-bool InputManager::IsPressed(ControllerButton button) const
+bool anemoia::InputManager::IsPressed(ControllerButton button) const
 {
 	switch (button)
 	{
