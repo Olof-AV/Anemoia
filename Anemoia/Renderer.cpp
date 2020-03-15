@@ -17,6 +17,9 @@ void anemoia::Renderer::Init(SDL_Window * const pWindow)
 
 	//Setup locator
 	Locator::SetSDL_Renderer(m_pRenderer);
+
+	//Set global render draw blendmode
+	SDL_SetRenderDrawBlendMode(m_pRenderer, SDL_BLENDMODE_BLEND);
 }
 
 void anemoia::Renderer::Render() const

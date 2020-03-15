@@ -26,6 +26,7 @@ namespace anemoia
 
 	private:
 		class TextComponent* m_pText = nullptr;
+		class TextureComponent* m_pBackground = nullptr;
 		class FPSComponent* m_pFPSComp = nullptr;
 	};
 }

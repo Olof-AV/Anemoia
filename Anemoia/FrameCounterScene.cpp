@@ -11,6 +11,11 @@
 
 #include "Locator.h"
 
+#pragma warning(push)
+#pragma warning (disable:4201)
+#include <glm/vec4.hpp>
+#pragma warning(pop)
+
 anemoia::FrameCounterScene::FrameCounterScene()
 	: Scene("FrameCounterScene")
 {
@@ -25,7 +30,7 @@ void anemoia::FrameCounterScene::FixedUpdate(float timeStep)
 	//Call root fixed update
 	Scene::FixedUpdate(timeStep);
 
-	//Update text with elapsed Sec as text
+	//Update text with timeStep -> we update the text on a regular basis
 	m_pText->SetText(std::to_string( (int)m_pFPSComp->GetFPS()) + " FPS");
 }
 
@@ -38,6 +43,15 @@ void anemoia::FrameCounterScene::Update(float elapsedSec)
 	Transform transform = m_pText->GetTransform();
 	transform.SetAngle(transform.GetAngle() + elapsedSec * 50.f);
 	m_pText->SetTransform(transform);
+
+	//Change alpha of background
+	glm::vec4 colour = m_pBackground->GetColourMod();
+	colour.a += elapsedSec * 100.f;
+	if (colour.a > 255.f)
+	{
+		colour.a = 0.f;
+	}
+	m_pBackground->SetColourMod(colour);
 }
 
 void anemoia::FrameCounterScene::Render() const
@@ -64,8 +78,8 @@ void anemoia::FrameCounterScene::Initialise()
 	{
 		const Transform newTransform = Transform(glm::vec3(0.5f * x, 0.5f * y, 0.f), glm::vec2(0.5f, 0.5f), glm::vec2(0.9f, 0.9f));
 		Texture2D* const pTex = ResourceManager::GetInstance()->LoadTexture("background.jpg");
-		TextureComponent* const pTexComp = new TextureComponent(pCounter, newTransform, pTex);
-		pCounter->AddComponent(pTexComp);
+		m_pBackground = new TextureComponent(pCounter, newTransform, pTex);
+		pCounter->AddComponent(m_pBackground);
 	}
 
 	//Create text comp and add to object
