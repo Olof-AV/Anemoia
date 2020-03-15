@@ -1,0 +1,92 @@
+#include "AnemoiaPCH.h"
+#include "GameObject.h"
+#include "ResourceManager.h"
+#include "Renderer.h"
+
+#include "BaseComponent.h"
+#include <algorithm>
+
+GameObject::~GameObject()
+{
+	std::for_each(m_Components.cbegin(), m_Components.cend(), [](BaseComponent* const pComp)
+	{
+		delete pComp;
+	});
+}
+
+void GameObject::FixedUpdate(float timeStep)
+{
+	//Just fixed update (physics and stuff)
+	std::for_each(m_Components.cbegin(), m_Components.cend(), [timeStep](BaseComponent* const pComp)
+	{
+		pComp->FixedUpdate(timeStep);
+	});
+}
+
+void GameObject::Update(float elapsedSec)
+{
+	//Just update
+	std::for_each(m_Components.cbegin(), m_Components.cend(), [elapsedSec](BaseComponent* const pComp)
+	{
+		pComp->Update(elapsedSec);
+	});
+}
+
+void GameObject::Render() const
+{
+	//Just render
+	std::for_each(m_Components.cbegin(), m_Components.cend(), [](BaseComponent* const pComp)
+	{
+		pComp->Render();
+	});
+}
+
+const glm::vec3& GameObject::GetPosition() const
+{
+	return m_Position;
+}
+
+void GameObject::SetPosition(const glm::vec3& newPos)
+{
+	m_Position = newPos;
+}
+
+void GameObject::SetPosition(float x, float y, float z)
+{
+	m_Position = glm::vec3(x, y, z);
+}
+
+void GameObject::AddComponent(BaseComponent* const pComp)
+{
+	//Try to find component being added
+	std::vector<BaseComponent*>::const_iterator cIt = std::find(m_Components.cbegin(), m_Components.cend(), pComp);
+
+	//Only add if it's not already in there
+	if (cIt == m_Components.cend())
+	{
+		m_Components.push_back(pComp);
+	}
+	else
+	{
+		throw std::runtime_error("Failed to add component: already present in this GameObject!");
+	}
+}
+
+bool GameObject::RemoveComponent(BaseComponent* const pComp)
+{
+	//Try to find component being removed
+	std::vector<BaseComponent*>::const_iterator cIt = std::find(m_Components.cbegin(), m_Components.cend(), pComp);
+
+	if (cIt != m_Components.cend())
+	{
+		//Found, so delete and erase from vector
+		delete* cIt;
+		m_Components.erase(cIt);
+		
+		//Was found
+		return true;
+	}
+
+	//Was not found
+	return false;
+}
