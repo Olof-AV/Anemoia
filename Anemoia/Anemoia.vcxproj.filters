@@ -29,6 +29,9 @@
     <Filter Include="Misc">
       <UniqueIdentifier>{2c93c421-4ad8-4545-8c3f-4f9aa5fa4251}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Patterns\Commands">
+      <UniqueIdentifier>{ea538f19-c91c-4486-b577-b14d7ff2124f}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Singleton.h">
@@ -88,6 +91,9 @@
     <ClInclude Include="GameObject.h">
       <Filter>Misc</Filter>
     </ClInclude>
+    <ClInclude Include="Command.h">
+      <Filter>Patterns\Commands</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main.cpp">
@@ -146,6 +152,9 @@
     </ClCompile>
     <ClCompile Include="GameObject.cpp">
       <Filter>Misc</Filter>
+    </ClCompile>
+    <ClCompile Include="Command.cpp">
+      <Filter>Patterns\Commands</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
