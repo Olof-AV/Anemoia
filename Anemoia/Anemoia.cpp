@@ -102,6 +102,9 @@ void anemoia::Engine::Run()
 	SceneManager* const pSceneManager = SceneManager::GetInstance();
 	InputManager* const pInput = InputManager::GetInstance();
 
+	//Setup locator
+	Locator::SetInputManager(pInput);
+
 	//Tell the resource manager where it can find the game data
 	ResourceManager::GetInstance()->Init("../Data/");
 

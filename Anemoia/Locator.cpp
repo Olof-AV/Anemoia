@@ -14,6 +14,11 @@ SDL_Renderer* const anemoia::Locator::GetRenderer()
 	return m_pRenderer;
 }
 
+anemoia::InputManager* const anemoia::Locator::GetInputManager()
+{
+	return m_pInputManager;
+}
+
 void anemoia::Locator::SetSDL_Window(SDL_Window* const pWindow)
 {
 	m_pWindow = pWindow;
@@ -22,4 +27,9 @@ void anemoia::Locator::SetSDL_Window(SDL_Window* const pWindow)
 void anemoia::Locator::SetSDL_Renderer(SDL_Renderer* const pRenderer)
 {
 	m_pRenderer = pRenderer;
+}
+
+void anemoia::Locator::SetInputManager(InputManager* const pInputManager)
+{
+	m_pInputManager = pInputManager;
 }
