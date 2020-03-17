@@ -3,6 +3,7 @@
 
 SDL_Window* anemoia::Locator::m_pWindow = nullptr;
 SDL_Renderer* anemoia::Locator::m_pRenderer = nullptr;
+anemoia::InputManager* anemoia::Locator::m_pInputManager = nullptr;
 
 SDL_Window* const anemoia::Locator::GetWindow()
 {

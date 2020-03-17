@@ -16,6 +16,7 @@ namespace anemoia
 	{
 		friend Engine;
 		friend Renderer;
+		friend InputManager;
 
 	public:
 		static SDL_Window* const GetWindow();

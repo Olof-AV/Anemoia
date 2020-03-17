@@ -25,6 +25,9 @@ namespace anemoia
 		virtual void Initialise();
 
 	private:
+		void ChangeTextToRed();
+		void ChangeTextToBlue();
+
 		class TextComponent* m_pText = nullptr;
 		class TextureComponent* m_pBackground = nullptr;
 		class FPSComponent* m_pFPSComp = nullptr;

@@ -78,9 +78,24 @@ void anemoia::TextComponent::Render() const
 	}
 }
 
+const std::string& anemoia::TextComponent::GetText() const
+{
+	return m_Text;
+}
+
 // This implementation uses the "dirty flag" pattern
 void anemoia::TextComponent::SetText(const std::string& text)
 {
 	m_Text = text;
 	m_NeedsUpdate = true;
+}
+
+const SDL_Colour& anemoia::TextComponent::GetColour() const
+{
+	return m_TextColour;
+}
+
+void anemoia::TextComponent::SetColour(const SDL_Colour& colour)
+{
+	m_TextColour = colour;
 }

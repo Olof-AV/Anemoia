@@ -28,7 +28,11 @@ namespace anemoia
 		virtual void Render() const override;
 
 		//Functions
+		const std::string &GetText() const;
 		void SetText(const std::string& text);
+
+		const SDL_Colour &GetColour() const;
+		void SetColour(const SDL_Colour &colour);
 
 	private:
 		//Extra

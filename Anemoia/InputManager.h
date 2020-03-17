@@ -4,22 +4,32 @@
 
 namespace anemoia
 {
-	enum class ControllerButton
-	{
-		ButtonA,
-		ButtonB,
-		ButtonX,
-		ButtonY
-	};
+	class Command;
 
 	class InputManager final : public Singleton<InputManager>
 	{
 	public:
 		bool ProcessInput();
-		bool IsPressed(ControllerButton button) const;
+		void RegisterCommand(Command* const pCommand);
 
 	private:
-		XINPUT_STATE m_CurrentState{};
-	};
+		friend class Singleton<InputManager>;
 
+		InputManager();
+		virtual ~InputManager();
+
+		bool IsHeld(Command* const pCommand) const;
+		bool IsButtonDown(Command* const pCommand) const;
+		bool IsButtonUp(Command* const pCommand) const;
+
+		std::vector<class Command*> m_Commands;
+
+		//Gamepad
+		XINPUT_STATE m_PadInputState{};
+		XINPUT_STATE m_PadPreviousState{};
+
+		//Keyboard
+		BYTE* m_KeyboardState;
+		BYTE* m_PreviousKeyboardState;
+	};
 }

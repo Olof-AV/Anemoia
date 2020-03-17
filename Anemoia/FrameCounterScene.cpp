@@ -16,6 +16,9 @@
 #include <glm/vec4.hpp>
 #pragma warning(pop)
 
+#include "Command.h"
+#include <functional>
+
 anemoia::FrameCounterScene::FrameCounterScene()
 	: Scene("FrameCounterScene")
 {
@@ -97,4 +100,19 @@ void anemoia::FrameCounterScene::Initialise()
 
 	//Add to scene
 	AddChild(pCounter);
+
+	//Add input
+	InputManager* const pInput = Locator::GetInputManager();
+	pInput->RegisterCommand(new Command(XINPUT_GAMEPAD_START, VK_LBUTTON, ButtonState::Hold, std::bind(&anemoia::FrameCounterScene::ChangeTextToBlue, this) ));
+	pInput->RegisterCommand(new Command(XINPUT_GAMEPAD_BACK, VK_RBUTTON, ButtonState::Up, std::bind(&anemoia::FrameCounterScene::ChangeTextToRed, this) ));
+}
+
+void anemoia::FrameCounterScene::ChangeTextToRed()
+{
+	m_pText->SetColour(SDL_Colour{ 255, 0, 0 });
+}
+
+void anemoia::FrameCounterScene::ChangeTextToBlue()
+{
+	m_pText->SetColour(SDL_Colour{ 0, 0, 255 });
 }
