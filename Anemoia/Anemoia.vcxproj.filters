@@ -73,9 +73,6 @@
     <ClInclude Include="Scene.h">
       <Filter>Scenes</Filter>
     </ClInclude>
-    <ClInclude Include="FrameCounterScene.h">
-      <Filter>Scenes</Filter>
-    </ClInclude>
     <ClInclude Include="Locator.h">
       <Filter>Patterns</Filter>
     </ClInclude>
@@ -96,9 +93,6 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Main.cpp">
-      <Filter>Main</Filter>
-    </ClCompile>
     <ClCompile Include="SceneManager.cpp">
       <Filter>Managers</Filter>
     </ClCompile>
@@ -133,9 +127,6 @@
       <Filter>Components</Filter>
     </ClCompile>
     <ClCompile Include="Scene.cpp">
-      <Filter>Scenes</Filter>
-    </ClCompile>
-    <ClCompile Include="FrameCounterScene.cpp">
       <Filter>Scenes</Filter>
     </ClCompile>
     <ClCompile Include="Locator.cpp">

@@ -7,7 +7,7 @@ namespace anemoia
 	{
 	public:
 		void Initialise();
-		void LoadGame() const;
+		virtual void LoadGame() const = 0;
 		void Cleanup();
 		void Run();
 
