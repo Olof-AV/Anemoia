@@ -103,8 +103,11 @@ void FrameCounterScene::Initialise()
 
 	//Add input
 	anemoia::InputManager* const pInput = anemoia::Locator::GetInputManager();
-	pInput->RegisterCommand(new anemoia::Command(XINPUT_GAMEPAD_START, VK_LBUTTON, anemoia::ButtonState::Hold, std::bind(&FrameCounterScene::ChangeTextToBlue, this) ));
-	pInput->RegisterCommand(new anemoia::Command(XINPUT_GAMEPAD_BACK, VK_RBUTTON, anemoia::ButtonState::Up, std::bind(&FrameCounterScene::ChangeTextToRed, this) ));
+	if (pInput)
+	{
+		pInput->RegisterCommand(new anemoia::Command(XINPUT_GAMEPAD_START, VK_LBUTTON, anemoia::ButtonState::Hold, std::bind( &FrameCounterScene::ChangeTextToBlue, this )));
+		pInput->RegisterCommand(new anemoia::Command(XINPUT_GAMEPAD_BACK, VK_RBUTTON, anemoia::ButtonState::Up, std::bind( &FrameCounterScene::ChangeTextToRed, this )));
+	}
 }
 
 void FrameCounterScene::ChangeTextToRed()
