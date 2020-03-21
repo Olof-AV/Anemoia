@@ -8,12 +8,18 @@
 #include "SDL.h"
 #include "BubbleBobbleGame.h"
 
-#include "SDL_mixer.h"
+//#define CATCH_CONFIG_RUNNER    // Designates this as implementation file
+#define CATCH_CONFIG_MAIN      // Designates this as implementation file and defines main()
+#include "catch.hpp"
 
-int main(int, char* [])
+/*int main(int argc, char* argv[])
 {
-	BubbleBobbleGame pEngine;
-	pEngine.Run();
+	const int result = Catch::Session().run(argc, argv);
+	return result;
+}*/
 
-	return 0;
+TEST_CASE("Game")
+{
+	BubbleBobbleGame game;
+	CHECK_NOTHROW(game.Run());
 }

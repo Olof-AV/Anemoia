@@ -48,7 +48,7 @@ void anemoia::Command::SetKeyboardButton(char keyboardButton)
 
 anemoia::CommandCallback anemoia::Command::GetCommandCallback() const
 {
-	return CommandCallback();
+	return m_Callback;
 }
 
 void anemoia::Command::SetCommandCallback(CommandCallback callback)
