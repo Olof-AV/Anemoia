@@ -12,7 +12,7 @@ namespace anemoia
 		bool ProcessInput();
 		void RegisterCommand(Command* const pCommand);
 
-		void SetControllerState(DWORD userIndex, float leftMotor, float rightMotor);
+		void SetControllerState(DWORD userIndex, WORD leftMotor, WORD rightMotor);
 
 	private:
 		friend class Singleton<InputManager>;

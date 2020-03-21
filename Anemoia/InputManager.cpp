@@ -55,7 +55,7 @@ bool anemoia::InputManager::ProcessInput()
 		XInputGetState(i, &m_PadInputState[i]);
 	}
 
-	//Get new states, the GetKeyState is required for whatever eason
+	//Get new states, the GetKeyState is required for whatever reason
 	ZeroMemory(m_KeyboardState, sizeof(BYTE) * 256);
 	GetKeyState(0);
 	const bool got = GetKeyboardState(m_KeyboardState);
@@ -104,12 +104,12 @@ void anemoia::InputManager::RegisterCommand(Command* const pCommand)
 	m_Commands.push_back(pCommand);
 }
 
-void anemoia::InputManager::SetControllerState(DWORD userIndex, float leftMotor, float rightMotor)
+void anemoia::InputManager::SetControllerState(DWORD userIndex, WORD leftMotor, WORD rightMotor)
 {
 	//Create vibration state according to input data
 	XINPUT_VIBRATION vibration{};
-	vibration.wLeftMotorSpeed = WORD(65535.f / leftMotor);
-	vibration.wRightMotorSpeed = WORD(65535.f / rightMotor);
+	vibration.wLeftMotorSpeed = leftMotor;
+	vibration.wRightMotorSpeed = rightMotor;
 
 	//Set vibration
 	XInputSetState(userIndex, &vibration);
