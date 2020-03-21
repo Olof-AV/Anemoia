@@ -18,7 +18,7 @@ namespace anemoia
 	class Command final
 	{
 	public:
-		Command(int padButton, int keyboardButton, ButtonState buttonState, CommandCallback callback);
+		Command(int controllerId, int padButton, int keyboardButton, ButtonState buttonState, CommandCallback callback);
 		~Command() = default;
 
 		void Execute();
@@ -31,7 +31,10 @@ namespace anemoia
 		void SetPadButton(int padButton);
 
 		int GetKeyboardButton() const;
-		void SetKeyboardButton(char keyboardButton);
+		void SetKeyboardButton(int keyboardButton);
+
+		int GetControllerID() const;
+		void SetControllerID(int controllerId);
 
 		CommandCallback GetCommandCallback() const;
 		void SetCommandCallback(CommandCallback callback);
@@ -43,5 +46,6 @@ namespace anemoia
 
 		int m_PadButton;
 		int m_KeyboardButton;
+		int m_ControllerID;
 	};
 }

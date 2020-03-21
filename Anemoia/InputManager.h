@@ -12,6 +12,8 @@ namespace anemoia
 		bool ProcessInput();
 		void RegisterCommand(Command* const pCommand);
 
+		void SetControllerState(DWORD userIndex, float leftMotor, float rightMotor);
+
 	private:
 		friend class Singleton<InputManager>;
 
@@ -25,8 +27,8 @@ namespace anemoia
 		std::vector<class Command*> m_Commands;
 
 		//Gamepad
-		XINPUT_STATE m_PadInputState{};
-		XINPUT_STATE m_PadPreviousState{};
+		XINPUT_STATE m_PadInputState[XUSER_MAX_COUNT];
+		XINPUT_STATE m_PadPreviousState[XUSER_MAX_COUNT];
 
 		//Keyboard
 		BYTE* m_KeyboardState;

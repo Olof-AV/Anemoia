@@ -105,17 +105,25 @@ void FrameCounterScene::Initialise()
 	anemoia::InputManager* const pInput = anemoia::Locator::GetInputManager();
 	if (pInput)
 	{
-		pInput->RegisterCommand(new anemoia::Command(XINPUT_GAMEPAD_START, VK_LBUTTON, anemoia::ButtonState::Hold, std::bind( &FrameCounterScene::ChangeTextToBlue, this )));
-		pInput->RegisterCommand(new anemoia::Command(XINPUT_GAMEPAD_BACK, VK_RBUTTON, anemoia::ButtonState::Up, std::bind( &FrameCounterScene::ChangeTextToRed, this )));
+		pInput->RegisterCommand(new anemoia::Command(0, XINPUT_GAMEPAD_START, VK_LBUTTON, anemoia::ButtonState::Hold, std::bind( &FrameCounterScene::ChangeTextToBlue, this )));
+		pInput->RegisterCommand(new anemoia::Command(0, XINPUT_GAMEPAD_BACK, VK_RBUTTON, anemoia::ButtonState::Up, std::bind( &FrameCounterScene::ChangeTextToRed, this )));
 	}
 }
 
 void FrameCounterScene::ChangeTextToRed()
 {
 	m_pText->SetColour(SDL_Colour{ 255, 0, 0 });
+
+	//Controller vibration test
+	anemoia::InputManager* const pInput = anemoia::Locator::GetInputManager();
+	if (pInput) { pInput->SetControllerState(0, 1.f, 1.f); }
 }
 
 void FrameCounterScene::ChangeTextToBlue()
 {
 	m_pText->SetColour(SDL_Colour{ 0, 0, 255 });
+
+	//Controller vibration test
+	anemoia::InputManager* const pInput = anemoia::Locator::GetInputManager();
+	if (pInput) { pInput->SetControllerState(0, 0.f, 0.f); }
 }

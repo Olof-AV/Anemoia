@@ -1,8 +1,8 @@
 #include "AnemoiaPCH.h"
 #include "Command.h"
 
-anemoia::Command::Command(int padButton, int keyboardButton, ButtonState buttonState, CommandCallback callback)
-	: m_PadButton{ padButton }, m_KeyboardButton{ keyboardButton }, m_State{ buttonState }, m_Callback{callback}
+anemoia::Command::Command(int controllerId, int padButton, int keyboardButton, ButtonState buttonState, CommandCallback callback)
+	: m_ControllerID{ controllerId }, m_PadButton {padButton}, m_KeyboardButton{ keyboardButton }, m_State{ buttonState }, m_Callback{ callback }
 {
 }
 
@@ -41,9 +41,19 @@ int anemoia::Command::GetKeyboardButton() const
 	return m_KeyboardButton;
 }
 
-void anemoia::Command::SetKeyboardButton(char keyboardButton)
+void anemoia::Command::SetKeyboardButton(int keyboardButton)
 {
 	m_KeyboardButton = keyboardButton;
+}
+
+int anemoia::Command::GetControllerID() const
+{
+	return m_ControllerID;
+}
+
+void anemoia::Command::SetControllerID(int controllerId)
+{
+	m_ControllerID = controllerId;
 }
 
 anemoia::CommandCallback anemoia::Command::GetCommandCallback() const

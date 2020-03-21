@@ -41,13 +41,19 @@ bool anemoia::InputManager::ProcessInput()
 		}
 	}
 
-	//Update old
-	m_PadPreviousState = m_PadInputState;
+	//Update old states (4 controllers max)
+	for (int i{}; i < XUSER_MAX_COUNT; ++i)
+	{
+		m_PadPreviousState[i] = m_PadInputState[i];
+	}
 	memcpy(m_PreviousKeyboardState, m_KeyboardState, sizeof(BYTE) * 256);
 
-	//Read new state
-	ZeroMemory(&m_PadInputState, sizeof(XINPUT_STATE));
-	XInputGetState(0, &m_PadInputState);
+	//Read new state (4 controllers max)
+	for (int i{}; i < XUSER_MAX_COUNT; ++i)
+	{
+		ZeroMemory(&m_PadInputState[i], sizeof(XINPUT_STATE));
+		XInputGetState(i, &m_PadInputState[i]);
+	}
 
 	//Get new states, the GetKeyState is required for whatever eason
 	ZeroMemory(m_KeyboardState, sizeof(BYTE) * 256);
@@ -98,14 +104,26 @@ void anemoia::InputManager::RegisterCommand(Command* const pCommand)
 	m_Commands.push_back(pCommand);
 }
 
+void anemoia::InputManager::SetControllerState(DWORD userIndex, float leftMotor, float rightMotor)
+{
+	//Create vibration state according to input data
+	XINPUT_VIBRATION vibration{};
+	vibration.wLeftMotorSpeed = WORD(65535.f / leftMotor);
+	vibration.wRightMotorSpeed = WORD(65535.f / rightMotor);
+
+	//Set vibration
+	XInputSetState(userIndex, &vibration);
+}
+
 bool anemoia::InputManager::IsHeld(Command* const pCommand) const
 {
 	//Get keys associated
 	const int key = pCommand->GetKeyboardButton();
 	const int padKey = pCommand->GetPadButton();
+	const int controllerID = pCommand->GetControllerID();
 
 	//Get whether the condition should be positive or not
-	const bool padStatus = (m_PadInputState.Gamepad.wButtons & padKey);
+	const bool padStatus = (m_PadInputState[controllerID].Gamepad.wButtons & padKey);
 	const bool keyboardStatus = m_KeyboardState[key] & 0xF0;
 
 	//Return
@@ -117,9 +135,10 @@ bool anemoia::InputManager::IsButtonDown(Command* const pCommand) const
 	//Get keys associated
 	const int key = pCommand->GetKeyboardButton();
 	const int padKey = pCommand->GetPadButton();
+	const int controllerID = pCommand->GetControllerID();
 
 	//Get whether the condition should be positive or not
-	const bool padStatus = (m_PadInputState.Gamepad.wButtons & padKey && !(m_PadPreviousState.Gamepad.wButtons & padKey));
+	const bool padStatus = (m_PadInputState[controllerID].Gamepad.wButtons & padKey && !(m_PadPreviousState[controllerID].Gamepad.wButtons & padKey));
 	const bool keyboardStatus = (m_KeyboardState[key] & 0xF0) && !(m_PreviousKeyboardState[key] & 0xF0);
 
 	//Return
@@ -131,9 +150,10 @@ bool anemoia::InputManager::IsButtonUp(Command* const pCommand) const
 	//Get keys associated
 	const int key = pCommand->GetKeyboardButton();
 	const int padKey = pCommand->GetPadButton();
+	const int controllerID = pCommand->GetControllerID();
 
 	//Get whether the condition should be positive or not
-	const bool padStatus = (!(m_PadInputState.Gamepad.wButtons & padKey) && (m_PadPreviousState.Gamepad.wButtons & padKey));
+	const bool padStatus = (!(m_PadInputState[controllerID].Gamepad.wButtons & padKey) && (m_PadPreviousState[controllerID].Gamepad.wButtons & padKey));
 	const bool keyboardStatus = !(m_KeyboardState[key] & 0xF0) && (m_PreviousKeyboardState[key] & 0xF0);
 
 	//Return
