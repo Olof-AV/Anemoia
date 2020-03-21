@@ -33,6 +33,7 @@ private:
 	void ChangeTextToRed();
 	void ChangeTextToBlue();
 
+	anemoia::TextComponent* m_pAxisText = nullptr;
 	anemoia::TextComponent* m_pText = nullptr;
 	anemoia::TextureComponent* m_pBackground = nullptr;
 	anemoia::FPSComponent* m_pFPSComp = nullptr;

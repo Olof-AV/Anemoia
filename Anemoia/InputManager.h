@@ -12,7 +12,13 @@ namespace anemoia
 		bool ProcessInput();
 		void RegisterCommand(Command* const pCommand);
 
+		//State
+		XINPUT_STATE GetControllerState(DWORD userIndex);
 		void SetControllerState(DWORD userIndex, WORD leftMotor, WORD rightMotor);
+
+		//Axes
+		float GetTriggerAxis(DWORD userIndex, bool rightTrigger) const;
+		float GetStickAxis(DWORD userIndex, bool yAxis, bool rightStick) const;
 
 	private:
 		friend class Singleton<InputManager>;

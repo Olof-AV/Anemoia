@@ -104,6 +104,11 @@ void anemoia::InputManager::RegisterCommand(Command* const pCommand)
 	m_Commands.push_back(pCommand);
 }
 
+XINPUT_STATE anemoia::InputManager::GetControllerState(DWORD userIndex)
+{
+	return m_PadInputState[userIndex];
+}
+
 void anemoia::InputManager::SetControllerState(DWORD userIndex, WORD leftMotor, WORD rightMotor)
 {
 	//Create vibration state according to input data
@@ -113,6 +118,20 @@ void anemoia::InputManager::SetControllerState(DWORD userIndex, WORD leftMotor, 
 
 	//Set vibration
 	XInputSetState(userIndex, &vibration);
+}
+
+float anemoia::InputManager::GetTriggerAxis(DWORD userIndex, bool rightTrigger) const
+{
+	const BYTE axis = (rightTrigger) ? m_PadInputState[userIndex].Gamepad.bLeftTrigger : m_PadInputState[userIndex].Gamepad.bLeftTrigger;
+	return (float)axis / 255.f;
+}
+
+float anemoia::InputManager::GetStickAxis(DWORD userIndex, bool yAxis, bool rightStick) const
+{
+	//Basically gets you the value of a stick between -1.f and 1.f
+	const XINPUT_GAMEPAD pad = m_PadInputState[userIndex].Gamepad;
+	const SHORT value = (rightStick) ? (yAxis) ? pad.sThumbRY : pad.sThumbRX : (yAxis) ? pad.sThumbLY : pad.sThumbLX;
+	return ((float((int)value + 32767) / 65'534.f) * 2.f) - 1.f;
 }
 
 bool anemoia::InputManager::IsHeld(Command* const pCommand) const

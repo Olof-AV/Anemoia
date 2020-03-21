@@ -35,6 +35,10 @@ void FrameCounterScene::FixedUpdate(float timeStep)
 
 	//Update text with timeStep -> we update the text on a regular basis
 	m_pText->SetText(std::to_string( (int)m_pFPSComp->GetFPS()) + " FPS");
+
+	//Get axis and set as text
+	m_pAxisText->SetText(std::to_string(anemoia::Locator::GetInputManager()->GetTriggerAxis(0, false)));
+	//m_pAxisText->SetText(std::to_string(anemoia::Locator::GetInputManager()->GetStickAxis(0, false, false))); //Try this out for both sticks
 }
 
 void FrameCounterScene::Update(float elapsedSec)
@@ -90,6 +94,13 @@ void FrameCounterScene::Initialise()
 		const anemoia::Transform newTransform = anemoia::Transform(glm::vec3(0.5f * x, 0.5f * y, 0.f), glm::vec2(0.5f, 0.5f), glm::vec2(2.f, 2.f));
 		m_pText = new anemoia::TextComponent(pCounter, newTransform, "0", pFont, SDL_Colour{ 255, 255, 0 });
 		pCounter->AddComponent(m_pText);
+	}
+
+	//Create axis text comp and add to object
+	{
+		const anemoia::Transform newTransform = anemoia::Transform(glm::vec3(0.5f * x, 0.8f * y, 0.f), glm::vec2(0.5f, 0.f), glm::vec2(1.f, 1.f));
+		m_pAxisText = new anemoia::TextComponent(pCounter, newTransform, "0", pFont, SDL_Colour{ 255, 255, 0 });
+		pCounter->AddComponent(m_pAxisText);
 	}
 
 	//Create FPS comp and add to object
