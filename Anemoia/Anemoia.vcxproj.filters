@@ -91,6 +91,9 @@
     <ClInclude Include="Command.h">
       <Filter>Patterns\Commands</Filter>
     </ClInclude>
+    <ClInclude Include="Sound.h">
+      <Filter>Wrappers</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="SceneManager.cpp">
@@ -146,6 +149,9 @@
     </ClCompile>
     <ClCompile Include="Command.cpp">
       <Filter>Patterns\Commands</Filter>
+    </ClCompile>
+    <ClCompile Include="Sound.cpp">
+      <Filter>Wrappers</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

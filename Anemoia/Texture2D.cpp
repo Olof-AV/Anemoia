@@ -2,8 +2,6 @@
 #include "Texture2D.h"
 #include <SDL.h>
 
-using namespace anemoia;
-
 anemoia::Texture2D::Texture2D(SDL_Texture* const pTexture, const glm::vec2 dimensions)
 	: Resource{}, m_pTexture{ pTexture }, m_Dimensions(dimensions)
 {

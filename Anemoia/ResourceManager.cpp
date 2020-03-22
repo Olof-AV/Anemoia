@@ -3,10 +3,12 @@
 #include <SDL.h>
 #include <SDL_image.h>
 #include <SDL_ttf.h>
+#include <SDL_mixer.h>
 
 #include "Renderer.h"
 #include "Texture2D.h"
 #include "Font.h"
+#include "Sound.h"
 
 #include <algorithm>
 
@@ -22,14 +24,30 @@ void anemoia::ResourceManager::Init(const std::string& dataPath)
 		throw std::runtime_error(std::string("Failed to load support for png's: ") + SDL_GetError());
 	}
 
+	//More image stuff
 	if ((IMG_Init(IMG_INIT_JPG) & IMG_INIT_JPG) != IMG_INIT_JPG) 
 	{
 		throw std::runtime_error(std::string("Failed to load support for jpg's: ") + SDL_GetError());
 	}
 
+	//Fonts
 	if (TTF_Init() != 0) 
 	{
 		throw std::runtime_error(std::string("Failed to load support for fonts: ") + SDL_GetError());
+	}
+
+	//Initialise audio + open audio device
+	if (Mix_Init(MIX_INIT_MP3 | MIX_INIT_OGG | MIX_INIT_FLAC) == 0)
+	{
+		throw std::runtime_error(std::string("Failed to load support for audio: ") + SDL_GetError());
+	}
+	if (Mix_OpenAudio(48000, MIX_DEFAULT_FORMAT, MIX_DEFAULT_CHANNELS, 1024) == -1)
+	{
+		throw std::runtime_error(std::string("Failed to open audio: ") + Mix_GetError());
+	}
+	if (Mix_AllocateChannels(1024) == 0)
+	{
+		throw std::runtime_error(std::string("Failed to allocate channels: ") + Mix_GetError());
 	}
 }
 
@@ -78,6 +96,24 @@ anemoia::Font* anemoia::ResourceManager::LoadFont(const std::string& file, unsig
 	return dynamic_cast<Font*>((*cIt).second);
 }
 
+anemoia::Sound* anemoia::ResourceManager::LoadSound(const std::string& file)
+{
+	//Look for filename
+	std::unordered_map<const std::string, Resource*>::const_iterator cIt = m_SavedResources.find(file);
+
+	//If not found, create
+	if (cIt == m_SavedResources.cend())
+	{
+		Mix_Chunk* const pChunk = Mix_LoadWAV((m_DataPath + file).c_str());
+		Sound* const pSound = new Sound(pChunk);
+		m_SavedResources.insert(std::make_pair(file, pSound));
+		return pSound;
+	}
+
+	//Return found font
+	return dynamic_cast<Sound*>((*cIt).second);
+}
+
 anemoia::ResourceManager::~ResourceManager()
 {
 	//Delete all distributed resources
@@ -89,4 +125,5 @@ anemoia::ResourceManager::~ResourceManager()
 	//Remember to close down libraries
 	IMG_Quit();
 	TTF_Quit();
+	Mix_Quit();
 }

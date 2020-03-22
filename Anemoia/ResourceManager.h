@@ -6,6 +6,7 @@ namespace anemoia
 {
 	class Texture2D;
 	class Font;
+	class Sound;
 
 	class ResourceManager final : public Singleton<ResourceManager>
 	{
@@ -13,6 +14,7 @@ namespace anemoia
 		void Init(const std::string& data);
 		Texture2D* LoadTexture(const std::string& file);
 		Font* LoadFont(const std::string& file, unsigned int size);
+		Sound* LoadSound(const std::string& file);
 
 	private:
 		friend class Singleton<ResourceManager>;

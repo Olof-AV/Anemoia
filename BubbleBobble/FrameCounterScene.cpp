@@ -19,6 +19,8 @@
 #include "Command.h"
 #include <functional>
 
+#include "Sound.h"
+
 FrameCounterScene::FrameCounterScene()
 	: Scene("FrameCounterScene")
 {
@@ -119,6 +121,8 @@ void FrameCounterScene::Initialise()
 		pInput->RegisterCommand(new anemoia::Command(0, XINPUT_GAMEPAD_START, VK_LBUTTON, anemoia::ButtonState::Hold, std::bind( &FrameCounterScene::ChangeTextToBlue, this )));
 		pInput->RegisterCommand(new anemoia::Command(0, XINPUT_GAMEPAD_BACK, VK_RBUTTON, anemoia::ButtonState::Up, std::bind( &FrameCounterScene::ChangeTextToRed, this )));
 	}
+
+	m_pSound = anemoia::ResourceManager::GetInstance()->LoadSound("shoulder.mp3");
 }
 
 void FrameCounterScene::ChangeTextToRed()
@@ -128,6 +132,9 @@ void FrameCounterScene::ChangeTextToRed()
 	//Controller vibration test
 	anemoia::InputManager* const pInput = anemoia::Locator::GetInputManager();
 	if (pInput) { pInput->SetControllerState(0, 65535, 65535); }
+
+	//Sound test
+	m_pSound->Play(0);
 }
 
 void FrameCounterScene::ChangeTextToBlue()

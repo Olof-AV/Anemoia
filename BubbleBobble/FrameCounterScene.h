@@ -6,6 +6,7 @@ namespace anemoia
 	class TextComponent;
 	class TextureComponent;
 	class FPSComponent;
+	class Sound;
 }
 
 class FrameCounterScene final : public anemoia::Scene
@@ -37,4 +38,6 @@ private:
 	anemoia::TextComponent* m_pText = nullptr;
 	anemoia::TextureComponent* m_pBackground = nullptr;
 	anemoia::FPSComponent* m_pFPSComp = nullptr;
+
+	anemoia::Sound* m_pSound = nullptr;
 };
