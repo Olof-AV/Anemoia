@@ -18,7 +18,7 @@ namespace anemoia
 	class Command final
 	{
 	public:
-		Command(int controllerId, int padButton, int keyboardButton, ButtonState buttonState, CommandCallback callback);
+		Command(const std::string &commandName, int controllerId, int padButton, int keyboardButton, ButtonState buttonState, CommandCallback callback);
 		~Command() = default;
 
 		void Execute();
@@ -38,11 +38,15 @@ namespace anemoia
 
 		CommandCallback GetCommandCallback() const;
 		void SetCommandCallback(CommandCallback callback);
+
+		const std::string& GetName() const;
 #pragma endregion GettersSetters
 
 	private:
 		CommandCallback m_Callback;
 		ButtonState m_State;
+
+		std::string m_CommandName;
 
 		int m_PadButton;
 		int m_KeyboardButton;

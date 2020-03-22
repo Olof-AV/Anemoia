@@ -104,6 +104,22 @@ void anemoia::InputManager::RegisterCommand(Command* const pCommand)
 	m_Commands.push_back(pCommand);
 }
 
+anemoia::Command* const anemoia::InputManager::GetCommand(const std::string& name) const
+{
+	//Look for command
+	std::vector<Command*>::const_iterator cIt = std::find_if(m_Commands.cbegin(), m_Commands.cend(), [&name](Command* const pCom)
+	{
+		return pCom->GetName().compare(name) == 0;
+	});
+
+	//Return found/not found
+	if (cIt != m_Commands.cend())
+	{
+		return *cIt;
+	}
+	return nullptr;
+}
+
 XINPUT_STATE anemoia::InputManager::GetControllerState(DWORD userIndex)
 {
 	return m_PadInputState[userIndex];

@@ -118,8 +118,8 @@ void FrameCounterScene::Initialise()
 	anemoia::InputManager* const pInput = anemoia::Locator::GetInputManager();
 	if (pInput)
 	{
-		pInput->RegisterCommand(new anemoia::Command(0, XINPUT_GAMEPAD_START, VK_LBUTTON, anemoia::ButtonState::Hold, std::bind( &FrameCounterScene::ChangeTextToBlue, this )));
-		pInput->RegisterCommand(new anemoia::Command(0, XINPUT_GAMEPAD_BACK, VK_RBUTTON, anemoia::ButtonState::Up, std::bind( &FrameCounterScene::ChangeTextToRed, this )));
+		pInput->RegisterCommand(new anemoia::Command("BlueText", 0, XINPUT_GAMEPAD_START, VK_LBUTTON, anemoia::ButtonState::Hold, std::bind( &FrameCounterScene::ChangeTextToBlue, this )));
+		pInput->RegisterCommand(new anemoia::Command("RedText", 0, XINPUT_GAMEPAD_BACK, VK_RBUTTON, anemoia::ButtonState::Up, std::bind( &FrameCounterScene::ChangeTextToRed, this )));
 	}
 
 	m_pSound = anemoia::ResourceManager::GetInstance()->LoadSound("shoulder.mp3");
