@@ -24,10 +24,10 @@ anemoia::InputManager::~InputManager()
 	delete[] m_PreviousKeyboardState;
 
 	//Delete all stored commands
-	std::for_each(m_Commands.cbegin(), m_Commands.cend(), [](Command* const pCommand)
+	/*std::for_each(m_Commands.cbegin(), m_Commands.cend(), [](Command* const pCommand)
 	{
 		delete pCommand;
-	});
+	});*/
 }
 
 bool anemoia::InputManager::ProcessInput()
@@ -100,8 +100,17 @@ bool anemoia::InputManager::ProcessInput()
 
 void anemoia::InputManager::RegisterCommand(Command* const pCommand)
 {
-	//Will be manged by the input manager from now on
+	//Will be managed by the input manager from now on
 	m_Commands.push_back(pCommand);
+}
+
+anemoia::Command* anemoia::InputManager::UnregisterCommand(Command* const pCommand)
+{
+	//Remove from managed commands
+	const std::vector<Command*>::const_iterator cIt = std::find(m_Commands.cbegin(), m_Commands.cend(), pCommand);
+	m_Commands.erase(cIt);
+
+	return *cIt;
 }
 
 anemoia::Command* const anemoia::InputManager::GetCommand(const std::string& name) const

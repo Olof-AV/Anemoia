@@ -67,6 +67,14 @@ void anemoia::Scene::Initialise()
 {
 }
 
+void anemoia::Scene::OnSceneActivated()
+{
+}
+
+void anemoia::Scene::OnSceneDeactivated()
+{
+}
+
 const std::string& anemoia::Scene::GetName() const
 {
 	return m_Name;

@@ -7,6 +7,7 @@ namespace anemoia
 	class TextureComponent;
 	class FPSComponent;
 	class Sound;
+	class Command;
 }
 
 class FrameCounterScene final : public anemoia::Scene
@@ -23,13 +24,15 @@ public:
 #pragma endregion Constructors
 
 	//Overrides
-	virtual void FixedUpdate(float timeStep);
-	virtual void Update(float elapsedSec);
-	virtual void LateUpdate(float elapsedSec);
-	virtual void Render() const;
+	virtual void FixedUpdate(float timeStep) override;
+	virtual void Update(float elapsedSec) override;
+	virtual void LateUpdate(float elapsedSec) override;
+	virtual void Render() const override;
 
 	//Scene stuff
-	virtual void Initialise();
+	virtual void Initialise() override;
+	virtual void OnSceneActivated() override;
+	virtual void OnSceneDeactivated() override;
 
 private:
 	void ChangeTextToRed();
@@ -41,4 +44,7 @@ private:
 	anemoia::FPSComponent* m_pFPSComp = nullptr;
 
 	anemoia::Sound* m_pSound = nullptr;
+
+	anemoia::Command* m_pRed = nullptr;
+	anemoia::Command* m_pBlue = nullptr;
 };

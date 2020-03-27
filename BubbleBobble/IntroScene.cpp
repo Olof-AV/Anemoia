@@ -87,3 +87,11 @@ void IntroScene::Initialise()
 		AddChild(pRoot);
 	}
 }
+
+void IntroScene::OnSceneActivated()
+{
+}
+
+void IntroScene::OnSceneDeactivated()
+{
+}

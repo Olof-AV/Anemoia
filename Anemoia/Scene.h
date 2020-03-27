@@ -29,6 +29,8 @@ namespace anemoia
 
 		//Scene stuff
 		virtual void Initialise();
+		virtual void OnSceneActivated();
+		virtual void OnSceneDeactivated();
 
 		//Getter
 		const std::string& GetName() const;

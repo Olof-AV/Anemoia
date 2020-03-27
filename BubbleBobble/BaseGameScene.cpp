@@ -79,3 +79,11 @@ void BaseGameScene::Initialise()
 		AddChild(m_pHUD);
 	}
 }
+
+void BaseGameScene::OnSceneActivated()
+{
+}
+
+void BaseGameScene::OnSceneDeactivated()
+{
+}

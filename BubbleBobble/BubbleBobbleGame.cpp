@@ -15,9 +15,9 @@
 void BubbleBobbleGame::LoadGame() const
 {
 	//Test
-	anemoia::Scene* const pScene = new FrameCounterScene();
+	/*anemoia::Scene* const pScene = new FrameCounterScene();
 	anemoia::SceneManager::GetInstance()->AddScene(pScene);
-	//anemoia::SceneManager::GetInstance()->SetActiveScene(pScene);
+	anemoia::SceneManager::GetInstance()->SetActiveScene(pScene);*/
 
 	//Game intro scene
 	anemoia::Scene* const pIntro = new IntroScene();

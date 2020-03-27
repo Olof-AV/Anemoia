@@ -11,6 +11,7 @@ namespace anemoia
 	public:
 		bool ProcessInput();
 		void RegisterCommand(Command* const pCommand);
+		Command* UnregisterCommand(Command* const pCommand);
 		Command* const GetCommand(const std::string &name) const;
 
 		//State

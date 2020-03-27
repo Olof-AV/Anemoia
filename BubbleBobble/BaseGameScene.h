@@ -25,13 +25,15 @@ public:
 #pragma endregion Constructors
 
 	//Overrides
-	virtual void FixedUpdate(float timeStep);
-	virtual void Update(float elapsedSec);
-	virtual void LateUpdate(float elapsedSec);
-	virtual void Render() const;
+	virtual void FixedUpdate(float timeStep) override;
+	virtual void Update(float elapsedSec) override;
+	virtual void LateUpdate(float elapsedSec) override;
+	virtual void Render() const override;
 
 	//Scene stuff
-	virtual void Initialise();
+	virtual void Initialise() override;
+	virtual void OnSceneActivated() override;
+	virtual void OnSceneDeactivated() override;
 
 protected:
 	anemoia::GameObject* m_pHUD = nullptr;

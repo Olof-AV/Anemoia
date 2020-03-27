@@ -39,3 +39,11 @@ void Level1::Initialise()
 	//Call root
 	BaseGameScene::Initialise();
 }
+
+void Level1::OnSceneActivated()
+{
+}
+
+void Level1::OnSceneDeactivated()
+{
+}
