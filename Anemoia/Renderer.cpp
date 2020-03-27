@@ -67,7 +67,10 @@ void anemoia::Renderer::RenderTexture(anemoia::Texture2D* const pTexture, const 
 	SDL_RenderCopy(m_pRenderer, pTexture->GetSDLTexture(), nullptr, &dst);
 }
 
-void anemoia::Renderer::RenderTexture(anemoia::Texture2D* const pTexture, float x, float y, float width, float height, float angle, const glm::vec2 &pivotCenter, SDL_RendererFlip flip) const
+void anemoia::Renderer::RenderTexture(anemoia::Texture2D* const pTexture,
+	float x, float y, float width, float height,
+	float angle, const glm::vec2 &pivotCenter, SDL_RendererFlip flip,
+	const glm::vec2& clipOrigin, const glm::vec2& clipSize) const
 {
 	//Setup
 	SDL_Rect dst;
@@ -80,6 +83,21 @@ void anemoia::Renderer::RenderTexture(anemoia::Texture2D* const pTexture, float 
 	point.x = (int)pivotCenter.x;
 	point.y = (int)pivotCenter.y;
 
-	//Render
-	SDL_RenderCopyEx(m_pRenderer, pTexture->GetSDLTexture(), nullptr, &dst, angle, &point, flip);
+	if (clipSize.x < 0.f || clipSize.y < 0.f)
+	{
+		//Render
+		SDL_RenderCopyEx(m_pRenderer, pTexture->GetSDLTexture(), nullptr, &dst, angle, &point, flip);
+	}
+	else
+	{
+		//Also set up clip
+		SDL_Rect src;
+		src.x = static_cast<int>(clipOrigin.x);
+		src.y = static_cast<int>(clipOrigin.y);
+		src.w = static_cast<int>(clipSize.x);
+		src.h = static_cast<int>(clipSize.y);
+
+		//Render
+		SDL_RenderCopyEx(m_pRenderer, pTexture->GetSDLTexture(), &src, &dst, angle, &point, flip);
+	}
 }

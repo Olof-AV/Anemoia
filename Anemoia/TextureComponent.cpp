@@ -45,7 +45,8 @@ void anemoia::TextureComponent::Render() const
 	SDL_SetTextureAlphaMod(m_pTexture->GetSDLTexture(), (Uint8)m_ColourMod.a);
 
 	//Render texture
-	Renderer::GetInstance()->RenderTexture(m_pTexture, finalPos.x, finalPos.y, size.x, size.y, m_Transform.GetAngle(), pivotOffset, m_Transform.GetFlip());
+	Renderer::GetInstance()->RenderTexture(m_pTexture, finalPos.x, finalPos.y, size.x, size.y,
+		m_Transform.GetAngle(), pivotOffset, m_Transform.GetFlip());
 }
 
 anemoia::Texture2D* const anemoia::TextureComponent::GetTexture() const
