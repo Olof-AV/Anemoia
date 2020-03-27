@@ -1,12 +1,13 @@
 #pragma once
 #include "Transform.h"
+#include "Subject.h"
 
 namespace anemoia
 {
 	class BaseComponent;
 	class Scene;
 
-	class GameObject final
+	class GameObject final : public Subject
 	{
 	public:
 #pragma region Constructors

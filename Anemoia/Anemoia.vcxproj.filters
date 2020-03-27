@@ -32,6 +32,9 @@
     <Filter Include="Patterns\Commands">
       <UniqueIdentifier>{ea538f19-c91c-4486-b577-b14d7ff2124f}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Patterns\Observer">
+      <UniqueIdentifier>{382dbbeb-ea11-4394-be0d-22f14e78c19b}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Singleton.h">
@@ -94,6 +97,15 @@
     <ClInclude Include="Sound.h">
       <Filter>Wrappers</Filter>
     </ClInclude>
+    <ClInclude Include="Subject.h">
+      <Filter>Patterns\Observer</Filter>
+    </ClInclude>
+    <ClInclude Include="Event.h">
+      <Filter>Patterns\Observer</Filter>
+    </ClInclude>
+    <ClInclude Include="Observer.h">
+      <Filter>Patterns\Observer</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="SceneManager.cpp">
@@ -152,6 +164,12 @@
     </ClCompile>
     <ClCompile Include="Sound.cpp">
       <Filter>Wrappers</Filter>
+    </ClCompile>
+    <ClCompile Include="Subject.cpp">
+      <Filter>Patterns\Observer</Filter>
+    </ClCompile>
+    <ClCompile Include="Observer.cpp">
+      <Filter>Patterns\Observer</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
