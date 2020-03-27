@@ -5,6 +5,7 @@ namespace anemoia
 {
 	class Texture2D;
 	class GameInstance;
+	class Font;
 }
 
 class BubbleBobbleGame;
@@ -14,8 +15,8 @@ class HUDComponent final : public anemoia::BaseComponent
 public:
 #pragma region Constructors
 	HUDComponent(anemoia::GameObject* const pParent, const anemoia::Transform& transform,
-		anemoia::Texture2D* const pHealthP1, anemoia::Texture2D* const pHealthP2);
-	virtual ~HUDComponent() = default;
+		anemoia::Font* const pFont, anemoia::Texture2D* const pHealthP1, anemoia::Texture2D* const pHealthP2);
+	virtual ~HUDComponent();
 
 	HUDComponent(const HUDComponent& other) = delete;
 	HUDComponent(HUDComponent&& other) = delete;
@@ -30,10 +31,19 @@ public:
 	virtual void Render() const override;
 
 private:
+	void UpdateText(anemoia::Texture2D* &pToUpdate, const std::string& newText, const SDL_Colour& colour);
+
 	void DrawHealth(bool isP1) const;
+	void DrawTextUI(anemoia::Texture2D* pText, const glm::vec2& pos) const;
 	
 	BubbleBobbleGame* m_pGameInstance = nullptr;
 
-	anemoia::Texture2D* m_pHealthP1 = nullptr;
-	anemoia::Texture2D* m_pHealthP2 = nullptr;
+	anemoia::Texture2D* m_pTexHealthP1 = nullptr;
+	anemoia::Texture2D* m_pTexHealthP2 = nullptr;
+	anemoia::Font* m_pFont = nullptr;
+
+	//Text
+	anemoia::Texture2D* m_pTextHiScore = nullptr;
+	anemoia::Texture2D* m_pTextTopP1 = nullptr;
+	anemoia::Texture2D* m_pTextTopP2 = nullptr;
 };

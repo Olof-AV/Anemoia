@@ -70,12 +70,14 @@ void BaseGameScene::Initialise()
 		//Root
 		m_pHUD = new anemoia::GameObject(this);
 
+		//Initialise hud component + add it
+		anemoia::Font* const pFont = anemoia::ResourceManager::GetInstance()->LoadFont("Pixel_NES.otf", 21);
 		anemoia::Texture2D* const pTexP1 = anemoia::ResourceManager::GetInstance()->LoadTexture("HUD/Health_P1.png");
 		anemoia::Texture2D* const pTexP2 = anemoia::ResourceManager::GetInstance()->LoadTexture("HUD/Health_P2.png");
-		HUDComponent* const pHudComp = new HUDComponent(m_pHUD, anemoia::Transform{}, pTexP1, pTexP2);
+		HUDComponent* const pHudComp = new HUDComponent(m_pHUD, anemoia::Transform{ }, pFont, pTexP1, pTexP2);
 		m_pHUD->AddComponent(pHudComp);
 
-		//Add to scene
+		//Add root to scene
 		AddChild(m_pHUD);
 	}
 }

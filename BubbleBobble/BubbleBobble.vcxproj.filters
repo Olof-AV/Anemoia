@@ -21,7 +21,7 @@
     <Filter Include="Scenes\Other">
       <UniqueIdentifier>{57d3a038-2c8d-4961-9815-af0195ce4155}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Components">
+    <Filter Include="GameComponents">
       <UniqueIdentifier>{abbaeb39-110c-4578-83d5-06b5d80d4161}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
@@ -48,7 +48,7 @@
       <Filter>Scenes\Other</Filter>
     </ClCompile>
     <ClCompile Include="HUDComponent.cpp">
-      <Filter>Components</Filter>
+      <Filter>GameComponents</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -71,7 +71,7 @@
       <Filter>Scenes\Other</Filter>
     </ClInclude>
     <ClInclude Include="HUDComponent.h">
-      <Filter>Components</Filter>
+      <Filter>GameComponents</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

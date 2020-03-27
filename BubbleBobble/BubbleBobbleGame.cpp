@@ -59,3 +59,13 @@ void BubbleBobbleGame::AddScore(int change, bool isP1)
 	(isP1) ? m_ScoreP1 += change : m_ScoreP2 += change;
 	(isP1) ? m_ScoreP1Changed = true : m_ScoreP2Changed = true;
 }
+
+void BubbleBobbleGame::SetScoreChanged(bool isP1, bool value)
+{
+	(isP1) ? m_ScoreP1Changed = value : m_ScoreP2Changed = value;
+}
+
+void BubbleBobbleGame::SetLives(bool isP1, int value)
+{
+	(isP1) ? m_LivesP1 = value : m_LivesP2 = value;
+}
