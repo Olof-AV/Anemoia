@@ -21,8 +21,6 @@ namespace anemoia
 
 		void AddObserver(Observer* const pObserver);
 		void RemoveObserver(Observer* const pObserver);
-
-	protected:
 		void Notify(Events event);
 
 	private:
