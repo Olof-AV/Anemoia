@@ -55,11 +55,13 @@ void HUDComponent::Render() const
 	{
 	case Gamemode::singleplayer:
 		DrawHealth(true);
+
 		break; 
 
 	case Gamemode::multiplayer:
 		DrawHealth(true);
 		DrawHealth(false);
+
 		break;
 
 	case Gamemode::versus:
