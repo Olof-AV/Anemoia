@@ -25,6 +25,7 @@ namespace anemoia
 		//Overrides
 		virtual void FixedUpdate(float timeStep) override;
 		virtual void Update(float elapsedSec) override;
+		virtual void LateUpdate(float elapsedSec) override;
 		virtual void Render() const override;
 
 		//Functions

@@ -22,6 +22,7 @@ namespace anemoia
 		//Game loop stuff
 		void FixedUpdate(float timeStep);
 		void Update(float elapsedSec);
+		void LateUpdate(float elapsedSec);
 		void Render() const;
 
 #pragma region GettersSetters

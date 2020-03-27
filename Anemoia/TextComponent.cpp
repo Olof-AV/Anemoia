@@ -64,6 +64,11 @@ void anemoia::TextComponent::Update(float elapsedSec)
 	UNREFERENCED_PARAMETER(elapsedSec);
 }
 
+void anemoia::TextComponent::LateUpdate(float elapsedSec)
+{
+	UNREFERENCED_PARAMETER(elapsedSec);
+}
+
 void anemoia::TextComponent::Render() const
 {
 	if (m_pTexture != nullptr)

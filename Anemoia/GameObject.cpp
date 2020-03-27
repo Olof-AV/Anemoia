@@ -37,6 +37,15 @@ void anemoia::GameObject::Update(float elapsedSec)
 	});
 }
 
+void anemoia::GameObject::LateUpdate(float elapsedSec)
+{
+	//Just late update
+	std::for_each(m_Components.cbegin(), m_Components.cend(), [elapsedSec](BaseComponent* const pComp)
+	{
+		pComp->LateUpdate(elapsedSec);
+	});
+}
+
 void anemoia::GameObject::Render() const
 {
 	//Just render

@@ -12,6 +12,7 @@ namespace anemoia
 		//Update loop stuff
 		void FixedUpdate(float timeStep);
 		void Update(float elapsedSec);
+		void LateUpdate(float elapsedSec);
 		void Render();
 
 		//Scene stuff

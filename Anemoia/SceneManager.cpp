@@ -20,6 +20,14 @@ void anemoia::SceneManager::Update(float elapsedSec)
 	}
 }
 
+void anemoia::SceneManager::LateUpdate(float elapsedSec)
+{
+	if (m_pActiveScene)
+	{
+		m_pActiveScene->LateUpdate(elapsedSec);
+	}
+}
+
 void anemoia::SceneManager::Render()
 {
 	if (m_pActiveScene)

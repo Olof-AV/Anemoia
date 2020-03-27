@@ -23,6 +23,11 @@ void anemoia::TextureComponent::Update(float elapsedSec)
 	UNREFERENCED_PARAMETER(elapsedSec);
 }
 
+void anemoia::TextureComponent::LateUpdate(float elapsedSec)
+{
+	UNREFERENCED_PARAMETER(elapsedSec);
+}
+
 void anemoia::TextureComponent::Render() const
 {
 	//Calculate params

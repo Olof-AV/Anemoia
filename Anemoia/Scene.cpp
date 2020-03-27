@@ -45,6 +45,15 @@ void anemoia::Scene::Update(float elapsedSec)
 	});
 }
 
+void anemoia::Scene::LateUpdate(float elapsedSec)
+{
+	//Late Update all objects
+	std::for_each(m_Objects.cbegin(), m_Objects.cend(), [elapsedSec](GameObject* const pObject)
+	{
+		pObject->LateUpdate(elapsedSec);
+	});
+}
+
 void anemoia::Scene::Render() const
 {
 	//Render all objects

@@ -150,6 +150,9 @@ void anemoia::Engine::Run()
 			//Update
 			pSceneManager->Update(elapsedSec);
 
+			//Late update
+			pSceneManager->LateUpdate(elapsedSec);
+
 			//Render
 			pRenderer->Render();
 		}

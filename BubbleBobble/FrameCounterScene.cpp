@@ -81,7 +81,7 @@ void FrameCounterScene::Initialise()
 	//Set up counter object
 	anemoia::GameObject* const pCounter = new anemoia::GameObject();
 	//pCounter->SetPosition(0.25f * x, 0.25f * y, 0.f); //Try this to show multiple transforms
-	anemoia::Font* const pFont = anemoia::ResourceManager::GetInstance()->LoadFont("Lingua.otf", 36);
+	anemoia::Font* const pFont = anemoia::ResourceManager::GetInstance()->LoadFont("Pang.ttf", 36);
 
 	//Create backdrop
 	{
