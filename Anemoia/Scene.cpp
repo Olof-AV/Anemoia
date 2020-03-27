@@ -72,3 +72,8 @@ const std::string& anemoia::Scene::GetName() const
 	return m_Name;
 }
 
+void anemoia::Scene::SetName(const std::string& name)
+{
+	m_Name = name;
+}
+

@@ -9,17 +9,17 @@ namespace anemoia
 	class Sound;
 }
 
-class IntroScene final : public anemoia::Scene
+class BaseGameScene : public anemoia::Scene
 {
 public:
 #pragma region Constructors
-	IntroScene();
-	virtual ~IntroScene();
+	BaseGameScene(const std::string &name);
+	virtual ~BaseGameScene();
 
-	IntroScene(const IntroScene& other) = delete;
-	IntroScene(IntroScene&& other) = delete;
-	IntroScene& operator=(const IntroScene& other) = delete;
-	IntroScene& operator=(IntroScene&& other) = delete;
+	BaseGameScene(const BaseGameScene& other) = delete;
+	BaseGameScene(BaseGameScene&& other) = delete;
+	BaseGameScene& operator=(const BaseGameScene& other) = delete;
+	BaseGameScene& operator=(BaseGameScene&& other) = delete;
 #pragma endregion Constructors
 
 	//Overrides
@@ -30,9 +30,4 @@ public:
 
 	//Scene stuff
 	virtual void Initialise();
-
-private:
-	const float m_MaxTime = 5.f;
-	float m_CurrentTime = 0.f;
-	anemoia::Sound* m_pSound = nullptr;
 };

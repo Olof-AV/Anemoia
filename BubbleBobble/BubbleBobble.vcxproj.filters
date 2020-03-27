@@ -15,6 +15,9 @@
     <Filter Include="PCH">
       <UniqueIdentifier>{1811805c-886c-49a9-a5d2-92db66d35939}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Scenes\GameScenes">
+      <UniqueIdentifier>{d89b5e60-46fd-4867-a604-24a7904e567c}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main.cpp">
@@ -32,6 +35,12 @@
     <ClCompile Include="IntroScene.cpp">
       <Filter>Scenes</Filter>
     </ClCompile>
+    <ClCompile Include="Level1.cpp">
+      <Filter>Scenes\GameScenes</Filter>
+    </ClCompile>
+    <ClCompile Include="BaseGameScene.cpp">
+      <Filter>Scenes\GameScenes</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="FrameCounterScene.h">
@@ -45,6 +54,12 @@
     </ClInclude>
     <ClInclude Include="IntroScene.h">
       <Filter>Scenes</Filter>
+    </ClInclude>
+    <ClInclude Include="Level1.h">
+      <Filter>Scenes\GameScenes</Filter>
+    </ClInclude>
+    <ClInclude Include="BaseGameScene.h">
+      <Filter>Scenes\GameScenes</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

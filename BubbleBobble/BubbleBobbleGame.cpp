@@ -5,6 +5,7 @@
 #include "FrameCounterScene.h"
 
 #include "IntroScene.h"
+#include "Level1.h"
 
 #include <SDL.h>
 #include <SDL_video.h>
@@ -20,6 +21,10 @@ void BubbleBobbleGame::LoadGame() const
 	anemoia::Scene* const pIntro = new IntroScene();
 	anemoia::SceneManager::GetInstance()->AddScene(pIntro);
 	anemoia::SceneManager::GetInstance()->SetActiveScene(pIntro);
+
+	//Level 1 scene
+	anemoia::Scene* const pLevel1 = new Level1();
+	anemoia::SceneManager::GetInstance()->AddScene(pLevel1);
 
 	//Some extra changes
 	SDL_SetWindowTitle(m_pWindow, "Bubble Bobble - 2DAE01 - AVIRON-VIOLET Olof");

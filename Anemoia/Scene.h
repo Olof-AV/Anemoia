@@ -32,6 +32,7 @@ namespace anemoia
 
 		//Getter
 		const std::string& GetName() const;
+		void SetName(const std::string& name);
 
 	private:
 		std::string m_Name;

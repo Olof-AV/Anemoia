@@ -1,5 +1,5 @@
 #pragma once
-#include "Scene.h"
+#include "BaseGameScene.h"
 
 namespace anemoia
 {
@@ -9,17 +9,17 @@ namespace anemoia
 	class Sound;
 }
 
-class IntroScene final : public anemoia::Scene
+class Level1 final : public BaseGameScene
 {
 public:
 #pragma region Constructors
-	IntroScene();
-	virtual ~IntroScene();
+	Level1();
+	virtual ~Level1();
 
-	IntroScene(const IntroScene& other) = delete;
-	IntroScene(IntroScene&& other) = delete;
-	IntroScene& operator=(const IntroScene& other) = delete;
-	IntroScene& operator=(IntroScene&& other) = delete;
+	Level1(const Level1& other) = delete;
+	Level1(Level1&& other) = delete;
+	Level1& operator=(const Level1& other) = delete;
+	Level1& operator=(Level1&& other) = delete;
 #pragma endregion Constructors
 
 	//Overrides
@@ -32,7 +32,5 @@ public:
 	virtual void Initialise();
 
 private:
-	const float m_MaxTime = 5.f;
-	float m_CurrentTime = 0.f;
-	anemoia::Sound* m_pSound = nullptr;
+
 };

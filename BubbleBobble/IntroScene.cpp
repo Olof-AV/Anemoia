@@ -7,6 +7,8 @@
 #include "TextComponent.h"
 #include "Locator.h"
 
+#include "SceneManager.h"
+
 IntroScene::IntroScene()
 	: Scene{ "IntroScene" }
 {
@@ -32,6 +34,13 @@ void IntroScene::LateUpdate(float elapsedSec)
 {
 	//Call root late update
 	Scene::LateUpdate(elapsedSec);
+
+	//Timer
+	m_CurrentTime += elapsedSec;
+	if (m_MaxTime < m_CurrentTime)
+	{
+		anemoia::SceneManager::GetInstance()->SetActiveScene("Level1");
+	}
 }
 
 void IntroScene::Render() const
