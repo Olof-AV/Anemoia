@@ -25,6 +25,7 @@ public:
 	//Overrides
 	virtual void FixedUpdate(float timeStep);
 	virtual void Update(float elapsedSec);
+	virtual void LateUpdate(float elapsedSec);
 	virtual void Render() const;
 
 	//Scene stuff

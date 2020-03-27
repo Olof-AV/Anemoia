@@ -63,6 +63,14 @@ void FrameCounterScene::Update(float elapsedSec)
 	m_pBackground->SetColourMod(colour);
 }
 
+void FrameCounterScene::LateUpdate(float elapsedSec)
+{
+	//Call root late update
+	Scene::LateUpdate(elapsedSec);
+
+	UNREFERENCED_PARAMETER(elapsedSec);
+}
+
 void FrameCounterScene::Render() const
 {
 	//Call root render
