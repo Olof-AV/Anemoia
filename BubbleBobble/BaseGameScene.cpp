@@ -4,7 +4,9 @@
 #include "GameObject.h"
 #include "TextureComponent.h"
 #include "ResourceManager.h"
+
 #include "Locator.h"
+#include "HUDComponent.h"
 
 BaseGameScene::BaseGameScene(const std::string& name)
 	: Scene(name)
@@ -61,5 +63,19 @@ void BaseGameScene::Initialise()
 
 		pBubby->SetPosition(glm::vec3(x * 0.5f, y, 0.f));
 		AddChild(pBubby);
+	}
+
+	//Add HUD
+	{
+		//Root
+		m_pHUD = new anemoia::GameObject(this);
+
+		anemoia::Texture2D* const pTexP1 = anemoia::ResourceManager::GetInstance()->LoadTexture("HUD/Health_P1.png");
+		anemoia::Texture2D* const pTexP2 = anemoia::ResourceManager::GetInstance()->LoadTexture("HUD/Health_P2.png");
+		HUDComponent* const pHudComp = new HUDComponent(m_pHUD, anemoia::Transform{}, pTexP1, pTexP2);
+		m_pHUD->AddComponent(pHudComp);
+
+		//Add to scene
+		AddChild(m_pHUD);
 	}
 }

@@ -56,6 +56,9 @@ void anemoia::Engine::Initialise()
 
 	//Initialise renderer with window
 	Renderer::GetInstance()->Init(m_pWindow);
+
+	//Initialise instance
+	Locator::SetEngine(this);
 }
 
 /**

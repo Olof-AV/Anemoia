@@ -193,6 +193,7 @@ xcopy "$(SolutionDir)3rdParty\SDL2_mixer\lib\x64\*.dll" "$(OutputPath)" /R /Y</C
     <ClCompile Include="BaseGameScene.cpp" />
     <ClCompile Include="BubbleBobbleGame.cpp" />
     <ClCompile Include="FrameCounterScene.cpp" />
+    <ClCompile Include="HUDComponent.cpp" />
     <ClCompile Include="IntroScene.cpp" />
     <ClCompile Include="Level1.cpp" />
     <ClCompile Include="Main.cpp" />
@@ -208,6 +209,7 @@ xcopy "$(SolutionDir)3rdParty\SDL2_mixer\lib\x64\*.dll" "$(OutputPath)" /R /Y</C
     <ClInclude Include="BaseGameScene.h" />
     <ClInclude Include="BubbleBobbleGame.h" />
     <ClInclude Include="FrameCounterScene.h" />
+    <ClInclude Include="HUDComponent.h" />
     <ClInclude Include="IntroScene.h" />
     <ClInclude Include="Level1.h" />
     <ClInclude Include="pch.h" />

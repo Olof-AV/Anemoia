@@ -7,6 +7,8 @@ namespace anemoia
 	class TextureComponent;
 	class FPSComponent;
 	class Sound;
+	class GameObject;
+	class Texture2D;
 }
 
 class BaseGameScene : public anemoia::Scene
@@ -30,4 +32,7 @@ public:
 
 	//Scene stuff
 	virtual void Initialise();
+
+protected:
+	anemoia::GameObject* m_pHUD = nullptr;
 };

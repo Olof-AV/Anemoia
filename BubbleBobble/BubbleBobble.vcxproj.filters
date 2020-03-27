@@ -18,6 +18,12 @@
     <Filter Include="Scenes\GameScenes">
       <UniqueIdentifier>{d89b5e60-46fd-4867-a604-24a7904e567c}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Scenes\Other">
+      <UniqueIdentifier>{57d3a038-2c8d-4961-9815-af0195ce4155}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Components">
+      <UniqueIdentifier>{abbaeb39-110c-4578-83d5-06b5d80d4161}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main.cpp">
@@ -26,14 +32,8 @@
     <ClCompile Include="BubbleBobbleGame.cpp">
       <Filter>Main</Filter>
     </ClCompile>
-    <ClCompile Include="FrameCounterScene.cpp">
-      <Filter>Scenes</Filter>
-    </ClCompile>
     <ClCompile Include="pch.cpp">
       <Filter>PCH</Filter>
-    </ClCompile>
-    <ClCompile Include="IntroScene.cpp">
-      <Filter>Scenes</Filter>
     </ClCompile>
     <ClCompile Include="Level1.cpp">
       <Filter>Scenes\GameScenes</Filter>
@@ -41,25 +41,37 @@
     <ClCompile Include="BaseGameScene.cpp">
       <Filter>Scenes\GameScenes</Filter>
     </ClCompile>
+    <ClCompile Include="IntroScene.cpp">
+      <Filter>Scenes\GameScenes</Filter>
+    </ClCompile>
+    <ClCompile Include="FrameCounterScene.cpp">
+      <Filter>Scenes\Other</Filter>
+    </ClCompile>
+    <ClCompile Include="HUDComponent.cpp">
+      <Filter>Components</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="FrameCounterScene.h">
-      <Filter>Scenes</Filter>
-    </ClInclude>
     <ClInclude Include="BubbleBobbleGame.h">
       <Filter>Main</Filter>
     </ClInclude>
     <ClInclude Include="pch.h">
       <Filter>PCH</Filter>
     </ClInclude>
-    <ClInclude Include="IntroScene.h">
-      <Filter>Scenes</Filter>
-    </ClInclude>
     <ClInclude Include="Level1.h">
       <Filter>Scenes\GameScenes</Filter>
     </ClInclude>
     <ClInclude Include="BaseGameScene.h">
       <Filter>Scenes\GameScenes</Filter>
+    </ClInclude>
+    <ClInclude Include="IntroScene.h">
+      <Filter>Scenes\GameScenes</Filter>
+    </ClInclude>
+    <ClInclude Include="FrameCounterScene.h">
+      <Filter>Scenes\Other</Filter>
+    </ClInclude>
+    <ClInclude Include="HUDComponent.h">
+      <Filter>Components</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

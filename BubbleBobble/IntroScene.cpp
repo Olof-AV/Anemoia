@@ -61,17 +61,17 @@ void IntroScene::Initialise()
 	//Create text
 	{
 		//Get font
-		anemoia::Font* const pFont = anemoia::ResourceManager::GetInstance()->LoadFont("Pixel_NES.otf", 11);
+		anemoia::Font* const pFont = anemoia::ResourceManager::GetInstance()->LoadFont("Pixel_NES.otf", 24);
 
 		//Create text holder
 		anemoia::GameObject* const pRoot = new anemoia::GameObject(this);
-		anemoia::TextComponent* pText1 = new anemoia::TextComponent(pRoot, anemoia::Transform{ glm::vec3{0.f, -50.f, 0.f}, glm::vec2{0.5f, 0.5f} },
+		anemoia::TextComponent* pText1 = new anemoia::TextComponent(pRoot, anemoia::Transform{ glm::vec3{0.f, -100.f, 0.f}, glm::vec2{0.5f, 0.5f} },
 			"NOW, IT IS BEGINNING OF A", pFont, SDL_Color{255, 0, 0});
-		anemoia::TextComponent* pText2 = new anemoia::TextComponent(pRoot, anemoia::Transform{ glm::vec3{0.f, -25.f, 0.f}, glm::vec2{0.5f, 0.5f} },
+		anemoia::TextComponent* pText2 = new anemoia::TextComponent(pRoot, anemoia::Transform{ glm::vec3{0.f, -50.f, 0.f}, glm::vec2{0.5f, 0.5f} },
 			"FANTASTIC STORY!! LET'S MAKE A", pFont, SDL_Color{ 255, 0, 0 });
 		anemoia::TextComponent* pText3 = new anemoia::TextComponent(pRoot, anemoia::Transform{ glm::vec3{0.f, 0.f, 0.f}, glm::vec2{0.5f, 0.5f} },
 			"JOURNEY TO THE CAVE OF MONSTERS!", pFont, SDL_Color{ 255, 0, 0 });
-		anemoia::TextComponent* pText4 = new anemoia::TextComponent(pRoot, anemoia::Transform{ glm::vec3{0.f, 25.f, 0.f}, glm::vec2{0.5f, 0.5f} },
+		anemoia::TextComponent* pText4 = new anemoia::TextComponent(pRoot, anemoia::Transform{ glm::vec3{0.f, 50.f, 0.f}, glm::vec2{0.5f, 0.5f} },
 			"GOOD LUCK!", pFont, SDL_Color{ 255, 0, 0 });
 
 		//Add them
