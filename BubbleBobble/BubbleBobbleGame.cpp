@@ -39,9 +39,19 @@ Gamemode BubbleBobbleGame::GetGamemode() const
 	return m_CurrentMode;
 }
 
+int BubbleBobbleGame::GetHiScore() const
+{
+	return m_HiScore;
+}
+
 int BubbleBobbleGame::GetScore(bool isP1) const
 {
 	return (isP1) ? m_ScoreP1 : m_ScoreP2;
+}
+
+bool BubbleBobbleGame::GetHiScoreChanged() const
+{
+	return m_HiScoreChanged;
 }
 
 bool BubbleBobbleGame::GetScoreChanged(bool isP1) const
@@ -58,6 +68,14 @@ void BubbleBobbleGame::AddScore(int change, bool isP1)
 {
 	(isP1) ? m_ScoreP1 += change : m_ScoreP2 += change;
 	(isP1) ? m_ScoreP1Changed = true : m_ScoreP2Changed = true;
+
+	if (m_ScoreP1 > m_HiScore) { m_HiScore = m_ScoreP1; m_HiScoreChanged = true; }
+	if (m_ScoreP2 > m_HiScore) { m_HiScore = m_ScoreP2; m_HiScoreChanged = true; }
+}
+
+void BubbleBobbleGame::SetHiScoreChanged(bool value)
+{
+	m_HiScoreChanged = value;
 }
 
 void BubbleBobbleGame::SetScoreChanged(bool isP1, bool value)

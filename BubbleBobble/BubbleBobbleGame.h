@@ -17,11 +17,14 @@ public:
 	//Getters/Setters
 	Gamemode GetGamemode() const;
 
+	int GetHiScore() const;
 	int GetScore(bool isP1) const;
+	bool GetHiScoreChanged() const;
 	bool GetScoreChanged(bool isP1) const;
 	int GetLives(bool isP1) const;
 
 	void AddScore(int change, bool isP1);
+	void SetHiScoreChanged(bool value);
 	void SetScoreChanged(bool isP1, bool value);
 	void SetLives(bool isP1, int value);
 
@@ -30,11 +33,13 @@ private:
 	Gamemode m_CurrentMode;
 
 	//Data to keep between scenes
-	int m_ScoreP1 = 0;
-	int m_ScoreP2 = 0;
+	int m_HiScore = 123550;
+	int m_ScoreP1 = 11110;
+	int m_ScoreP2 = 1050;
 
-	bool m_ScoreP1Changed = true;
-	bool m_ScoreP2Changed = true;
+	bool m_HiScoreChanged = false;
+	bool m_ScoreP1Changed = false;
+	bool m_ScoreP2Changed = false;
 
 	int m_LivesP1 = 4;
 	int m_LivesP2 = 4;

@@ -16,6 +16,9 @@ HUDComponent::HUDComponent(anemoia::GameObject* const pParent, const anemoia::Tr
 	m_pGameInstance = static_cast<BubbleBobbleGame*>(anemoia::Locator::GetEngine());
 
 	UpdateText(m_pTextHiScore, "HIGH SCORE", SDL_Colour{ 255, 0, 0 });
+	UpdateText(m_pTextHiScoreNum, std::to_string(m_pGameInstance->GetHiScore()), SDL_Colour{ 255, 255, 255 });
+	UpdateText(m_pTextScoreP1, std::to_string(m_pGameInstance->GetScore(true)), SDL_Colour{ 255, 255, 255 });
+	UpdateText(m_pTextScoreP2, std::to_string(m_pGameInstance->GetScore(false)), SDL_Colour{ 255, 255, 255 });
 
 	//Update initial texts already
 	switch (m_pGameInstance->GetGamemode())
@@ -45,6 +48,10 @@ HUDComponent::~HUDComponent()
 	delete m_pTextHiScore;
 	delete m_pTextTopP1;
 	delete m_pTextTopP2;
+
+	delete m_pTextHiScoreNum;
+	delete m_pTextScoreP1;
+	delete m_pTextScoreP2;
 }
 
 void HUDComponent::FixedUpdate(float timeStep)
@@ -55,6 +62,7 @@ void HUDComponent::FixedUpdate(float timeStep)
 	switch (m_pGameInstance->GetGamemode())
 	{
 	case Gamemode::singleplayer:
+		
 
 		break;
 
@@ -76,12 +84,6 @@ void HUDComponent::Update(float elapsedSec)
 void HUDComponent::LateUpdate(float elapsedSec)
 {
 	UNREFERENCED_PARAMETER(elapsedSec);
-
-	//Score changed for P1
-	if (m_pGameInstance->GetScoreChanged(true))
-	{
-
-	}
 }
 
 void HUDComponent::Render() const
@@ -114,6 +116,10 @@ void HUDComponent::Render() const
 	DrawTextUI(m_pTextHiScore, glm::vec2{ 0.5f, 0.015f });
 	DrawTextUI(m_pTextTopP1, glm::vec2{ 0.2f, 0.015f });
 	DrawTextUI(m_pTextTopP2, glm::vec2{ 0.8f, 0.015f });
+
+	DrawTextUI(m_pTextHiScoreNum, glm::vec2{ 0.5f, 0.045f });
+	DrawTextUI(m_pTextScoreP1, glm::vec2{ 0.2f, 0.045f });
+	DrawTextUI(m_pTextScoreP2, glm::vec2{ 0.8f, 0.045f });
 }
 
 void HUDComponent::UpdateText(anemoia::Texture2D* &pToUpdate, const std::string& newText, const SDL_Colour& colour)

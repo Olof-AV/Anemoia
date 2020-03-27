@@ -46,4 +46,8 @@ private:
 	anemoia::Texture2D* m_pTextHiScore = nullptr;
 	anemoia::Texture2D* m_pTextTopP1 = nullptr;
 	anemoia::Texture2D* m_pTextTopP2 = nullptr;
+
+	anemoia::Texture2D* m_pTextHiScoreNum = nullptr;
+	anemoia::Texture2D* m_pTextScoreP1 = nullptr;
+	anemoia::Texture2D* m_pTextScoreP2 = nullptr;
 };
