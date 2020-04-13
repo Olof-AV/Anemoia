@@ -25,6 +25,7 @@ void anemoia::Renderer::Init(SDL_Window * const pWindow)
 void anemoia::Renderer::Render() const
 {
 	//Clear renderer
+	SDL_SetRenderDrawColor(m_pRenderer, 0, 0, 0, 255);
 	SDL_RenderClear(m_pRenderer);
 
 	//Render everything in scenes

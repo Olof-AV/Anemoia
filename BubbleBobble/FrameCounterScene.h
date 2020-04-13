@@ -7,7 +7,6 @@ namespace anemoia
 	class TextureComponent;
 	class FPSComponent;
 	class Sound;
-	class Command;
 }
 
 class FrameCounterScene final : public anemoia::Scene
@@ -44,7 +43,4 @@ private:
 	anemoia::FPSComponent* m_pFPSComp = nullptr;
 
 	anemoia::Sound* m_pSound = nullptr;
-
-	anemoia::Command* m_pRed = nullptr;
-	anemoia::Command* m_pBlue = nullptr;
 };

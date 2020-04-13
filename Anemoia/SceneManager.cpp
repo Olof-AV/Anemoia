@@ -103,6 +103,11 @@ void anemoia::SceneManager::SetActiveScene(const std::string& name)
 	}
 }
 
+bool anemoia::SceneManager::IsSceneActive(Scene* const pScene)
+{
+	return pScene == m_pActiveScene;
+}
+
 anemoia::SceneManager::~SceneManager()
 {
 	//Delete managed scenes

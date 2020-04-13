@@ -22,6 +22,8 @@ namespace anemoia
 		void SetActiveScene(Scene* const pScene);
 		void SetActiveScene(const std::string &name);
 
+		bool IsSceneActive(Scene* const pScene);
+
 	private:
 		friend class Singleton<SceneManager>;
 

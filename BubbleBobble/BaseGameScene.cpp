@@ -84,8 +84,12 @@ void BaseGameScene::Initialise()
 
 void BaseGameScene::OnSceneActivated()
 {
+	//Call root
+	Scene::OnSceneActivated();
 }
 
 void BaseGameScene::OnSceneDeactivated()
 {
+	//Call root
+	Scene::OnSceneDeactivated();
 }

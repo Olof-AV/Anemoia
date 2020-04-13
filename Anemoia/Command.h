@@ -4,6 +4,8 @@
 
 namespace anemoia
 {
+	class Scene;
+
 	//Callback for commands
 	using CommandCallback = std::function<void()>;
 
@@ -18,7 +20,7 @@ namespace anemoia
 	class Command final
 	{
 	public:
-		Command(const std::string &commandName, int controllerId, int padButton, int keyboardButton, ButtonState buttonState, CommandCallback callback);
+		Command(const std::string &commandName, Scene* const boundScene, int controllerId, int padButton, int keyboardButton, ButtonState buttonState, CommandCallback callback);
 		~Command() = default;
 
 		void Execute();
@@ -40,6 +42,8 @@ namespace anemoia
 		void SetCommandCallback(CommandCallback callback);
 
 		const std::string& GetName() const;
+
+		Scene* const GetBoundScene() const;
 #pragma endregion GettersSetters
 
 	private:
@@ -47,6 +51,8 @@ namespace anemoia
 		ButtonState m_State;
 
 		std::string m_CommandName;
+
+		Scene* m_BoundScene;
 
 		int m_PadButton;
 		int m_KeyboardButton;

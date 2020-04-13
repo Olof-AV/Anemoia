@@ -4,6 +4,7 @@
 
 #include <algorithm>
 #include "Command.h"
+#include "SceneManager.h"
 
 anemoia::InputManager::InputManager()
 {
@@ -24,10 +25,10 @@ anemoia::InputManager::~InputManager()
 	delete[] m_PreviousKeyboardState;
 
 	//Delete all stored commands
-	/*std::for_each(m_Commands.cbegin(), m_Commands.cend(), [](Command* const pCommand)
+	std::for_each(m_Commands.cbegin(), m_Commands.cend(), [](Command* const pCommand)
 	{
 		delete pCommand;
-	});*/
+	});
 }
 
 bool anemoia::InputManager::ProcessInput()
@@ -63,33 +64,39 @@ bool anemoia::InputManager::ProcessInput()
 	//If successful
 	if (got)
 	{
+		SceneManager* const pSceneManager = SceneManager::GetInstance();
+
 		//Get all active commands and return them
-		std::for_each(m_Commands.cbegin(), m_Commands.cend(), [this](Command* const pCommand)
+		std::for_each(m_Commands.cbegin(), m_Commands.cend(), [this, pSceneManager](Command* const pCommand)
 		{
-			const ButtonState state = pCommand->GetButtonState();
-
-			switch (state)
+			//A command can only funtion if the scene it's bound to is currently active
+			if (pSceneManager->IsSceneActive(pCommand->GetBoundScene()))
 			{
-			case ButtonState::Down:
-				if (IsButtonDown(pCommand))
-				{
-					pCommand->Execute();
-				}
-				break;
+				const ButtonState state = pCommand->GetButtonState();
 
-			case ButtonState::Hold:
-				if (IsHeld(pCommand))
+				switch (state)
 				{
-					pCommand->Execute();
-				}
-				break;
+				case ButtonState::Down:
+					if (IsButtonDown(pCommand))
+					{
+						pCommand->Execute();
+					}
+					break;
 
-			case ButtonState::Up:
-				if (IsButtonUp(pCommand))
-				{
-					pCommand->Execute();
+				case ButtonState::Hold:
+					if (IsHeld(pCommand))
+					{
+						pCommand->Execute();
+					}
+					break;
+
+				case ButtonState::Up:
+					if (IsButtonUp(pCommand))
+					{
+						pCommand->Execute();
+					}
+					break;
 				}
-				break;
 			}
 		});
 	}

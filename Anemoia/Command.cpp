@@ -1,11 +1,12 @@
 #include "AnemoiaPCH.h"
 #include "Command.h"
 
-anemoia::Command::Command(const std::string& commandName, int controllerId, int padButton, int keyboardButton, ButtonState buttonState, CommandCallback callback)
+anemoia::Command::Command(const std::string& commandName, Scene* const boundScene, int controllerId, int padButton, int keyboardButton, ButtonState buttonState, CommandCallback callback)
 	: m_CommandName{ commandName },
 	m_ControllerID {controllerId},
 	m_PadButton{ padButton }, m_KeyboardButton{ keyboardButton },
-	m_State{ buttonState }, m_Callback{ callback }
+	m_State{ buttonState }, m_Callback{ callback },
+	m_BoundScene{boundScene}
 {
 }
 
@@ -71,5 +72,9 @@ void anemoia::Command::SetCommandCallback(CommandCallback callback)
 const std::string& anemoia::Command::GetName() const
 {
 	return m_CommandName;
+}
+anemoia::Scene* const anemoia::Command::GetBoundScene() const
+{
+	return m_BoundScene;
 }
 #pragma endregion GettersSetters

@@ -28,9 +28,6 @@ FrameCounterScene::FrameCounterScene()
 
 FrameCounterScene::~FrameCounterScene()
 {
-	//Delete commands associated to this scene
-	delete m_pRed;
-	delete m_pBlue;
 }
 
 void FrameCounterScene::FixedUpdate(float timeStep)
@@ -125,37 +122,24 @@ void FrameCounterScene::Initialise()
 	//Add to scene
 	AddChild(pCounter);
 
+	//Load playable sound
 	m_pSound = anemoia::ResourceManager::GetInstance()->LoadSound("shoulder.mp3");
+
+	//Add input
+	anemoia::InputManager* const pInput = anemoia::Locator::GetInputManager();
+	if (pInput)
+	{
+		pInput->RegisterCommand(new anemoia::Command("RedText", this, 0, XINPUT_GAMEPAD_BACK, VK_RBUTTON, anemoia::ButtonState::Up, std::bind(&FrameCounterScene::ChangeTextToRed, this)));
+		pInput->RegisterCommand(new anemoia::Command("BlueText", this, 0, XINPUT_GAMEPAD_START, VK_LBUTTON, anemoia::ButtonState::Hold, std::bind(&FrameCounterScene::ChangeTextToBlue, this)));
+	}
 }
 
 void FrameCounterScene::OnSceneActivated()
 {
-	//Add input if not present
-	anemoia::InputManager* const pInput = anemoia::Locator::GetInputManager();
-	if (pInput)
-	{
-		if (!m_pRed)
-		{
-			m_pRed = new anemoia::Command("RedText", 0, XINPUT_GAMEPAD_BACK, VK_RBUTTON, anemoia::ButtonState::Up, std::bind(&FrameCounterScene::ChangeTextToRed, this));
-		}
-		if (!m_pBlue)
-		{
-			m_pBlue = new anemoia::Command("BlueText", 0, XINPUT_GAMEPAD_START, VK_LBUTTON, anemoia::ButtonState::Hold, std::bind(&FrameCounterScene::ChangeTextToBlue, this));
-		}
-		pInput->RegisterCommand(m_pRed);
-		pInput->RegisterCommand(m_pBlue);
-	}
 }
 
 void FrameCounterScene::OnSceneDeactivated()
 {
-	//Disable input
-	anemoia::InputManager* const pInput = anemoia::Locator::GetInputManager();
-	if (pInput)
-	{
-		pInput->UnregisterCommand(m_pRed);
-		pInput->UnregisterCommand(m_pBlue);
-	}
 }
 
 void FrameCounterScene::ChangeTextToRed()
