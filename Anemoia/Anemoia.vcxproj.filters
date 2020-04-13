@@ -109,6 +109,9 @@
     <ClInclude Include="PlayerControllerComponent.h">
       <Filter>Components</Filter>
     </ClInclude>
+    <ClInclude Include="ColliderComponent.h">
+      <Filter>Components</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="SceneManager.cpp">
@@ -175,6 +178,9 @@
       <Filter>Patterns\Observer</Filter>
     </ClCompile>
     <ClCompile Include="PlayerControllerComponent.cpp">
+      <Filter>Components</Filter>
+    </ClCompile>
+    <ClCompile Include="ColliderComponent.cpp">
       <Filter>Components</Filter>
     </ClCompile>
   </ItemGroup>

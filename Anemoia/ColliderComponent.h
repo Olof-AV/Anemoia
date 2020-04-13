@@ -8,7 +8,7 @@ namespace anemoia
 	public:
 #pragma region Constructors
 		ColliderComponent(GameObject* const pParent, const Transform& transform, const glm::vec2 &hitbox);
-		virtual ~ColliderComponent() = default;
+		virtual ~ColliderComponent();
 
 		ColliderComponent(const ColliderComponent& other) = delete;
 		ColliderComponent(ColliderComponent&& other) = delete;
@@ -21,6 +21,9 @@ namespace anemoia
 		virtual void Update(float elapsedSec) override;
 		virtual void LateUpdate(float elapsedSec) override;
 		virtual void Render() const override;
+
+		//Rect stuff
+		SDL_Rect GetRect() const;
 
 	private:
 		glm::vec2 m_Hitbox;

@@ -37,6 +37,11 @@ namespace anemoia
 		const std::string& GetName() const;
 		void SetName(const std::string& name);
 
+		//Collision stuff
+		void AddCollider(ColliderComponent* const pColl);
+		void RemoveCollider(ColliderComponent* const pColl);
+		const std::vector<ColliderComponent*> &GetColliders() const;
+
 	private:
 		std::string m_Name;
 		std::vector<GameObject*> m_Objects{};

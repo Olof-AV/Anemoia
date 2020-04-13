@@ -8,6 +8,7 @@
 #include "Locator.h"
 #include "HUDComponent.h"
 #include "PlayerControllerComponent.h"
+#include "ColliderComponent.h"
 
 BaseGameScene::BaseGameScene(const std::string& name)
 	: Scene(name)
@@ -63,6 +64,9 @@ void BaseGameScene::Initialise()
 		AddChild(m_pHUD);
 	}
 
+	//Environment
+	AddVerticalWalls();
+
 	//Get window size to put object there
 	int x, y;
 	SDL_GetWindowSize(anemoia::Locator::GetWindow(), &x, &y);
@@ -98,4 +102,45 @@ void BaseGameScene::OnSceneDeactivated()
 {
 	//Call root
 	Scene::OnSceneDeactivated();
+}
+
+void BaseGameScene::AddVerticalWalls()
+{
+	//Get window size to put object there
+	int x, y;
+	SDL_GetWindowSize(anemoia::Locator::GetWindow(), &x, &y);
+
+	for (int i{}; i < 13; ++i)
+	{
+		//Left
+		{
+			//Root
+			anemoia::GameObject* const pWall = new anemoia::GameObject(this);
+			pWall->SetPosition(0.f, y - 48.f * i, 0.f);
+
+			//Collision
+			anemoia::ColliderComponent* const pCollider =
+				new anemoia::ColliderComponent(pWall, anemoia::Transform(glm::vec3(0.f, 0.f, 0.f), glm::vec2(0.f, 1.f), glm::vec2(1.f, 1.f)), glm::vec2(48.f, 48.f));
+			pWall->AddComponent(pCollider);
+
+			//Add to scene
+			AddChild(pWall);
+		}
+
+		//Right
+		{
+			//Root
+			anemoia::GameObject* const pWall = new anemoia::GameObject(this);
+			pWall->SetPosition(x - 48.f, y - 48.f * i, 0.f);
+
+			//Collision
+			anemoia::ColliderComponent* const pCollider =
+				new anemoia::ColliderComponent(pWall, anemoia::Transform(glm::vec3(0.f, 0.f, 0.f), glm::vec2(0.f, 1.f), glm::vec2(1.f, 1.f)), glm::vec2(48.f, 48.f));
+			pWall->AddComponent(pCollider);
+
+			//Add to scene
+			AddChild(pWall);
+		}
+	}
+
 }

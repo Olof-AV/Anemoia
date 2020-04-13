@@ -85,3 +85,26 @@ void anemoia::Scene::SetName(const std::string& name)
 	m_Name = name;
 }
 
+void anemoia::Scene::AddCollider(ColliderComponent* const pColl)
+{
+	//Add given collider to scene collision, will exist until removed
+	m_Collision.emplace_back(pColl);
+}
+
+void anemoia::Scene::RemoveCollider(ColliderComponent* const pColl)
+{
+	//Find
+	const std::vector<ColliderComponent*>::const_iterator cIt = std::find(m_Collision.cbegin(), m_Collision.cend(), pColl);
+
+	//If found, erase
+	if (cIt != m_Collision.cend())
+	{
+		m_Collision.erase(cIt);
+	}
+}
+
+const std::vector<anemoia::ColliderComponent*>& anemoia::Scene::GetColliders() const
+{
+	return m_Collision;
+}
+

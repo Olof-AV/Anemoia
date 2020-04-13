@@ -36,5 +36,7 @@ public:
 	virtual void OnSceneDeactivated() override;
 
 protected:
+	void AddVerticalWalls();
+
 	anemoia::GameObject* m_pHUD = nullptr;
 };
