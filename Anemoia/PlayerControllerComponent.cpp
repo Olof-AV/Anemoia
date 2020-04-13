@@ -5,45 +5,43 @@
 #include "Command.h"
 #include "GameObject.h"
 
-anemoia::PlayerControllerComponent::PlayerControllerComponent(GameObject* const pParent, const Transform& transform)
-	: BaseComponent(pParent, transform)
+anemoia::PlayerControllerComponent::PlayerControllerComponent(GameObject* const pParent)
+	: BaseComponent(pParent, Transform())
 {
 	m_InputDir = glm::vec2{};
 
+	//Setup input
 	InputManager* const pInput = InputManager::GetInstance();
 	pInput->RegisterCommand(new Command("MoveLeft", pParent->GetParentScene(), 0, XINPUT_GAMEPAD_DPAD_LEFT, 'A', ButtonState::Hold, [this]()
 	{
 		m_InputDir.x = -1.f;
 	}));
-
 	pInput->RegisterCommand(new Command("MoveRight", pParent->GetParentScene(), 0, XINPUT_GAMEPAD_DPAD_RIGHT, 'D', ButtonState::Hold, [this]()
 	{
 		m_InputDir.x = 1.f;
+	}));
+	pInput->RegisterCommand(new Command("Jump", pParent->GetParentScene(), 0, XINPUT_GAMEPAD_DPAD_UP, 'W', ButtonState::Hold, [this]()
+	{
+		m_InputDir.y = -1.f;
 	}));
 }
 
 void anemoia::PlayerControllerComponent::FixedUpdate(float timeStep)
 {
 	UNREFERENCED_PARAMETER(timeStep);
-
-	glm::vec3 pos = GetParent()->GetPosition();
-	GetParent()->SetPosition(pos + glm::vec3(m_InputDir * 100.f, 0.f) * timeStep);
-
-	m_InputDir = glm::vec2{};
 }
 
 void anemoia::PlayerControllerComponent::Update(float elapsedSec)
 {
-	UNREFERENCED_PARAMETER(elapsedSec);
+	//Move, will need to be remade because this is just testing stuff
+	glm::vec3 pos = GetParent()->GetPosition();
+	GetParent()->SetPosition(pos + glm::vec3(m_InputDir.x * 100.f, m_InputDir.y * 500.f, 0.f) * elapsedSec);
+
+	//Reset
+	m_InputDir = glm::vec2{};
 }
 
 void anemoia::PlayerControllerComponent::LateUpdate(float elapsedSec)
 {
 	UNREFERENCED_PARAMETER(elapsedSec);
-}
-
-void anemoia::PlayerControllerComponent::Move(float timeStep, const glm::vec2& dir)
-{
-	UNREFERENCED_PARAMETER(timeStep);
-	UNREFERENCED_PARAMETER(dir);
 }

@@ -7,7 +7,7 @@ namespace anemoia
 	{
 	public:
 #pragma region Constructors
-		PlayerControllerComponent(GameObject* const pParent, const Transform& transform);
+		PlayerControllerComponent(GameObject* const pParent);
 		virtual ~PlayerControllerComponent() = default;
 
 		PlayerControllerComponent(const PlayerControllerComponent& other) = delete;
@@ -29,8 +29,6 @@ namespace anemoia
 #pragma region Delete
 
 	private:
-		void Move(float timeStep, const glm::vec2& dir);
-
 		glm::vec2 m_InputDir;
 	};
 }

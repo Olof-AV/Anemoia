@@ -9,6 +9,7 @@
 #include "HUDComponent.h"
 #include "PlayerControllerComponent.h"
 #include "ColliderComponent.h"
+#include "RigidBodyComponent.h"
 
 BaseGameScene::BaseGameScene(const std::string& name)
 	: Scene(name)
@@ -82,12 +83,21 @@ void BaseGameScene::Initialise()
 		anemoia::TextureComponent* const pTexComp = new anemoia::TextureComponent(pBubby, transform, pTex);
 		pBubby->AddComponent(pTexComp);
 
+		//Collision
+		anemoia::ColliderComponent* const pColl = new anemoia::ColliderComponent(pBubby, transform, glm::vec2(48.f, 48.f));
+		pBubby->AddComponent(pColl);
+
+		//Rigid body
+		anemoia::RigidBodyComponent* const pRigid = new anemoia::RigidBodyComponent(pBubby, pColl);
+		pBubby->AddComponent(pRigid);
+
 		//Control
-		anemoia::PlayerControllerComponent* const pControl = new anemoia::PlayerControllerComponent(pBubby, anemoia::Transform());
+		anemoia::PlayerControllerComponent* const pControl = new anemoia::PlayerControllerComponent(pBubby);
 		pBubby->AddComponent(pControl);
 
 		//Add to scene
-		pBubby->SetPosition(glm::vec3(x * 0.5f, y, 0.f));
+		//pBubby->SetPosition(glm::vec3(x * 0.5f, y * 0.75f, 0.f));
+		pBubby->SetPosition(glm::vec3(x * 0.5f, 0.f, 0.f));
 		AddChild(pBubby);
 	}
 }
@@ -135,7 +145,7 @@ void BaseGameScene::AddVerticalWalls()
 
 			//Collision
 			anemoia::ColliderComponent* const pCollider =
-				new anemoia::ColliderComponent(pWall, anemoia::Transform(glm::vec3(0.f, 0.f, 0.f), glm::vec2(0.f, 1.f), glm::vec2(1.f, 1.f)), glm::vec2(48.f, 48.f));
+				new anemoia::ColliderComponent(pWall, anemoia::Transform(glm::vec3(0.f, 0.f, 0.f), glm::vec2(0.f, 1.f)), glm::vec2(48.f, 48.f));
 			pWall->AddComponent(pCollider);
 
 			//Add to scene
@@ -143,4 +153,21 @@ void BaseGameScene::AddVerticalWalls()
 		}
 	}
 
+	for (int i{}; i < 28; ++i)
+	{
+		//Bottom
+		{
+			//Root
+			anemoia::GameObject* const pWall = new anemoia::GameObject(this);
+			pWall->SetPosition(48.f + 24.f * i, (float)y, 0.f);
+
+			//Collision
+			anemoia::ColliderComponent* const pCollider =
+				new anemoia::ColliderComponent(pWall, anemoia::Transform(glm::vec3(0.f, 0.f, 0.f), glm::vec2(0.f, 1.f)), glm::vec2(24.f, 24.f));
+			pWall->AddComponent(pCollider);
+
+			//Add to scene
+			AddChild(pWall);
+		}
+	}
 }
