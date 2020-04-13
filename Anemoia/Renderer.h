@@ -6,11 +6,6 @@ struct SDL_Renderer;
 
 #include <SDL_render.h>
 
-#pragma warning(push)
-#pragma warning (disable:4201)
-#include <glm/vec2.hpp>
-#pragma warning(pop)
-
 	/**
 	* Simple RAII wrapper for the SDL renderer
 	*/

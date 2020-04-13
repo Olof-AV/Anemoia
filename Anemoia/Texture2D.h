@@ -1,12 +1,6 @@
 #pragma once
 #include "Resource.h"
 
-#pragma warning(push)
-#pragma warning (disable:4201)
-#include <glm/vec2.hpp>
-#pragma warning(pop)
-
-
 	/**
 	* Simple RAII wrapper for an SDL_Texture
 	*/

@@ -1,11 +1,6 @@
 #pragma once
 #include "BaseComponent.h"
 
-#pragma warning(push)
-#pragma warning (disable:4201)
-#include <glm/vec4.hpp>
-#pragma warning(pop)
-
 namespace anemoia
 {
 	class Texture2D;
