@@ -61,7 +61,7 @@ void IntroScene::Initialise()
 	//Create text
 	{
 		//Get font
-		anemoia::Font* const pFont = anemoia::ResourceManager::GetInstance()->LoadFont("Pixel_NES.otf", 24);
+		anemoia::Font* const pFont = anemoia::ResourceManager::GetInstance()->LoadFont("Fonts/Pixel_NES.otf", 24);
 
 		//Create text holder
 		anemoia::GameObject* const pRoot = new anemoia::GameObject(this);

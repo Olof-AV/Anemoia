@@ -4,6 +4,7 @@
 namespace anemoia
 {
 	class GameObject;
+	class ColliderComponent;
 
 	class Scene
 	{
@@ -39,6 +40,8 @@ namespace anemoia
 	private:
 		std::string m_Name;
 		std::vector<GameObject*> m_Objects{};
+
+		std::vector<ColliderComponent*> m_Collision{};
 
 		//static unsigned int m_IdCounter;
 	};

@@ -44,11 +44,11 @@
     <ClCompile Include="IntroScene.cpp">
       <Filter>Scenes\GameScenes</Filter>
     </ClCompile>
-    <ClCompile Include="FrameCounterScene.cpp">
-      <Filter>Scenes\Other</Filter>
-    </ClCompile>
     <ClCompile Include="HUDComponent.cpp">
       <Filter>GameComponents</Filter>
+    </ClCompile>
+    <ClCompile Include="FrameCounterScene.cpp">
+      <Filter>Scenes\Other</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -67,11 +67,11 @@
     <ClInclude Include="IntroScene.h">
       <Filter>Scenes\GameScenes</Filter>
     </ClInclude>
-    <ClInclude Include="FrameCounterScene.h">
-      <Filter>Scenes\Other</Filter>
-    </ClInclude>
     <ClInclude Include="HUDComponent.h">
       <Filter>GameComponents</Filter>
+    </ClInclude>
+    <ClInclude Include="FrameCounterScene.h">
+      <Filter>Scenes\Other</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
