@@ -92,7 +92,7 @@ void BaseGameScene::Initialise()
 		pBubby->AddComponent(pRigid);
 
 		//Control
-		anemoia::PlayerControllerComponent* const pControl = new anemoia::PlayerControllerComponent(pBubby);
+		anemoia::PlayerControllerComponent* const pControl = new anemoia::PlayerControllerComponent(pBubby, pRigid);
 		pBubby->AddComponent(pControl);
 
 		//Add to scene

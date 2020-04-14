@@ -13,48 +13,17 @@ anemoia::RigidBodyComponent::RigidBodyComponent(GameObject* const pParent, Colli
 
 void anemoia::RigidBodyComponent::FixedUpdate(float timeStep)
 {
-	//For later
+	//We gonna modify pos
 	glm::vec3 pos = GetParent()->GetPosition();
 
 	//Apply gravity
 	m_Velocity.y += m_Gravity * timeStep;
 
-	//Apply velocity, test for collisions
+	//Apply velocity, test for collisions, update pos for correct collision rect
 	pos += glm::vec3(m_Velocity, 0.f) * timeStep;
-
-	//Collision
-	SDL_Rect rect = m_pLinkedCollider->GetRect();
-	std::vector<ColliderComponent*> colliders = GetParent()->GetParentScene()->GetColliders();
-	colliders.erase(std::find(colliders.cbegin(), colliders.cend(), m_pLinkedCollider)); //NO SELF COLLIDE
-
-	//BOTTOM COLLISION
-	{
-		int x1 = int(rect.x + rect.w * 0.5f);
-		int y1 = int(rect.y + rect.h * 0.5f);
-		int x2 = x1;
-		int y2 = int(rect.y + rect.h);
-
-		bool result = false;
-
-		std::for_each(colliders.cbegin(), colliders.cend(), [&result, &x1, &x2, &y1, &y2](const ColliderComponent* const pColl)
-		{
-			SDL_Rect rect = pColl->GetRect();
-			if (SDL_IntersectRectAndLine(&rect, &x1, &y1, &x2, &y2))
-			{
-				result = true;
-				return;
-			}
-		});
-
-		if (result)
-		{
-			pos.y = float(y1);
-			m_Velocity.y = 0.f;
-		}
-	}
-
-	//Update pos
 	m_pParent->SetPosition(pos);
+
+	CheckCollision();
 }
 
 void anemoia::RigidBodyComponent::Update(float elapsedSec)
@@ -80,4 +49,142 @@ void anemoia::RigidBodyComponent::Render() const
 	SDL_RenderDrawLine(pRenderer, (int)midPoint.x, (int)midPoint.y, int(rect.x + rect.w * 0.5f), int(rect.y + rect.h));
 	SDL_RenderDrawLine(pRenderer, (int)midPoint.x, (int)midPoint.y, int(rect.x), int(rect.y + rect.h * 0.5f));
 	SDL_RenderDrawLine(pRenderer, (int)midPoint.x, (int)midPoint.y, int(rect.x + rect.w), int(rect.y + rect.h * 0.5f));
+}
+
+void anemoia::RigidBodyComponent::Move(const glm::vec2& newPos)
+{
+	//Move
+	glm::vec3 pos = GetParent()->GetPosition();
+	pos.x = newPos.x;
+	pos.y = newPos.y;
+	m_pParent->SetPosition(pos);
+
+	//Then check collision otherwise the checks will be "late"
+	CheckCollision();
+}
+
+void anemoia::RigidBodyComponent::AddVelocity(const glm::vec2& value, bool add)
+{
+	if (add)
+	{
+		m_Velocity += value;
+	}
+	else
+	{
+		m_Velocity = value;
+	}
+}
+
+bool anemoia::RigidBodyComponent::IsTouchingFloor() const
+{
+	return m_IsTouchingFloor;
+}
+
+void anemoia::RigidBodyComponent::CheckCollision()
+{
+	//Used later down the line
+	glm::vec3 pos = GetParent()->GetPosition();
+
+	//Collision
+	SDL_Rect rect = m_pLinkedCollider->GetRect();
+	std::vector<ColliderComponent*> colliders = GetParent()->GetParentScene()->GetColliders();
+	colliders.erase(std::find(colliders.cbegin(), colliders.cend(), m_pLinkedCollider)); //NO SELF COLLIDE
+
+	//BOTTOM COLLISION
+	if (m_Velocity.y > 0.f)
+	{
+		//Line setup
+		int x1 = int(rect.x + rect.w * 0.5f);
+		int y1 = int(rect.y + rect.h * 0.5f);
+		int x2 = x1;
+		int y2 = int(rect.y + rect.h);
+		int offset = (int)pos.y - y2;
+
+		m_IsTouchingFloor = false;
+
+		std::for_each(colliders.cbegin(), colliders.cend(), [this, &x1, &x2, &y1, &y2](const ColliderComponent* const pColl)
+			{
+				SDL_Rect rect = pColl->GetRect();
+				if (SDL_IntersectRectAndLine(&rect, &x1, &y1, &x2, &y2))
+				{
+					m_IsTouchingFloor = true;
+					return;
+				}
+			});
+
+		if (m_IsTouchingFloor)
+		{
+			pos.y = float(y1 + offset);
+			m_Velocity.y = 1.f;
+		}
+	}
+	else
+	{
+		m_IsTouchingFloor = false;
+	}
+
+	//LEFT COLLISION
+	{
+		//Update pos
+		m_pParent->SetPosition(pos);
+		rect = m_pLinkedCollider->GetRect();
+
+		//Line setup
+		int x1 = int(rect.x + rect.w * 0.5f);
+		int y1 = int(rect.y + rect.h * 0.5f);
+		int x2 = int(rect.x);
+		int y2 = y1;
+		int offset = (int)pos.x - x2;
+
+		bool result = false;
+		std::for_each(colliders.cbegin(), colliders.cend(), [&result, &x1, &x2, &y1, &y2](const ColliderComponent* const pColl)
+			{
+				SDL_Rect rect = pColl->GetRect();
+				if (SDL_IntersectRectAndLine(&rect, &x1, &y1, &x2, &y2))
+				{
+					result = true;
+					return;
+				}
+			});
+
+		if (result)
+		{
+			pos.x = float(x1 + offset);
+			m_Velocity.x = 0.f;
+		}
+	}
+
+	//LEFT COLLISION
+	{
+		//Update pos
+		m_pParent->SetPosition(pos);
+		rect = m_pLinkedCollider->GetRect();
+
+		//Line setup
+		int x1 = int(rect.x + rect.w * 0.5f);
+		int y1 = int(rect.y + rect.h * 0.5f);
+		int x2 = int(rect.x + rect.w);
+		int y2 = y1;
+		int offset = (int)pos.x - x2;
+
+		bool result = false;
+		std::for_each(colliders.cbegin(), colliders.cend(), [&result, &x1, &x2, &y1, &y2](const ColliderComponent* const pColl)
+			{
+				SDL_Rect rect = pColl->GetRect();
+				if (SDL_IntersectRectAndLine(&rect, &x1, &y1, &x2, &y2))
+				{
+					result = true;
+					return;
+				}
+			});
+
+		if (result)
+		{
+			pos.x = float(x1 + offset);
+			m_Velocity.x = 0.f;
+		}
+	}
+
+	//Update pos
+	m_pParent->SetPosition(pos);
 }

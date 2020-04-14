@@ -30,10 +30,19 @@ namespace anemoia
 		void SetTransform(const Transform & newTransform) = delete;
 #pragma region Delete
 
+		//Functions
+		void Move(const glm::vec2& newPos);
+		void AddVelocity(const glm::vec2 &value, bool add = true);
+		bool IsTouchingFloor() const;
+
 	private:
+		void CheckCollision();
+
 		ColliderComponent* m_pLinkedCollider;
 
 		float m_Gravity = 800.f;
 		glm::vec2 m_Velocity{};
+
+		bool m_IsTouchingFloor = false;
 	};
 }

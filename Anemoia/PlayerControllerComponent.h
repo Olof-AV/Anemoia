@@ -3,11 +3,13 @@
 
 namespace anemoia
 {
+	class RigidBodyComponent;
+
 	class PlayerControllerComponent final : public BaseComponent
 	{
 	public:
 #pragma region Constructors
-		PlayerControllerComponent(GameObject* const pParent);
+		PlayerControllerComponent(GameObject* const pParent, RigidBodyComponent* const pRigid);
 		virtual ~PlayerControllerComponent() = default;
 
 		PlayerControllerComponent(const PlayerControllerComponent& other) = delete;
@@ -29,6 +31,7 @@ namespace anemoia
 #pragma region Delete
 
 	private:
+		RigidBodyComponent* m_pRigid;
 		glm::vec2 m_InputDir;
 	};
 }

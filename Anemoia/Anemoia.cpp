@@ -18,7 +18,7 @@
 
 #include "Locator.h"
 
-const float anemoia::Engine::m_TimeStep = 0.008f;
+const float anemoia::Engine::m_TimeStep = 0.016f;
 const float anemoia::Engine::m_MaxElapsedSec = 0.128f;
 
 void anemoia::Engine::Initialise()
