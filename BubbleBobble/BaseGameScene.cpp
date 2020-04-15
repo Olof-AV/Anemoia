@@ -15,7 +15,7 @@
 #include <fstream>
 
 BaseGameScene::BaseGameScene(UINT levelNum)
-	: Scene("Stage" + std::to_string(levelNum)), m_LevelNum(levelNum)
+	: Scene("Stage" + std::to_string(levelNum)), m_LevelNum(2)
 {
 }
 
@@ -140,8 +140,35 @@ void BaseGameScene::ReadLevelData()
 			{
 				continue;
 			}
+			if (CheckDataForFakeTile(input))
+			{
+				continue;
+			}
 		}
 	}
+}
+
+bool BaseGameScene::CheckDataForFakeTile(const std::string& input)
+{
+	//Reads a block of tile data, with x/y coordinate
+	const std::regex myRegex{ R"(^(?:FakeTile=)([-]?\d+(?:\.\d+)?),\s*([-]?\d+(?:\.\d+)?)$)" };
+
+	//Store matches in here
+	std::smatch matches;
+
+	//Search using the regex
+	if (std::regex_search(input, matches, myRegex))
+	{
+		//Only can accept 2 matches + 1 original match
+		if (matches.size() == 3)
+		{
+			CreateTile(glm::vec2(std::stof(matches[1]), std::stof(matches[2])), false, false);
+
+			return true;
+		}
+	}
+
+	return false;
 }
 
 bool BaseGameScene::CheckDataForTile(const std::string &input)
@@ -158,22 +185,7 @@ bool BaseGameScene::CheckDataForTile(const std::string &input)
 		//Only can accept 2 matches + 1 original match
 		if (matches.size() == 3)
 		{
-			//Root
-			anemoia::GameObject* const pWall = new anemoia::GameObject(this);
-			pWall->SetPosition(std::stof(matches[1]), std::stof(matches[2]), 0.f);
-
-			//Sprite
-			anemoia::Texture2D* const pTex2D = anemoia::ResourceManager::GetInstance()->LoadTexture("Levels/" + std::to_string(m_LevelNum) + "/Small.png");
-			anemoia::TextureComponent* const pTexComp = new anemoia::TextureComponent(pWall, anemoia::Transform(glm::vec3(), glm::vec2(0.f, 1.f)), pTex2D);
-			pWall->AddComponent(pTexComp);
-
-			//Collision
-			anemoia::ColliderComponent* const pCollider =
-				new anemoia::ColliderComponent(pWall, anemoia::Transform(glm::vec3(), glm::vec2(0.f, 1.f)), glm::vec2(24.f, 24.f), false);
-			pWall->AddComponent(pCollider);
-
-			//Add to scene
-			AddChild(pWall);
+			CreateTile(glm::vec2(std::stof(matches[1]), std::stof(matches[2])), false);
 
 			return true;
 		}
@@ -196,26 +208,35 @@ bool BaseGameScene::CheckDataForBigTile(const std::string& input)
 		//Only can accept 2 matches + 1 original match
 		if (matches.size() == 3)
 		{
-			//Root
-			anemoia::GameObject* const pWall = new anemoia::GameObject(this);
-			pWall->SetPosition(std::stof(matches[1]), std::stof(matches[2]), 0.f);
-
-			//Sprite
-			anemoia::Texture2D* const pTex2D = anemoia::ResourceManager::GetInstance()->LoadTexture("Levels/" + std::to_string(m_LevelNum) + "/Big.png");
-			anemoia::TextureComponent* const pTexComp = new anemoia::TextureComponent(pWall, anemoia::Transform(glm::vec3(), glm::vec2(0.f, 1.f)), pTex2D);
-			pWall->AddComponent(pTexComp);
-
-			//Collision
-			anemoia::ColliderComponent* const pCollider =
-				new anemoia::ColliderComponent(pWall, anemoia::Transform(glm::vec3(0.f, 0.f, 0.f), glm::vec2(0.f, 1.f)), glm::vec2(48.f, 48.f));
-			pWall->AddComponent(pCollider);
-
-			//Add to scene
-			AddChild(pWall);
+			CreateTile(glm::vec2(std::stof(matches[1]), std::stof(matches[2])), true);
 
 			return true;
 		}
 	}
 
 	return false;
+}
+
+void BaseGameScene::CreateTile(const glm::vec2& pos, bool isBig, bool hasCollision)
+{
+	//Root
+	anemoia::GameObject* const pWall = new anemoia::GameObject(this);
+	pWall->SetPosition(pos.x, pos.y , 0.f);
+
+	//Sprite
+	anemoia::Texture2D* const pTex2D = anemoia::ResourceManager::GetInstance()->LoadTexture("Levels/" + std::to_string(m_LevelNum) + ((isBig) ? "/Big.png" : "/Small.png"));
+	anemoia::TextureComponent* const pTexComp = new anemoia::TextureComponent(pWall, anemoia::Transform(glm::vec3(), glm::vec2(0.f, 1.f)), pTex2D);
+	pWall->AddComponent(pTexComp);
+
+	//Collision
+	if (hasCollision)
+	{
+		const float size = (isBig) ? 48.f : 24.f;
+		anemoia::ColliderComponent* const pCollider =
+			new anemoia::ColliderComponent(pWall, anemoia::Transform(glm::vec3(), glm::vec2(0.f, 1.f)), glm::vec2(size, size), isBig);
+		pWall->AddComponent(pCollider);
+	}
+
+	//Add to scene
+	AddChild(pWall);
 }

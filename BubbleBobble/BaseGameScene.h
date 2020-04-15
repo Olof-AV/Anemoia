@@ -38,8 +38,11 @@ public:
 protected:
 	void ReadLevelData();
 
+	bool CheckDataForFakeTile(const std::string& input);
 	bool CheckDataForTile(const std::string& input);
 	bool CheckDataForBigTile(const std::string& input);
+
+	void CreateTile(const glm::vec2& pos, bool isBig, bool hasCollision = true);
 
 	anemoia::GameObject* m_pHUD = nullptr;
 	UINT m_LevelNum = 0;
