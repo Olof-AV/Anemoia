@@ -11,11 +11,11 @@ namespace anemoia
 	class Texture2D;
 }
 
-class BaseGameScene : public anemoia::Scene
+class BaseGameScene final : public anemoia::Scene
 {
 public:
 #pragma region Constructors
-	BaseGameScene(const std::string &name);
+	BaseGameScene(UINT levelNum);
 	virtual ~BaseGameScene();
 
 	BaseGameScene(const BaseGameScene& other) = delete;
@@ -36,7 +36,11 @@ public:
 	virtual void OnSceneDeactivated() override;
 
 protected:
-	void AddVerticalWalls();
+	void ReadLevelData();
+
+	bool CheckDataForTile(const std::string& input);
+	bool CheckDataForBigTile(const std::string& input);
 
 	anemoia::GameObject* m_pHUD = nullptr;
+	UINT m_LevelNum = 0;
 };

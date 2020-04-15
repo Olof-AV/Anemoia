@@ -11,8 +11,11 @@
 #include "ColliderComponent.h"
 #include "RigidBodyComponent.h"
 
-BaseGameScene::BaseGameScene(const std::string& name)
-	: Scene(name)
+#include <regex>
+#include <fstream>
+
+BaseGameScene::BaseGameScene(UINT levelNum)
+	: Scene("Stage" + std::to_string(levelNum)), m_LevelNum(levelNum)
 {
 }
 
@@ -66,7 +69,7 @@ void BaseGameScene::Initialise()
 	}
 
 	//Environment
-	AddVerticalWalls();
+	ReadLevelData();
 
 	//Get window size to put object there
 	int x, y;
@@ -96,8 +99,7 @@ void BaseGameScene::Initialise()
 		pBubby->AddComponent(pControl);
 
 		//Add to scene
-		//pBubby->SetPosition(glm::vec3(x * 0.5f, y * 0.75f, 0.f));
-		pBubby->SetPosition(glm::vec3(x * 0.5f, 0.f, 0.f));
+		pBubby->SetPosition(glm::vec3(x * 0.25f, y * 0.75f, 0.f));
 		AddChild(pBubby);
 	}
 }
@@ -114,34 +116,94 @@ void BaseGameScene::OnSceneDeactivated()
 	Scene::OnSceneDeactivated();
 }
 
-void BaseGameScene::AddVerticalWalls()
+void BaseGameScene::ReadLevelData()
 {
-	//Get window size to put object there
-	int x, y;
-	SDL_GetWindowSize(anemoia::Locator::GetWindow(), &x, &y);
+	//Open file
+	const std::string path = "../Data/Levels/" + std::to_string(m_LevelNum) + "/Data.txt";
+	std::ifstream fileStream{ path };
 
-	for (int i{}; i < 13; ++i)
+	//Read until file end
+	while (fileStream.good())
 	{
-		//Left
+		//Read one line
+		std::string input;
+		std::getline(fileStream, input);
+
+		//Safeguard from empty line
+		if (input.size() > 0)
+		{
+			if (CheckDataForBigTile(input))
+			{
+				continue;
+			}
+			if (CheckDataForTile(input))
+			{
+				continue;
+			}
+		}
+	}
+}
+
+bool BaseGameScene::CheckDataForTile(const std::string &input)
+{
+	//Reads a block of tile data, with x/y coordinate
+	const std::regex myRegex{ R"(^(?:Tile=)([-]?\d+(?:\.\d+)?),\s*([-]?\d+(?:\.\d+)?)$)" };
+
+	//Store matches in here
+	std::smatch matches;
+
+	//Search using the regex
+	if (std::regex_search(input, matches, myRegex))
+	{
+		//Only can accept 2 matches + 1 original match
+		if (matches.size() == 3)
 		{
 			//Root
 			anemoia::GameObject* const pWall = new anemoia::GameObject(this);
-			pWall->SetPosition(0.f, y - 48.f * i, 0.f);
+			pWall->SetPosition(std::stof(matches[1]), std::stof(matches[2]), 0.f);
+
+			//Sprite
+			anemoia::Texture2D* const pTex2D = anemoia::ResourceManager::GetInstance()->LoadTexture("Levels/" + std::to_string(m_LevelNum) + "/Small.png");
+			anemoia::TextureComponent* const pTexComp = new anemoia::TextureComponent(pWall, anemoia::Transform(glm::vec3(), glm::vec2(0.f, 1.f)), pTex2D);
+			pWall->AddComponent(pTexComp);
 
 			//Collision
 			anemoia::ColliderComponent* const pCollider =
-				new anemoia::ColliderComponent(pWall, anemoia::Transform(glm::vec3(0.f, 0.f, 0.f), glm::vec2(0.f, 1.f), glm::vec2(1.f, 1.f)), glm::vec2(48.f, 48.f));
+				new anemoia::ColliderComponent(pWall, anemoia::Transform(glm::vec3(), glm::vec2(0.f, 1.f)), glm::vec2(24.f, 24.f));
 			pWall->AddComponent(pCollider);
 
 			//Add to scene
 			AddChild(pWall);
-		}
 
-		//Right
+			return true;
+		}
+	}
+
+	return false;
+}
+
+bool BaseGameScene::CheckDataForBigTile(const std::string& input)
+{
+	//Reads a block of tile data, with x/y coordinate
+	const std::regex myRegex{ R"(^(?:BigTile=)([-]?\d+(?:\.\d+)?),\s*([-]?\d+(?:\.\d+)?)$)" };
+
+	//Store matches in here
+	std::smatch matches;
+
+	//Search using the regex
+	if (std::regex_search(input, matches, myRegex))
+	{
+		//Only can accept 2 matches + 1 original match
+		if (matches.size() == 3)
 		{
 			//Root
 			anemoia::GameObject* const pWall = new anemoia::GameObject(this);
-			pWall->SetPosition(x - 48.f, y - 48.f * i, 0.f);
+			pWall->SetPosition(std::stof(matches[1]), std::stof(matches[2]), 0.f);
+
+			//Sprite
+			anemoia::Texture2D* const pTex2D = anemoia::ResourceManager::GetInstance()->LoadTexture("Levels/" + std::to_string(m_LevelNum) + "/Big.png");
+			anemoia::TextureComponent* const pTexComp = new anemoia::TextureComponent(pWall, anemoia::Transform(glm::vec3(), glm::vec2(0.f, 1.f)), pTex2D);
+			pWall->AddComponent(pTexComp);
 
 			//Collision
 			anemoia::ColliderComponent* const pCollider =
@@ -150,24 +212,10 @@ void BaseGameScene::AddVerticalWalls()
 
 			//Add to scene
 			AddChild(pWall);
+
+			return true;
 		}
 	}
 
-	for (int i{}; i < 28; ++i)
-	{
-		//Bottom
-		{
-			//Root
-			anemoia::GameObject* const pWall = new anemoia::GameObject(this);
-			pWall->SetPosition(48.f + 24.f * i, (float)y, 0.f);
-
-			//Collision
-			anemoia::ColliderComponent* const pCollider =
-				new anemoia::ColliderComponent(pWall, anemoia::Transform(glm::vec3(0.f, 0.f, 0.f), glm::vec2(0.f, 1.f)), glm::vec2(24.f, 24.f));
-			pWall->AddComponent(pCollider);
-
-			//Add to scene
-			AddChild(pWall);
-		}
-	}
+	return false;
 }

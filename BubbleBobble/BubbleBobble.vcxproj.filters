@@ -35,9 +35,6 @@
     <ClCompile Include="pch.cpp">
       <Filter>PCH</Filter>
     </ClCompile>
-    <ClCompile Include="Level1.cpp">
-      <Filter>Scenes\GameScenes</Filter>
-    </ClCompile>
     <ClCompile Include="BaseGameScene.cpp">
       <Filter>Scenes\GameScenes</Filter>
     </ClCompile>
@@ -57,9 +54,6 @@
     </ClInclude>
     <ClInclude Include="pch.h">
       <Filter>PCH</Filter>
-    </ClInclude>
-    <ClInclude Include="Level1.h">
-      <Filter>Scenes\GameScenes</Filter>
     </ClInclude>
     <ClInclude Include="BaseGameScene.h">
       <Filter>Scenes\GameScenes</Filter>

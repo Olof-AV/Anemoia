@@ -5,7 +5,7 @@
 #include "Scene.h"
 #include "FrameCounterScene.h"
 #include "IntroScene.h"
-#include "Level1.h"
+#include "BaseGameScene.h"
 
 #include <SDL.h>
 #include <SDL_video.h>
@@ -25,7 +25,7 @@ void BubbleBobbleGame::LoadGame() const
 	anemoia::SceneManager::GetInstance()->SetActiveScene(pIntro);
 
 	//Level 1 scene
-	anemoia::Scene* const pLevel1 = new Level1();
+	anemoia::Scene* const pLevel1 = new BaseGameScene(1);
 	anemoia::SceneManager::GetInstance()->AddScene(pLevel1);
 
 	//Some extra changes

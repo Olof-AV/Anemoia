@@ -39,7 +39,7 @@ void IntroScene::LateUpdate(float elapsedSec)
 	m_CurrentTime += elapsedSec;
 	if (m_MaxTime < m_CurrentTime)
 	{
-		anemoia::SceneManager::GetInstance()->SetActiveScene("Level1");
+		anemoia::SceneManager::GetInstance()->SetActiveScene("Stage1");
 	}
 }
 

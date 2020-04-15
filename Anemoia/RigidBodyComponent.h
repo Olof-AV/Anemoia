@@ -40,7 +40,7 @@ namespace anemoia
 
 		ColliderComponent* m_pLinkedCollider;
 
-		float m_Gravity = 800.f;
+		float m_Gravity = 1400.f;
 		glm::vec2 m_Velocity{};
 
 		bool m_IsTouchingFloor = false;
