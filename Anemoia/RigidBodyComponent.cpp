@@ -23,7 +23,11 @@ void anemoia::RigidBodyComponent::FixedUpdate(float timeStep)
 	pos += glm::vec3(m_Velocity, 0.f) * timeStep;
 	m_pParent->SetPosition(pos);
 
+	//Do collision checks
 	CheckCollision();
+
+	//Out of bounds?
+	CheckOutOfBounds();
 }
 
 void anemoia::RigidBodyComponent::Update(float elapsedSec)
@@ -203,4 +207,18 @@ void anemoia::RigidBodyComponent::CheckCollision()
 
 	//Update pos
 	m_pParent->SetPosition(pos);
+}
+
+void anemoia::RigidBodyComponent::CheckOutOfBounds()
+{
+	//Get data
+	int x, y;
+	SDL_GetWindowSize(anemoia::Locator::GetWindow(), &x, &y);
+	glm::vec3 pos = GetParent()->GetPosition();
+
+	if (pos.y > float(y))
+	{
+		pos.y -= float(y);
+		GetParent()->SetPosition(pos);
+	}
 }

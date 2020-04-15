@@ -37,6 +37,7 @@ namespace anemoia
 
 	private:
 		void CheckCollision();
+		void CheckOutOfBounds();
 
 		ColliderComponent* m_pLinkedCollider;
 

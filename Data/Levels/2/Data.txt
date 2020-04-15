@@ -12,6 +12,7 @@ BigTile=0, 240
 BigTile=0, 192
 BigTile=0, 144
 BigTile=0, 96
+BigTileInvis=0, 48
 
 //Big tiles right
 BigTile=720, 672
@@ -27,6 +28,7 @@ BigTile=720, 240
 BigTile=720, 192
 BigTile=720, 144
 BigTile=720, 96
+BigTileInvis=720, 48
 
 //Bottom floor
 Tile=48, 672

@@ -41,8 +41,9 @@ protected:
 	bool CheckDataForFakeTile(const std::string& input);
 	bool CheckDataForTile(const std::string& input);
 	bool CheckDataForBigTile(const std::string& input);
+	bool CheckDataForBigTileInvis(const std::string& input);
 
-	void CreateTile(const glm::vec2& pos, bool isBig, bool hasCollision = true);
+	void CreateTile(const glm::vec2& pos, bool isBig, bool isInvisible = false, bool hasCollision = true);
 
 	anemoia::GameObject* m_pHUD = nullptr;
 	UINT m_LevelNum = 0;
