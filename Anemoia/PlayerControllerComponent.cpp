@@ -21,7 +21,7 @@ anemoia::PlayerControllerComponent::PlayerControllerComponent(GameObject* const 
 	{
 		m_InputDir.x = 1.f;
 	}));
-	pInput->RegisterCommand(new Command("Jump", pParent->GetParentScene(), 0, XINPUT_GAMEPAD_DPAD_UP, 'Z', ButtonState::Down, [this]()
+	pInput->RegisterCommand(new Command("Jump", pParent->GetParentScene(), 0, XINPUT_GAMEPAD_A, 'Z', ButtonState::Down, [this]()
 	{
 		m_InputDir.y = -1.f;
 	}));
