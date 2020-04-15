@@ -148,6 +148,10 @@ void BaseGameScene::ReadLevelData()
 			{
 				continue;
 			}
+			if (CheckDataForTileHard(input))
+			{
+				continue;
+			}
 		}
 	}
 }
@@ -166,7 +170,7 @@ bool BaseGameScene::CheckDataForFakeTile(const std::string& input)
 		//Only can accept 2 matches + 1 original match
 		if (matches.size() == 3)
 		{
-			CreateTile(glm::vec2(std::stof(matches[1]), std::stof(matches[2])), false, false, false);
+			CreateTile(glm::vec2(std::stof(matches[1]), std::stof(matches[2])), false, false, false, false);
 
 			return true;
 		}
@@ -189,7 +193,30 @@ bool BaseGameScene::CheckDataForTile(const std::string &input)
 		//Only can accept 2 matches + 1 original match
 		if (matches.size() == 3)
 		{
-			CreateTile(glm::vec2(std::stof(matches[1]), std::stof(matches[2])), false, false);
+			CreateTile(glm::vec2(std::stof(matches[1]), std::stof(matches[2])), false, false, false);
+
+			return true;
+		}
+	}
+
+	return false;
+}
+
+bool BaseGameScene::CheckDataForTileHard(const std::string& input)
+{
+	//Reads a block of tile data, with x/y coordinate
+	const std::regex myRegex{ R"(^(?:TileHard=)([-]?\d+(?:\.\d+)?),\s*([-]?\d+(?:\.\d+)?)$)" };
+
+	//Store matches in here
+	std::smatch matches;
+
+	//Search using the regex
+	if (std::regex_search(input, matches, myRegex))
+	{
+		//Only can accept 2 matches + 1 original match
+		if (matches.size() == 3)
+		{
+			CreateTile(glm::vec2(std::stof(matches[1]), std::stof(matches[2])), false, true, false);
 
 			return true;
 		}
@@ -212,7 +239,7 @@ bool BaseGameScene::CheckDataForBigTile(const std::string& input)
 		//Only can accept 2 matches + 1 original match
 		if (matches.size() == 3)
 		{
-			CreateTile(glm::vec2(std::stof(matches[1]), std::stof(matches[2])), true, false, true);
+			CreateTile(glm::vec2(std::stof(matches[1]), std::stof(matches[2])), true, true, false, true);
 
 			return true;
 		}
@@ -236,7 +263,7 @@ bool BaseGameScene::CheckDataForBigTileInvis(const std::string& input)
 		//Only can accept 2 matches + 1 original match
 		if (matches.size() == 3)
 		{
-			CreateTile(glm::vec2(std::stof(matches[1]), std::stof(matches[2])), true, true);
+			CreateTile(glm::vec2(std::stof(matches[1]), std::stof(matches[2])), true, true, true);
 
 			return true;
 		}
@@ -245,7 +272,7 @@ bool BaseGameScene::CheckDataForBigTileInvis(const std::string& input)
 	return false;
 }
 
-void BaseGameScene::CreateTile(const glm::vec2& pos, bool isBig, bool isInvisible, bool hasCollision)
+void BaseGameScene::CreateTile(const glm::vec2& pos, bool isBig, bool isImportant, bool isInvisible, bool hasCollision)
 {
 	//Root
 	anemoia::GameObject* const pWall = new anemoia::GameObject(this);
@@ -264,7 +291,7 @@ void BaseGameScene::CreateTile(const glm::vec2& pos, bool isBig, bool isInvisibl
 	{
 		const float size = (isBig) ? 48.f : 24.f;
 		anemoia::ColliderComponent* const pCollider =
-			new anemoia::ColliderComponent(pWall, anemoia::Transform(glm::vec3(), glm::vec2(0.f, 1.f)), glm::vec2(size, size), isBig);
+			new anemoia::ColliderComponent(pWall, anemoia::Transform(glm::vec3(), glm::vec2(0.f, 1.f)), glm::vec2(size, size), isImportant);
 		pWall->AddComponent(pCollider);
 	}
 
