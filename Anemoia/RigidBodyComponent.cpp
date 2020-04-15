@@ -95,7 +95,7 @@ void anemoia::RigidBodyComponent::CheckCollision()
 	{
 		//Line setup
 		int x1 = int(rect.x + rect.w * 0.5f);
-		int y1 = int(rect.y + rect.h * 0.5f);
+		int y1 = int(rect.y + rect.h * 0.9f);
 		int x2 = x1;
 		int y2 = int(rect.y + rect.h);
 		int offset = (int)pos.y - y2;

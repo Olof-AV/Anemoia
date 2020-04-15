@@ -42,7 +42,7 @@ void anemoia::PlayerControllerComponent::Update(float elapsedSec)
 	//Jump if touching floor
 	if (m_pRigid->IsTouchingFloor())
 	{
-		m_pRigid->AddVelocity(glm::vec2(0.f, m_InputDir.y * 700.f));
+		m_pRigid->AddVelocity(glm::vec2(0.f, m_InputDir.y * 600.f));
 	}
 
 	//Reset
