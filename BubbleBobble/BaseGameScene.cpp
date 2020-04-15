@@ -169,7 +169,7 @@ bool BaseGameScene::CheckDataForTile(const std::string &input)
 
 			//Collision
 			anemoia::ColliderComponent* const pCollider =
-				new anemoia::ColliderComponent(pWall, anemoia::Transform(glm::vec3(), glm::vec2(0.f, 1.f)), glm::vec2(24.f, 24.f));
+				new anemoia::ColliderComponent(pWall, anemoia::Transform(glm::vec3(), glm::vec2(0.f, 1.f)), glm::vec2(24.f, 24.f), false);
 			pWall->AddComponent(pCollider);
 
 			//Add to scene

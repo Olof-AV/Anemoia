@@ -5,8 +5,8 @@
 #include "GameObject.h"
 #include "Scene.h"
 
-anemoia::ColliderComponent::ColliderComponent(GameObject* const pParent, const Transform& transform, const glm::vec2 &hitbox)
-	: BaseComponent(pParent, transform), m_Hitbox{ hitbox }
+anemoia::ColliderComponent::ColliderComponent(GameObject* const pParent, const Transform& transform, const glm::vec2 &hitbox, bool isImportant)
+	: BaseComponent(pParent, transform), m_Hitbox{ hitbox }, m_IsImportant{isImportant}
 {
 	pParent->GetParentScene()->AddCollider(this);
 }
@@ -62,4 +62,9 @@ SDL_Rect anemoia::ColliderComponent::GetRect() const
 
 	//Good to go
 	return rect;
+}
+
+bool anemoia::ColliderComponent::IsImportant() const
+{
+	return m_IsImportant;
 }

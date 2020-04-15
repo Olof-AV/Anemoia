@@ -102,15 +102,15 @@ void anemoia::RigidBodyComponent::CheckCollision()
 
 		m_IsTouchingFloor = false;
 
-		std::for_each(colliders.cbegin(), colliders.cend(), [this, &x1, &x2, &y1, &y2](const ColliderComponent* const pColl)
+		for (size_t i{}; i < colliders.size(); ++i)
+		{
+			SDL_Rect box = colliders[i]->GetRect();
+			if (SDL_IntersectRectAndLine(&box, &x1, &y1, &x2, &y2))
 			{
-				SDL_Rect rect = pColl->GetRect();
-				if (SDL_IntersectRectAndLine(&rect, &x1, &y1, &x2, &y2))
-				{
-					m_IsTouchingFloor = true;
-					return;
-				}
-			});
+				m_IsTouchingFloor = true;
+				break;
+			}
+		}
 
 		if (m_IsTouchingFloor)
 		{
@@ -137,15 +137,23 @@ void anemoia::RigidBodyComponent::CheckCollision()
 		int offset = (int)pos.x - x2;
 
 		bool result = false;
-		std::for_each(colliders.cbegin(), colliders.cend(), [&result, &x1, &x2, &y1, &y2](const ColliderComponent* const pColl)
+		for (size_t i{}; i < colliders.size(); ++i)
+		{
+			if (!colliders[i]->IsImportant())
 			{
-				SDL_Rect rect = pColl->GetRect();
-				if (SDL_IntersectRectAndLine(&rect, &x1, &y1, &x2, &y2))
+				if (m_Velocity.y < 0.f)
 				{
-					result = true;
-					return;
+					continue;
 				}
-			});
+			}
+
+			SDL_Rect box = colliders[i]->GetRect();
+			if (SDL_IntersectRectAndLine(&box, &x1, &y1, &x2, &y2))
+			{
+				result = true;
+				break;
+			}
+		}
 
 		if (result)
 		{
@@ -168,15 +176,23 @@ void anemoia::RigidBodyComponent::CheckCollision()
 		int offset = (int)pos.x - x2;
 
 		bool result = false;
-		std::for_each(colliders.cbegin(), colliders.cend(), [&result, &x1, &x2, &y1, &y2](const ColliderComponent* const pColl)
+		for (size_t i{}; i < colliders.size(); ++i)
+		{
+			if (!colliders[i]->IsImportant())
 			{
-				SDL_Rect rect = pColl->GetRect();
-				if (SDL_IntersectRectAndLine(&rect, &x1, &y1, &x2, &y2))
+				if (m_Velocity.y < 0.f)
 				{
-					result = true;
-					return;
+					continue;
 				}
-			});
+			}
+
+			SDL_Rect box = colliders[i]->GetRect();
+			if (SDL_IntersectRectAndLine(&box, &x1, &y1, &x2, &y2))
+			{
+				result = true;
+				break;
+			}
+		}
 
 		if (result)
 		{
