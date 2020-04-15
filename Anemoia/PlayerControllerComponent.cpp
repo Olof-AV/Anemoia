@@ -13,15 +13,15 @@ anemoia::PlayerControllerComponent::PlayerControllerComponent(GameObject* const 
 
 	//Setup input
 	InputManager* const pInput = InputManager::GetInstance();
-	pInput->RegisterCommand(new Command("MoveLeft", pParent->GetParentScene(), 0, XINPUT_GAMEPAD_DPAD_LEFT, 'A', ButtonState::Hold, [this]()
+	pInput->RegisterCommand(new Command("MoveLeft", pParent->GetParentScene(), 0, XINPUT_GAMEPAD_DPAD_LEFT, VK_LEFT, ButtonState::Hold, [this]()
 	{
 		m_InputDir.x = -1.f;
 	}));
-	pInput->RegisterCommand(new Command("MoveRight", pParent->GetParentScene(), 0, XINPUT_GAMEPAD_DPAD_RIGHT, 'D', ButtonState::Hold, [this]()
+	pInput->RegisterCommand(new Command("MoveRight", pParent->GetParentScene(), 0, XINPUT_GAMEPAD_DPAD_RIGHT, VK_RIGHT, ButtonState::Hold, [this]()
 	{
 		m_InputDir.x = 1.f;
 	}));
-	pInput->RegisterCommand(new Command("Jump", pParent->GetParentScene(), 0, XINPUT_GAMEPAD_DPAD_UP, 'W', ButtonState::Down, [this]()
+	pInput->RegisterCommand(new Command("Jump", pParent->GetParentScene(), 0, XINPUT_GAMEPAD_DPAD_UP, 'Z', ButtonState::Down, [this]()
 	{
 		m_InputDir.y = -1.f;
 	}));
