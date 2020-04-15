@@ -99,7 +99,7 @@ void BaseGameScene::Initialise()
 		pBubby->AddComponent(pControl);
 
 		//Add to scene
-		pBubby->SetPosition(glm::vec3(x * 0.25f, y * 0.75f, 0.f));
+		pBubby->SetPosition(glm::vec3(x * 0.12f, y * 0.95f, 0.f));
 		AddChild(pBubby);
 	}
 }
