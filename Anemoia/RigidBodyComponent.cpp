@@ -46,9 +46,9 @@ void anemoia::RigidBodyComponent::Render() const
 
 	//Draw important points
 	SDL_SetRenderDrawColor(pRenderer, 255, 0, 0, 255);
-	SDL_RenderDrawLine(pRenderer, (int)midPoint.x, (int)midPoint.y, int(rect.x + rect.w * 0.5f), int(rect.y + rect.h));
-	SDL_RenderDrawLine(pRenderer, (int)midPoint.x, (int)midPoint.y, int(rect.x), int(rect.y + rect.h * 0.5f));
-	SDL_RenderDrawLine(pRenderer, (int)midPoint.x, (int)midPoint.y, int(rect.x + rect.w), int(rect.y + rect.h * 0.5f));
+	SDL_RenderDrawLine(pRenderer, (int)midPoint.x, int(rect.y + rect.h * 0.9f), int(rect.x + rect.w * 0.5f), int(rect.y + rect.h)); //BOTTOM
+	SDL_RenderDrawLine(pRenderer, (int)midPoint.x, (int)midPoint.y, int(rect.x), int(rect.y + rect.h * 0.5f)); //LEFT
+	SDL_RenderDrawLine(pRenderer, (int)midPoint.x, (int)midPoint.y, int(rect.x + rect.w), int(rect.y + rect.h * 0.5f)); //RIGHT
 }
 
 void anemoia::RigidBodyComponent::Move(const glm::vec2& newPos)
