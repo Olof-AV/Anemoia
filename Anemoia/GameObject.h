@@ -27,6 +27,8 @@ namespace anemoia
 		void LateUpdate(float elapsedSec);
 		void Render() const;
 
+		void OnCollide(GameObject* const pOther);
+
 #pragma region GettersSetters
 		const glm::vec3& GetPosition() const;
 		void SetPosition(const glm::vec3& newPos);

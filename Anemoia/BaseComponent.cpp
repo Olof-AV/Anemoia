@@ -9,6 +9,12 @@ anemoia::BaseComponent::BaseComponent(GameObject* const pParent,
 }
 
 #pragma region GettersSetters
+
+void anemoia::BaseComponent::OnCollide(GameObject* const pOther)
+{
+	UNREFERENCED_PARAMETER(pOther);
+}
+
 const anemoia::Transform& anemoia::BaseComponent::GetTransform() const
 {
 	return m_Transform;

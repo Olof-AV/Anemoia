@@ -111,6 +111,10 @@ void anemoia::RigidBodyComponent::CheckCollision()
 			SDL_Rect box = colliders[i]->GetRect();
 			if (SDL_IntersectRectAndLine(&box, &x1, &y1, &x2, &y2))
 			{
+				//Notify
+				colliders[i]->OnCollide(GetParent());
+				GetParent()->OnCollide(colliders[i]->GetParent());
+
 				m_IsTouchingFloor = true;
 				break;
 			}
@@ -154,6 +158,10 @@ void anemoia::RigidBodyComponent::CheckCollision()
 			SDL_Rect box = colliders[i]->GetRect();
 			if (SDL_IntersectRectAndLine(&box, &x1, &y1, &x2, &y2))
 			{
+				//Notify
+				colliders[i]->OnCollide(GetParent());
+				GetParent()->OnCollide(colliders[i]->GetParent());
+				
 				result = true;
 				break;
 			}
@@ -193,6 +201,10 @@ void anemoia::RigidBodyComponent::CheckCollision()
 			SDL_Rect box = colliders[i]->GetRect();
 			if (SDL_IntersectRectAndLine(&box, &x1, &y1, &x2, &y2))
 			{
+				//Notify
+				colliders[i]->OnCollide(GetParent());
+				GetParent()->OnCollide(colliders[i]->GetParent());
+
 				result = true;
 				break;
 			}

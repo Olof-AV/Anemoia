@@ -55,6 +55,15 @@ void anemoia::GameObject::Render() const
 	});
 }
 
+void anemoia::GameObject::OnCollide(GameObject* const pOther)
+{
+	//Tells all components something happened
+	std::for_each(m_Components.cbegin(), m_Components.cend(), [pOther](BaseComponent* const pComp)
+	{
+		pComp->OnCollide(pOther);
+	});
+}
+
 #pragma region GettersSetters
 const glm::vec3& anemoia::GameObject::GetPosition() const
 {

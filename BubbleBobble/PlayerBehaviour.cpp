@@ -82,3 +82,10 @@ void PlayerBehaviour::LateUpdate(float elapsedSec)
 {
 	UNREFERENCED_PARAMETER(elapsedSec);
 }
+
+void PlayerBehaviour::OnCollide(anemoia::GameObject* const pOther)
+{
+	BaseComponent::OnCollide(pOther);
+
+	std::cout << "test";
+}

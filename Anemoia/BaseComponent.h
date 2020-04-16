@@ -26,6 +26,8 @@ namespace anemoia
 		virtual void LateUpdate(float elapsedSec) = 0;
 		virtual void Render() const = 0;
 
+		virtual void OnCollide(GameObject* const pOther);
+
 #pragma region GettersSetters
 		//Transforms
 		const Transform& GetTransform() const;
