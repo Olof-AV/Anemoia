@@ -9,28 +9,36 @@
 
 #include "ResourceManager.h"
 
-PlayerBehaviour::PlayerBehaviour(anemoia::GameObject* const pParent, anemoia::RigidBodyComponent* const pRigid, anemoia::TextureComponent* const pTexComp)
+PlayerBehaviour::PlayerBehaviour(anemoia::GameObject* const pParent, anemoia::RigidBodyComponent* const pRigid, anemoia::TextureComponent* const pTexComp, bool isP2)
 	: BaseComponent(pParent, anemoia::Transform()), m_pRigid{ pRigid }, m_pTexComp{ pTexComp }
 {
 	m_InputDir = glm::vec2{};
 
+	//Controller ID depending on P1/P2
+	const int controllerId = (isP2) ? 1 : 0;
+
 	//Setup input
 	anemoia::InputManager* const pInput = anemoia::InputManager::GetInstance();
-	pInput->RegisterCommand(new anemoia::Command("MoveLeft", pParent->GetParentScene(), 0, XINPUT_GAMEPAD_DPAD_LEFT, VK_LEFT, anemoia::ButtonState::Hold, [this]()
+	pInput->RegisterCommand(new anemoia::Command("MoveLeft", pParent->GetParentScene(), controllerId,
+		XINPUT_GAMEPAD_DPAD_LEFT, ((isP2) ? VK_NUMPAD4 : VK_LEFT), anemoia::ButtonState::Hold, [this]()
 	{
 		m_InputDir.x = -1.f;
 	}));
-	pInput->RegisterCommand(new anemoia::Command("MoveRight", pParent->GetParentScene(), 0, XINPUT_GAMEPAD_DPAD_RIGHT, VK_RIGHT, anemoia::ButtonState::Hold, [this]()
+	pInput->RegisterCommand(new anemoia::Command("MoveRight", pParent->GetParentScene(), controllerId,
+		XINPUT_GAMEPAD_DPAD_RIGHT, ((isP2) ? VK_NUMPAD6 : VK_RIGHT), anemoia::ButtonState::Hold, [this]()
 	{
 		m_InputDir.x = 1.f;
 	}));
-	pInput->RegisterCommand(new anemoia::Command("Jump", pParent->GetParentScene(), 0, XINPUT_GAMEPAD_A, 'Z', anemoia::ButtonState::Hold, [this]()
+	pInput->RegisterCommand(new anemoia::Command("Jump", pParent->GetParentScene(), controllerId,
+		XINPUT_GAMEPAD_A, ((isP2) ? VK_NUMPAD5 : 'Z'), anemoia::ButtonState::Hold, [this]()
 	{
 		m_InputDir.y = -1.f;
 	}));
 
+	const std::string startPath = ((isP2) ? "Player/Bobby/" : "Player/Bubby/");
+
 	//Load texs
-	m_pTexIdle = anemoia::ResourceManager::GetInstance()->LoadTexture("Player/Bubby/Idle.png");
+	m_pTexIdle = anemoia::ResourceManager::GetInstance()->LoadTexture(startPath + "Idle.png");
 
 	//Set tex for now
 	m_pTexComp->SetTexture(m_pTexIdle);

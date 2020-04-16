@@ -12,7 +12,7 @@ class PlayerBehaviour final : public anemoia::BaseComponent
 {
 public:
 #pragma region Constructors
-	PlayerBehaviour(anemoia::GameObject* const pParent, anemoia::RigidBodyComponent* const pRigid, anemoia::TextureComponent* const pTexComp);
+	PlayerBehaviour(anemoia::GameObject* const pParent, anemoia::RigidBodyComponent* const pRigid, anemoia::TextureComponent* const pTexComp, bool isP2 = false);
 	virtual ~PlayerBehaviour() = default;
 
 	PlayerBehaviour(const PlayerBehaviour& other) = delete;
