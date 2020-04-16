@@ -47,9 +47,6 @@
     <ClCompile Include="FrameCounterScene.cpp">
       <Filter>Scenes\Other</Filter>
     </ClCompile>
-    <ClCompile Include="PlayerBehaviour.cpp">
-      <Filter>GameComponents</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="BubbleBobbleGame.h">
@@ -69,9 +66,6 @@
     </ClInclude>
     <ClInclude Include="FrameCounterScene.h">
       <Filter>Scenes\Other</Filter>
-    </ClInclude>
-    <ClInclude Include="PlayerBehaviour.h">
-      <Filter>GameComponents</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

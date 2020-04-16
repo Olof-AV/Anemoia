@@ -106,6 +106,9 @@
     <ClInclude Include="Observer.h">
       <Filter>Patterns\Observer</Filter>
     </ClInclude>
+    <ClInclude Include="PlayerControllerComponent.h">
+      <Filter>Components</Filter>
+    </ClInclude>
     <ClInclude Include="ColliderComponent.h">
       <Filter>Components</Filter>
     </ClInclude>
@@ -176,6 +179,9 @@
     </ClCompile>
     <ClCompile Include="Observer.cpp">
       <Filter>Patterns\Observer</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayerControllerComponent.cpp">
+      <Filter>Components</Filter>
     </ClCompile>
     <ClCompile Include="ColliderComponent.cpp">
       <Filter>Components</Filter>

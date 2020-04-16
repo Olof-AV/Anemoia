@@ -1,16 +1,15 @@
 #include "pch.h"
 #include "BaseGameScene.h"
 
-#include "Locator.h"
 #include "GameObject.h"
+#include "TextureComponent.h"
 #include "ResourceManager.h"
 
-#include "TextureComponent.h"
+#include "Locator.h"
+#include "HUDComponent.h"
+#include "PlayerControllerComponent.h"
 #include "ColliderComponent.h"
 #include "RigidBodyComponent.h"
-
-#include "HUDComponent.h"
-#include "PlayerBehaviour.h"
 
 #include <regex>
 #include <fstream>
@@ -82,8 +81,9 @@ void BaseGameScene::Initialise()
 		anemoia::GameObject* const pBubby = new anemoia::GameObject(this);
 
 		//Texture
+		anemoia::Texture2D* const pTex = anemoia::ResourceManager::GetInstance()->LoadTexture("Player/Bubby.png");
 		anemoia::Transform transform = anemoia::Transform(glm::vec3(0.f, 0.f, 0.f), glm::vec2(0.5f, 1.f));
-		anemoia::TextureComponent* const pTexComp = new anemoia::TextureComponent(pBubby, transform, nullptr);
+		anemoia::TextureComponent* const pTexComp = new anemoia::TextureComponent(pBubby, transform, pTex);
 		pBubby->AddComponent(pTexComp);
 
 		//Collision
@@ -94,9 +94,9 @@ void BaseGameScene::Initialise()
 		anemoia::RigidBodyComponent* const pRigid = new anemoia::RigidBodyComponent(pBubby, pColl);
 		pBubby->AddComponent(pRigid);
 
-		//Behaviour
-		PlayerBehaviour* const pBehaviour = new PlayerBehaviour(pBubby, pRigid, pTexComp);
-		pBubby->AddComponent(pBehaviour);
+		//Control
+		anemoia::PlayerControllerComponent* const pControl = new anemoia::PlayerControllerComponent(pBubby, pRigid);
+		pBubby->AddComponent(pControl);
 
 		//Tag
 		pBubby->AddTag("Player");
