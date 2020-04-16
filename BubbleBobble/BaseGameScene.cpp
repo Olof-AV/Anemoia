@@ -16,7 +16,7 @@
 #include <fstream>
 
 BaseGameScene::BaseGameScene(UINT levelNum)
-	: Scene("Stage" + std::to_string(levelNum)), m_LevelNum(3)
+	: Scene("Stage" + std::to_string(levelNum)), m_LevelNum(levelNum)
 {
 }
 

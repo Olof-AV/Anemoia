@@ -86,6 +86,4 @@ void PlayerBehaviour::LateUpdate(float elapsedSec)
 void PlayerBehaviour::OnCollide(anemoia::GameObject* const pOther)
 {
 	BaseComponent::OnCollide(pOther);
-
-	std::cout << "test";
 }
