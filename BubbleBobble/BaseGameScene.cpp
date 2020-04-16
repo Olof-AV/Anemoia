@@ -52,6 +52,9 @@ void BaseGameScene::Initialise()
 	//Call root
 	Scene::Initialise();
 
+	//Environment
+	ReadLevelData();
+
 	//Add HUD
 	{
 		//Root
@@ -67,9 +70,6 @@ void BaseGameScene::Initialise()
 		//Add root to scene
 		AddChild(m_pHUD);
 	}
-
-	//Environment
-	ReadLevelData();
 
 	//Get window size to put object there
 	int x, y;
