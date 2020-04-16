@@ -86,4 +86,9 @@ void PlayerBehaviour::LateUpdate(float elapsedSec)
 void PlayerBehaviour::OnCollide(anemoia::GameObject* const pOther)
 {
 	BaseComponent::OnCollide(pOther);
+
+	if (pOther->HasTag("ZenChan"))
+	{
+		std::cout << "Die here";
+	}
 }

@@ -1,3 +1,6 @@
+//ZenChans
+ZenChan=360, 640
+
 //Big tiles left
 BigTile=0, 672
 BigTile=0, 624

@@ -155,6 +155,10 @@ void BaseGameScene::ReadLevelData()
 			{
 				continue;
 			}
+			if (CheckDataForZenChan(input))
+			{
+				continue;
+			}
 		}
 	}
 }
@@ -253,7 +257,6 @@ bool BaseGameScene::CheckDataForBigTile(const std::string& input)
 
 bool BaseGameScene::CheckDataForBigTileInvis(const std::string& input)
 {
-
 	//Reads a block of tile data, with x/y coordinate
 	const std::regex myRegex{ R"(^(?:BigTileInvis=)([-]?\d+(?:\.\d+)?),\s*([-]?\d+(?:\.\d+)?)$)" };
 
@@ -267,6 +270,54 @@ bool BaseGameScene::CheckDataForBigTileInvis(const std::string& input)
 		if (matches.size() == 3)
 		{
 			CreateTile(glm::vec2(std::stof(matches[1]), std::stof(matches[2])), true, true, true);
+
+			return true;
+		}
+	}
+
+	return false;
+}
+
+bool BaseGameScene::CheckDataForZenChan(const std::string& input)
+{
+	//Reads a block of tile data, with x/y coordinate
+	const std::regex myRegex{ R"(^(?:ZenChan=)([-]?\d+(?:\.\d+)?),\s*([-]?\d+(?:\.\d+)?)$)" };
+
+	//Store matches in here
+	std::smatch matches;
+
+	//Search using the regex
+	if (std::regex_search(input, matches, myRegex))
+	{
+		//Only can accept 2 matches + 1 original match
+		if (matches.size() == 3)
+		{
+			//Create ZenChan
+			{
+				//Root
+				anemoia::GameObject* const pBubby = new anemoia::GameObject(this);
+				pBubby->SetPosition(std::stof(matches[1]), std::stof(matches[2]), 0.f);
+
+				//Texture
+				anemoia::Texture2D* pTex = anemoia::ResourceManager::GetInstance()->LoadTexture("Enemies/ZenChan/Run.png");
+				anemoia::Transform transform = anemoia::Transform(glm::vec3(0.f, 0.f, 0.f), glm::vec2(0.5f, 1.f));
+				anemoia::TextureComponent* const pTexComp = new anemoia::TextureComponent(pBubby, transform, pTex);
+				pBubby->AddComponent(pTexComp);
+
+				//Collision
+				anemoia::ColliderComponent* const pColl = new anemoia::ColliderComponent(pBubby, transform, glm::vec2(48.f, 48.f));
+				pBubby->AddComponent(pColl);
+
+				//Rigid body
+				anemoia::RigidBodyComponent* const pRigid = new anemoia::RigidBodyComponent(pBubby, pColl);
+				pBubby->AddComponent(pRigid);
+
+				//Tag
+				pBubby->AddTag("ZenChan");
+
+				//Add to scene
+				AddChild(pBubby);
+			}
 
 			return true;
 		}

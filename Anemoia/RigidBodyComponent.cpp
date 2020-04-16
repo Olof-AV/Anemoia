@@ -142,7 +142,7 @@ void anemoia::RigidBodyComponent::CheckCollision()
 		int y1 = int(rect.y + rect.h * 0.5f);
 		int x2 = int(rect.x);
 		int y2 = y1;
-		int offset = (int)pos.x - x2;
+		const float offset = pos.x - float(x2);
 
 		bool result = false;
 		for (size_t i{}; i < colliders.size(); ++i)
@@ -169,12 +169,12 @@ void anemoia::RigidBodyComponent::CheckCollision()
 
 		if (result)
 		{
-			pos.x = float(x1 + offset);
+			pos.x = x1 + offset;
 			m_Velocity.x = 0.f;
 		}
 	}
 
-	//LEFT COLLISION
+	//RIGHT COLLISION
 	{
 		//Update pos
 		m_pParent->SetPosition(pos);
@@ -185,7 +185,7 @@ void anemoia::RigidBodyComponent::CheckCollision()
 		int y1 = int(rect.y + rect.h * 0.5f);
 		int x2 = int(rect.x + rect.w);
 		int y2 = y1;
-		int offset = (int)pos.x - x2;
+		const float offset = pos.x - (float)x2 + 1.f;
 
 		bool result = false;
 		for (size_t i{}; i < colliders.size(); ++i)
@@ -212,7 +212,7 @@ void anemoia::RigidBodyComponent::CheckCollision()
 
 		if (result)
 		{
-			pos.x = float(x1 + offset);
+			pos.x = x1 + offset;
 			m_Velocity.x = 0.f;
 		}
 	}
