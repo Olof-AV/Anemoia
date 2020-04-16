@@ -98,6 +98,9 @@ void BaseGameScene::Initialise()
 		anemoia::PlayerControllerComponent* const pControl = new anemoia::PlayerControllerComponent(pBubby, pRigid);
 		pBubby->AddComponent(pControl);
 
+		//Tag
+		pBubby->AddTag("Player");
+
 		//Add to scene
 		pBubby->SetPosition(glm::vec3(x * 0.12f, y * 0.95f, 0.f));
 		AddChild(pBubby);

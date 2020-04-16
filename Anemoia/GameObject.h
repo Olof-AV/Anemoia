@@ -1,6 +1,7 @@
 #pragma once
 #include "Transform.h"
 #include "Subject.h"
+#include <unordered_set>
 
 namespace anemoia
 {
@@ -84,10 +85,17 @@ namespace anemoia
 
 #pragma endregion Components
 
+#pragma region Tags
+		bool AddTag(const std::string& tag);
+		bool RemoveTag(const std::string& tag);
+		bool HasTag(const std::string& tag) const;
+#pragma endregion Tags
+
 	private:
 		Scene* m_pParentScene;
 
 		glm::vec3 m_Position;
 		std::vector<BaseComponent*> m_Components;
+		std::unordered_set<std::string> m_Tags;
 	};
 }

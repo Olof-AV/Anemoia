@@ -116,3 +116,22 @@ bool anemoia::GameObject::RemoveComponent(BaseComponent* const pComp)
 	//Was not found
 	return false;
 }
+
+bool anemoia::GameObject::AddTag(const std::string& tag)
+{
+	//This returns whether it was actually inserted or not
+	return m_Tags.insert(tag).second;
+}
+
+bool anemoia::GameObject::RemoveTag(const std::string& tag)
+{
+	//Returns whether something has been removed or not
+	return m_Tags.erase(tag);
+}
+
+bool anemoia::GameObject::HasTag(const std::string& tag) const
+{
+	//Looks for the tag, and simply tells you if it's there or not
+	const std::unordered_set<std::string>::const_iterator cIt = m_Tags.find(tag);
+	return cIt != m_Tags.cend();
+}
