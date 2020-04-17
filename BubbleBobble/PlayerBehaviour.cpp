@@ -24,17 +24,17 @@ PlayerBehaviour::PlayerBehaviour(anemoia::GameObject* const pParent, anemoia::Ri
 	pInput->RegisterCommand(new anemoia::Command("MoveLeft", pParent->GetParentScene(), controllerId,
 		XINPUT_GAMEPAD_DPAD_LEFT, ((isP2) ? VK_NUMPAD4 : VK_LEFT), anemoia::ButtonState::Hold, [this]()
 	{
-		m_InputDir.x = -1.f;
+		m_InputDir.x += -1.f;
 	}));
 	pInput->RegisterCommand(new anemoia::Command("MoveRight", pParent->GetParentScene(), controllerId,
 		XINPUT_GAMEPAD_DPAD_RIGHT, ((isP2) ? VK_NUMPAD6 : VK_RIGHT), anemoia::ButtonState::Hold, [this]()
 	{
-		m_InputDir.x = 1.f;
+		m_InputDir.x += 1.f;
 	}));
 	pInput->RegisterCommand(new anemoia::Command("Jump", pParent->GetParentScene(), controllerId,
 		XINPUT_GAMEPAD_A, ((isP2) ? VK_NUMPAD5 : 'Z'), anemoia::ButtonState::Hold, [this]()
 	{
-		m_InputDir.y = -1.f;
+		m_InputDir.y += -1.f;
 	}));
 
 	const std::string startPath = ((isP2) ? "Player/Bobby/" : "Player/Bubby/");

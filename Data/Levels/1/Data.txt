@@ -1,5 +1,8 @@
 //ZenChans
-ZenChan=360, 640
+ZenChan=550, 200
+ZenChan=475, 200
+ZenChan=400, 200
+ZenChan=325, 200
 
 //Big tiles left
 BigTile=0, 672
