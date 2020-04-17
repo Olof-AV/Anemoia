@@ -24,6 +24,12 @@
     <Filter Include="GameComponents">
       <UniqueIdentifier>{abbaeb39-110c-4578-83d5-06b5d80d4161}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Patterns">
+      <UniqueIdentifier>{6fe2efa2-32c0-4348-bed3-55280014d29f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Patterns\Observer">
+      <UniqueIdentifier>{97d61485-608e-4153-9854-b7e09c9915ff}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main.cpp">
@@ -50,6 +56,9 @@
     <ClCompile Include="PlayerBehaviour.cpp">
       <Filter>GameComponents</Filter>
     </ClCompile>
+    <ClCompile Include="PlayerObserver.cpp">
+      <Filter>Patterns\Observer</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="BubbleBobbleGame.h">
@@ -72,6 +81,9 @@
     </ClInclude>
     <ClInclude Include="PlayerBehaviour.h">
       <Filter>GameComponents</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerObserver.h">
+      <Filter>Patterns\Observer</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

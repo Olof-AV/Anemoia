@@ -4,6 +4,6 @@ namespace anemoia
 {
 	enum class Events
 	{
-
+		PLAYER_DEATH
 	};
 }

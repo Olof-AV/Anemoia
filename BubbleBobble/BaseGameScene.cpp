@@ -12,6 +12,8 @@
 #include "HUDComponent.h"
 #include "PlayerBehaviour.h"
 
+#include "PlayerObserver.h"
+
 #include <regex>
 #include <fstream>
 
@@ -100,6 +102,9 @@ void BaseGameScene::Initialise()
 
 		//Tag
 		pBubby->AddTag("Player");
+
+		//Observer
+		pBubby->AddObserver(new PlayerObserver(true));
 
 		//Add to scene
 		pBubby->SetPosition(glm::vec3(x * 0.12f, y * 0.95f, 0.f));

@@ -204,6 +204,7 @@ xcopy "$(SolutionDir)3rdParty\SDL2_mixer\lib\x64\*.dll" "$(OutputPath)" /R /Y</C
       <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">pch.h</PrecompiledHeaderFile>
     </ClCompile>
     <ClCompile Include="PlayerBehaviour.cpp" />
+    <ClCompile Include="PlayerObserver.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="BaseGameScene.h" />
@@ -213,6 +214,7 @@ xcopy "$(SolutionDir)3rdParty\SDL2_mixer\lib\x64\*.dll" "$(OutputPath)" /R /Y</C
     <ClInclude Include="IntroScene.h" />
     <ClInclude Include="pch.h" />
     <ClInclude Include="PlayerBehaviour.h" />
+    <ClInclude Include="PlayerObserver.h" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Anemoia\Anemoia.vcxproj">

@@ -97,9 +97,14 @@ void PlayerBehaviour::OnCollide(anemoia::GameObject* const pOther)
 {
 	BaseComponent::OnCollide(pOther);
 
-	if (pOther->HasTag("ZenChan"))
+	if (!m_IsDead)
 	{
-		std::cout << "Die here";
-		m_IsDead = true;
+		if (pOther->HasTag("ZenChan"))
+		{
+			std::cout << "Die here";
+			m_IsDead = true;
+
+			m_pParent->Notify(anemoia::Events::PLAYER_DEATH);
+		}
 	}
 }

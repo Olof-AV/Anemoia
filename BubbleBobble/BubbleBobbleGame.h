@@ -28,6 +28,8 @@ public:
 	void SetScoreChanged(bool isP1, bool value);
 	void SetLives(bool isP1, int value);
 
+	void NotifyPlayerDeath(bool isP1);
+
 private:
 	//Mode
 	Gamemode m_CurrentMode;

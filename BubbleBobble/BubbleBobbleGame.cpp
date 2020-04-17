@@ -87,3 +87,12 @@ void BubbleBobbleGame::SetLives(bool isP1, int value)
 {
 	(isP1) ? m_LivesP1 = value : m_LivesP2 = value;
 }
+
+void BubbleBobbleGame::NotifyPlayerDeath(bool isP1)
+{
+	const int amountLives = ((isP1) ? m_LivesP1 : m_LivesP2);
+	if (amountLives > 0)
+	{
+		SetLives(isP1, amountLives - 1);
+	}
+}
