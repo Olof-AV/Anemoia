@@ -130,8 +130,7 @@ void anemoia::Engine::Run()
 		float lag = 0.f;
 
 		//Main game loop
-		bool doContinue = true;
-		while (doContinue)
+		while (m_IsRunning)
 		{
 			//Get current time, and deduce deltaTime from it
 			const std::chrono::steady_clock::time_point currentTime = std::chrono::steady_clock::now();
@@ -142,7 +141,7 @@ void anemoia::Engine::Run()
 			prevTime = std::chrono::steady_clock::now();
 			
 			//Run our loop
-			doContinue = pInput->ProcessInput();
+			m_IsRunning = pInput->ProcessInput();
 
 			while (lag >= m_TimeStep)
 			{
@@ -163,4 +162,9 @@ void anemoia::Engine::Run()
 
 	//Game is closing
 	Cleanup();
+}
+
+void anemoia::Engine::Exit()
+{
+	m_IsRunning = false;
 }

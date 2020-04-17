@@ -95,4 +95,30 @@ void BubbleBobbleGame::NotifyPlayerDeath(bool isP1)
 	{
 		SetLives(isP1, amountLives - 1);
 	}
+	else
+	{
+		switch (m_CurrentMode)
+		{
+		case Gamemode::singleplayer:
+			Exit();
+
+			break;
+
+		case Gamemode::multiplayer:
+			if (m_LivesP1 < 0 && m_LivesP2 < 0)
+			{
+				Exit();
+			}
+
+			break;
+
+		case Gamemode::versus:
+			if (m_LivesP1 < 0)
+			{
+				Exit();
+			}
+
+			break;
+		}
+	}
 }
