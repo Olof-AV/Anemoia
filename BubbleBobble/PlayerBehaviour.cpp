@@ -10,7 +10,9 @@
 #include "ResourceManager.h"
 
 PlayerBehaviour::PlayerBehaviour(anemoia::GameObject* const pParent, anemoia::RigidBodyComponent* const pRigid, anemoia::TextureComponent* const pTexComp, bool isP2)
-	: BaseComponent(pParent, anemoia::Transform()), m_pRigid{ pRigid }, m_pTexComp{ pTexComp }
+	: BaseComponent(pParent, anemoia::Transform()),
+	m_pRigid{ pRigid }, m_pTexComp{ pTexComp },
+	m_IsDead{false}
 {
 	m_InputDir = glm::vec2{};
 
@@ -51,31 +53,39 @@ void PlayerBehaviour::FixedUpdate(float timeStep)
 
 void PlayerBehaviour::Update(float elapsedSec)
 {
-	anemoia::Transform transform = m_pTexComp->GetTransform();
-	if (m_InputDir.x > 0.1f)
+	if (m_IsDead)
 	{
-		transform.SetFlip(SDL_RendererFlip::SDL_FLIP_NONE);
-		m_pTexComp->SetTransform(transform);
+		m_IsDead = false;
+		m_pRigid->Move(glm::vec2(92.f, 620.f));
 	}
-	else if (m_InputDir.x < -0.1f)
+	else
 	{
-		transform.SetFlip(SDL_RendererFlip::SDL_FLIP_HORIZONTAL);
-		m_pTexComp->SetTransform(transform);
+		anemoia::Transform transform = m_pTexComp->GetTransform();
+		if (m_InputDir.x > 0.1f)
+		{
+			transform.SetFlip(SDL_RendererFlip::SDL_FLIP_NONE);
+			m_pTexComp->SetTransform(transform);
+		}
+		else if (m_InputDir.x < -0.1f)
+		{
+			transform.SetFlip(SDL_RendererFlip::SDL_FLIP_HORIZONTAL);
+			m_pTexComp->SetTransform(transform);
+		}
+
+		//Move, will need to be remade because this is just testing stuff
+		glm::vec3 pos = GetParent()->GetPosition();
+		const glm::vec2 newPos(pos.x + m_InputDir.x * 200.f * elapsedSec, pos.y);
+		m_pRigid->Move(newPos);
+
+		//Jump if touching floor
+		if (m_pRigid->IsTouchingFloor())
+		{
+			m_pRigid->AddVelocity(glm::vec2(0.f, m_InputDir.y * 600.f));
+		}
+
+		//Reset
+		m_InputDir = glm::vec2{};
 	}
-
-	//Move, will need to be remade because this is just testing stuff
-	glm::vec3 pos = GetParent()->GetPosition();
-	const glm::vec2 newPos(pos.x + m_InputDir.x * 200.f * elapsedSec, pos.y);
-	m_pRigid->Move(newPos);
-
-	//Jump if touching floor
-	if (m_pRigid->IsTouchingFloor())
-	{
-		m_pRigid->AddVelocity(glm::vec2(0.f, m_InputDir.y * 600.f));
-	}
-
-	//Reset
-	m_InputDir = glm::vec2{};
 }
 
 void PlayerBehaviour::LateUpdate(float elapsedSec)
@@ -90,5 +100,6 @@ void PlayerBehaviour::OnCollide(anemoia::GameObject* const pOther)
 	if (pOther->HasTag("ZenChan"))
 	{
 		std::cout << "Die here";
+		m_IsDead = true;
 	}
 }

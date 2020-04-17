@@ -43,5 +43,7 @@ private:
 	anemoia::Texture2D* m_pTexIdle;
 
 	glm::vec2 m_InputDir;
+
+	bool m_IsDead;
 };
 
