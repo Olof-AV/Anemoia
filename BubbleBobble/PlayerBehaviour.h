@@ -44,6 +44,9 @@ private:
 
 	glm::vec2 m_InputDir;
 
+	float m_MovSpeed;
+	float m_JumpForce;
+
 	bool m_IsDead;
 };
 

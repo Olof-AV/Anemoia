@@ -44,6 +44,10 @@ PlayerBehaviour::PlayerBehaviour(anemoia::GameObject* const pParent, anemoia::Ri
 
 	//Set tex for now
 	m_pTexComp->SetTexture(m_pTexIdle);
+
+	//Params
+	m_MovSpeed = 200.f;
+	m_JumpForce = 600.f;
 }
 
 void PlayerBehaviour::FixedUpdate(float timeStep)
@@ -74,13 +78,13 @@ void PlayerBehaviour::Update(float elapsedSec)
 
 		//Move, will need to be remade because this is just testing stuff
 		glm::vec3 pos = GetParent()->GetPosition();
-		const glm::vec2 newPos(pos.x + m_InputDir.x * 200.f * elapsedSec, pos.y);
+		const glm::vec2 newPos(pos.x + m_InputDir.x * m_MovSpeed * elapsedSec, pos.y);
 		m_pRigid->Move(newPos);
 
 		//Jump if touching floor
 		if (m_pRigid->IsTouchingFloor())
 		{
-			m_pRigid->AddVelocity(glm::vec2(0.f, m_InputDir.y * 600.f));
+			m_pRigid->AddVelocity(glm::vec2(0.f, m_InputDir.y * m_JumpForce));
 		}
 
 		//Reset
