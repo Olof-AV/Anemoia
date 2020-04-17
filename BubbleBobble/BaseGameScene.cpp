@@ -300,28 +300,28 @@ bool BaseGameScene::CheckDataForZenChan(const std::string& input)
 			//Create ZenChan
 			{
 				//Root
-				anemoia::GameObject* const pBubby = new anemoia::GameObject(this);
-				pBubby->SetPosition(std::stof(matches[1]), std::stof(matches[2]), 0.f);
+				anemoia::GameObject* const pZen = new anemoia::GameObject(this);
+				pZen->SetPosition(std::stof(matches[1]), std::stof(matches[2]), 0.f);
 
 				//Texture
 				anemoia::Texture2D* pTex = anemoia::ResourceManager::GetInstance()->LoadTexture("Enemies/ZenChan/Run.png");
 				anemoia::Transform transform = anemoia::Transform(glm::vec3(0.f, 0.f, 0.f), glm::vec2(0.5f, 1.f));
-				anemoia::TextureComponent* const pTexComp = new anemoia::TextureComponent(pBubby, transform, pTex);
-				pBubby->AddComponent(pTexComp);
+				anemoia::TextureComponent* const pTexComp = new anemoia::TextureComponent(pZen, transform, pTex);
+				pZen->AddComponent(pTexComp);
 
 				//Collision
-				anemoia::ColliderComponent* const pColl = new anemoia::ColliderComponent(pBubby, transform, glm::vec2(48.f, 48.f));
-				pBubby->AddComponent(pColl);
+				anemoia::ColliderComponent* const pColl = new anemoia::ColliderComponent(pZen, transform, glm::vec2(48.f, 48.f));
+				pZen->AddComponent(pColl);
 
 				//Rigid body
-				anemoia::RigidBodyComponent* const pRigid = new anemoia::RigidBodyComponent(pBubby, pColl);
-				pBubby->AddComponent(pRigid);
+				anemoia::RigidBodyComponent* const pRigid = new anemoia::RigidBodyComponent(pZen, pColl);
+				pZen->AddComponent(pRigid);
 
 				//Tag
-				pBubby->AddTag("ZenChan");
+				pZen->AddTag("ZenChan");
 
 				//Add to scene
-				AddChild(pBubby);
+				AddChild(pZen);
 			}
 
 			return true;
