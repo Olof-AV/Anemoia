@@ -62,6 +62,9 @@
     <ClCompile Include="ZenBehaviour.cpp">
       <Filter>GameComponents</Filter>
     </ClCompile>
+    <ClCompile Include="BubbleBehaviour.cpp">
+      <Filter>GameComponents</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="BubbleBobbleGame.h">
@@ -89,6 +92,9 @@
       <Filter>Patterns\Observer</Filter>
     </ClInclude>
     <ClInclude Include="ZenBehaviour.h">
+      <Filter>GameComponents</Filter>
+    </ClInclude>
+    <ClInclude Include="BubbleBehaviour.h">
       <Filter>GameComponents</Filter>
     </ClInclude>
   </ItemGroup>

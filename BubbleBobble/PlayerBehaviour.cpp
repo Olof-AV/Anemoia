@@ -8,6 +8,7 @@
 #include "RigidBodyComponent.h"
 #include "TextureComponent.h"
 #include "ColliderComponent.h"
+#include "BubbleBehaviour.h"
 
 #include "ResourceManager.h"
 
@@ -172,9 +173,14 @@ void PlayerBehaviour::ShootBubble()
 	pObj->AddComponent(pTexComp);
 
 	//Rigid
-	anemoia::RigidBodyComponent* const pRigid = new anemoia::RigidBodyComponent(pObj, pColl);
+	anemoia::RigidBodyComponent* const pRigid = new anemoia::RigidBodyComponent(pObj, pColl, 0.f);
 	pObj->AddComponent(pRigid);
 	pRigid->AddIgnoreTag("Treasure");
+	pRigid->AddIgnoreTag("Bubble");
+
+	//Bubble behaviour
+	BubbleBehaviour* const pBehaviour = new BubbleBehaviour(pObj, pRigid, pTexComp);
+	pObj->AddComponent(pBehaviour);
 
 	//Tag
 	pObj->AddTag("Bubble");

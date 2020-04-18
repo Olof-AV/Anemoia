@@ -130,4 +130,8 @@ void ZenBehaviour::OnCollide(anemoia::GameObject* const pOther)
 	{
 		m_pPlayer->GetComponent<PlayerBehaviour>()->Die();
 	}
+	else if (pOther->HasTag("Bubble"))
+	{
+		m_pParent->GetParentScene()->RemoveChild(m_pParent);
+	}
 }

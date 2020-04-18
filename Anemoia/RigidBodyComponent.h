@@ -10,7 +10,7 @@ namespace anemoia
 	{
 	public:
 #pragma region Constructors
-		RigidBodyComponent(GameObject* const pParent, ColliderComponent* const pColl);
+		RigidBodyComponent(GameObject* const pParent, ColliderComponent* const pColl, float gravity = 1400.f);
 		virtual ~RigidBodyComponent() = default;
 
 		RigidBodyComponent(const RigidBodyComponent& other) = delete;
@@ -51,7 +51,7 @@ namespace anemoia
 
 		ColliderComponent* m_pLinkedCollider;
 
-		float m_Gravity = 1400.f;
+		float m_Gravity;
 		glm::vec2 m_Velocity{};
 
 		bool m_IsTouchingFloor = false;
