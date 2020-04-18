@@ -47,6 +47,9 @@ PlayerBehaviour::PlayerBehaviour(anemoia::GameObject* const pParent, anemoia::Ri
 	//Params
 	m_MovSpeed = 200.f;
 	m_JumpForce = 600.f;
+	m_IsInvincible = false;
+	m_InvincibilityTimer = 0.f;
+	m_InvincibilityTimerMax = 3.f;
 }
 
 void PlayerBehaviour::FixedUpdate(float timeStep)
@@ -60,6 +63,7 @@ void PlayerBehaviour::Update(float elapsedSec)
 
 	if (m_IsDead)
 	{
+		m_IsInvincible = true;
 		m_IsDead = false;
 		m_pRigid->Move(glm::vec2(92.f, 620.f));
 		m_pRigid->SetVelocity(glm::vec2(0.f, 0.f));
@@ -91,6 +95,20 @@ void PlayerBehaviour::Update(float elapsedSec)
 		//Reset
 		m_InputDir = glm::vec2{};
 	}
+
+	//Invincibility timer
+	if (m_IsInvincible)
+	{
+		if (m_InvincibilityTimer < m_InvincibilityTimerMax)
+		{
+			m_InvincibilityTimer += elapsedSec;
+		}
+		else
+		{
+			m_InvincibilityTimer = 0.f;
+			m_IsInvincible = false;
+		}
+	}
 }
 
 void PlayerBehaviour::LateUpdate(float elapsedSec)
@@ -102,19 +120,19 @@ void PlayerBehaviour::OnCollide(anemoia::GameObject* const pOther)
 {
 	BaseComponent::OnCollide(pOther);
 
-	if (!m_IsDead)
+	if (pOther->HasTag("ZenChan"))
 	{
-		if (pOther->HasTag("ZenChan"))
-		{
-			Die();
-		}
+		Die();
 	}
 }
 
 void PlayerBehaviour::Die()
 {
-	std::cout << "Die here";
-	m_IsDead = true;
+	if (!m_IsDead && !m_IsInvincible)
+	{
+		std::cout << "Die here";
+		m_IsDead = true;
 
-	m_pParent->Notify(anemoia::Events::PLAYER_DEATH);
+		m_pParent->Notify(anemoia::Events::PLAYER_DEATH);
+	}
 }

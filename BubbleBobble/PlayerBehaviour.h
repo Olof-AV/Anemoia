@@ -50,6 +50,10 @@ private:
 	float m_MovSpeed;
 	float m_JumpForce;
 
+	//Death stuff
 	bool m_IsDead;
+	bool m_IsInvincible;
+	float m_InvincibilityTimer;
+	float m_InvincibilityTimerMax;
 };
 
