@@ -93,11 +93,18 @@ namespace anemoia
 		bool HasTag(const std::string& tag) const;
 #pragma endregion Tags
 
+#pragma region MarkForDelete
+		bool GetMarkForDelete() const;
+		void SetMarkForDelete(bool value);
+#pragma endregion MarkForDelete
+
 	private:
 		Scene* m_pParentScene;
 
 		glm::vec3 m_Position;
 		std::vector<BaseComponent*> m_Components;
 		std::unordered_set<std::string> m_Tags;
+
+		bool m_MarkForDelete = false;
 	};
 }

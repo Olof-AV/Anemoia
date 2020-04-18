@@ -27,8 +27,39 @@ void anemoia::Scene::AddChild(GameObject* const pObject)
 	pObject->SetParentScene(this);
 }
 
+void anemoia::Scene::RemoveChild(GameObject* const pObject)
+{
+	//Check if in current scene
+	const std::vector<GameObject*>::const_iterator cIt = std::find(m_Objects.cbegin(), m_Objects.cend(), pObject);
+
+	//Exists?
+	if (cIt != m_Objects.cend())
+	{
+		(*cIt)->SetMarkForDelete(true);
+		m_ObjectsToDelete = true;
+	}
+}
+
 void anemoia::Scene::FixedUpdate(float timeStep)
 {
+	//Remove objects we planned to delete
+	if (m_ObjectsToDelete)
+	{
+		const std::vector<GameObject*>::const_iterator cIt = std::remove_if(m_Objects.begin(), m_Objects.end(), [](GameObject* const pObject)
+		{
+			if (pObject->GetMarkForDelete())
+			{
+				delete pObject;
+				return true;
+			}
+			return false;
+		});
+		m_Objects.erase(cIt, m_Objects.cend());
+
+		//Stop
+		m_ObjectsToDelete = false;
+	}
+
 	//Update all objects
 	std::for_each(m_Objects.cbegin(), m_Objects.cend(), [timeStep](GameObject* const pObject)
 	{

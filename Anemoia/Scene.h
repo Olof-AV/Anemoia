@@ -21,6 +21,7 @@ namespace anemoia
 
 		//GameObject stuff
 		void AddChild(GameObject* const pObject);
+		void RemoveChild(GameObject* const pObject);
 
 		//Update loop stuff
 		virtual void FixedUpdate(float timeStep);
@@ -50,6 +51,8 @@ namespace anemoia
 		std::vector<GameObject*> m_Objects{};
 
 		std::vector<ColliderComponent*> m_Collision{};
+
+		bool m_ObjectsToDelete = false;
 
 		//static unsigned int m_IdCounter;
 	};
