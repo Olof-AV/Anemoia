@@ -141,7 +141,8 @@ void anemoia::Engine::Run()
 			prevTime = std::chrono::steady_clock::now();
 			
 			//Run our loop
-			m_IsRunning = pInput->ProcessInput();
+			const bool result = pInput->ProcessInput();
+			if (!result) { break; }
 
 			while (lag >= m_TimeStep)
 			{
