@@ -18,9 +18,12 @@
 #include <regex>
 #include <fstream>
 
+#include "SceneManager.h"
+
 BaseGameScene::BaseGameScene(UINT levelNum)
 	: Scene("Stage" + std::to_string(levelNum)), m_LevelNum(levelNum)
 {
+	m_Enemies.clear();
 }
 
 BaseGameScene::~BaseGameScene()
@@ -90,6 +93,23 @@ void BaseGameScene::OnSceneDeactivated()
 {
 	//Call root
 	Scene::OnSceneDeactivated();
+}
+
+void BaseGameScene::NotifyEnemyDeath(anemoia::GameObject* const pObj)
+{
+	if (m_Enemies.size() > 0)
+	{
+		const std::vector<anemoia::GameObject*>::const_iterator cIt = std::find(m_Enemies.cbegin(), m_Enemies.cend(), pObj);
+
+		if (cIt != m_Enemies.cend())
+		{
+			m_Enemies.erase(cIt);
+			if (m_Enemies.size() == 0)
+			{
+				anemoia::SceneManager::GetInstance()->SetActiveScene("Stage" + std::to_string(m_LevelNum + 1));
+			}
+		}
+	}
 }
 
 void BaseGameScene::ReadLevelData()
@@ -299,6 +319,9 @@ bool BaseGameScene::CheckDataForZenChan(const std::string& input)
 
 				//Add to scene
 				AddChild(pZen);
+
+				//This is an enemy
+				m_Enemies.emplace_back(pZen);
 			}
 
 			return true;

@@ -35,6 +35,9 @@ public:
 	virtual void OnSceneActivated() override;
 	virtual void OnSceneDeactivated() override;
 
+	//Specific functions
+	void NotifyEnemyDeath(anemoia::GameObject* const pObj);
+
 protected:
 	void ReadLevelData();
 
@@ -50,4 +53,6 @@ protected:
 
 	anemoia::GameObject* m_pHUD = nullptr;
 	UINT m_LevelNum = 0;
+
+	std::vector<anemoia::GameObject*> m_Enemies;
 };

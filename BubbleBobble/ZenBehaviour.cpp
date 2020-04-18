@@ -6,6 +6,7 @@
 #include "TextureComponent.h"
 
 #include "Scene.h"
+#include "BaseGameScene.h"
 #include "ResourceManager.h"
 
 #include "PlayerBehaviour.h"
@@ -133,5 +134,7 @@ void ZenBehaviour::OnCollide(anemoia::GameObject* const pOther)
 	else if (pOther->HasTag("Bubble"))
 	{
 		m_pParent->GetParentScene()->RemoveChild(m_pParent);
+		m_pParent->GetParentScene()->RemoveChild(pOther);
+		static_cast<BaseGameScene*>(m_pParent->GetParentScene())->NotifyEnemyDeath(m_pParent);
 	}
 }
