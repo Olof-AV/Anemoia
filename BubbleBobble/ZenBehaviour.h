@@ -9,17 +9,17 @@ namespace anemoia
 	class GameObject;
 }
 
-class PlayerBehaviour final : public anemoia::BaseComponent
+class ZenBehaviour final : public anemoia::BaseComponent
 {
 public:
 #pragma region Constructors
-	PlayerBehaviour(anemoia::GameObject* const pParent, anemoia::RigidBodyComponent* const pRigid, anemoia::TextureComponent* const pTexComp, bool isP2 = false);
-	virtual ~PlayerBehaviour() = default;
+	ZenBehaviour(anemoia::GameObject* const pParent, anemoia::RigidBodyComponent* const pRigid, anemoia::TextureComponent* const pTexComp);
+	virtual ~ZenBehaviour() = default;
 
-	PlayerBehaviour(const PlayerBehaviour& other) = delete;
-	PlayerBehaviour(PlayerBehaviour&& other) = delete;
-	PlayerBehaviour& operator=(const PlayerBehaviour& other) = delete;
-	PlayerBehaviour& operator=(PlayerBehaviour&& other) = delete;
+	ZenBehaviour(const ZenBehaviour& other) = delete;
+	ZenBehaviour(ZenBehaviour&& other) = delete;
+	ZenBehaviour& operator=(const ZenBehaviour& other) = delete;
+	ZenBehaviour& operator=(ZenBehaviour&& other) = delete;
 #pragma endregion Constructors
 
 	//Overrides
@@ -36,14 +36,13 @@ public:
 	void SetTransform(const anemoia::Transform & newTransform) = delete;
 #pragma region Delete
 
-	//Functions
-	void Die();
-
 private:
 	anemoia::RigidBodyComponent* m_pRigid;
 	anemoia::TextureComponent* m_pTexComp;
 
 	anemoia::Texture2D* m_pTexIdle;
+
+	anemoia::GameObject* m_pPlayer;
 
 	glm::vec2 m_InputDir;
 

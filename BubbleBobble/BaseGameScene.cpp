@@ -11,6 +11,7 @@
 
 #include "HUDComponent.h"
 #include "PlayerBehaviour.h"
+#include "ZenBehaviour.h"
 
 #include "PlayerObserver.h"
 
@@ -77,39 +78,6 @@ void BaseGameScene::Initialise()
 	//Get window size to put object there
 	int x, y;
 	SDL_GetWindowSize(anemoia::Locator::GetWindow(), &x, &y);
-
-	//Add players and stuff
-	{
-		//Root
-		anemoia::GameObject* const pBubby = new anemoia::GameObject(this);
-
-		//Texture
-		anemoia::Transform transform = anemoia::Transform(glm::vec3(0.f, 0.f, 0.f), glm::vec2(0.5f, 1.f));
-		anemoia::TextureComponent* const pTexComp = new anemoia::TextureComponent(pBubby, transform, nullptr);
-		pBubby->AddComponent(pTexComp);
-
-		//Collision
-		anemoia::ColliderComponent* const pColl = new anemoia::ColliderComponent(pBubby, transform, glm::vec2(48.f, 48.f));
-		pBubby->AddComponent(pColl);
-
-		//Rigid body
-		anemoia::RigidBodyComponent* const pRigid = new anemoia::RigidBodyComponent(pBubby, pColl);
-		pBubby->AddComponent(pRigid);
-
-		//Behaviour
-		PlayerBehaviour* const pBehaviour = new PlayerBehaviour(pBubby, pRigid, pTexComp);
-		pBubby->AddComponent(pBehaviour);
-
-		//Tag
-		pBubby->AddTag("Player");
-
-		//Observer
-		pBubby->AddObserver(new PlayerObserver(true));
-
-		//Add to scene
-		pBubby->SetPosition(glm::vec3(x * 0.12f, y * 0.95f, 0.f));
-		AddChild(pBubby);
-	}
 }
 
 void BaseGameScene::OnSceneActivated()
@@ -161,6 +129,10 @@ void BaseGameScene::ReadLevelData()
 				continue;
 			}
 			if (CheckDataForZenChan(input))
+			{
+				continue;
+			}
+			if (CheckDataForPlayer(input))
 			{
 				continue;
 			}
@@ -304,9 +276,8 @@ bool BaseGameScene::CheckDataForZenChan(const std::string& input)
 				pZen->SetPosition(std::stof(matches[1]), std::stof(matches[2]), 0.f);
 
 				//Texture
-				anemoia::Texture2D* pTex = anemoia::ResourceManager::GetInstance()->LoadTexture("Enemies/ZenChan/Run.png");
 				anemoia::Transform transform = anemoia::Transform(glm::vec3(0.f, 0.f, 0.f), glm::vec2(0.5f, 1.f));
-				anemoia::TextureComponent* const pTexComp = new anemoia::TextureComponent(pZen, transform, pTex);
+				anemoia::TextureComponent* const pTexComp = new anemoia::TextureComponent(pZen, transform, nullptr);
 				pZen->AddComponent(pTexComp);
 
 				//Collision
@@ -317,11 +288,72 @@ bool BaseGameScene::CheckDataForZenChan(const std::string& input)
 				anemoia::RigidBodyComponent* const pRigid = new anemoia::RigidBodyComponent(pZen, pColl);
 				pZen->AddComponent(pRigid);
 
+				//Behaviour
+				ZenBehaviour* const pBehaviour = new ZenBehaviour(pZen, pRigid, pTexComp);
+				pZen->AddComponent(pBehaviour);
+
 				//Tag
 				pZen->AddTag("ZenChan");
 
 				//Add to scene
 				AddChild(pZen);
+			}
+
+			return true;
+		}
+	}
+
+	return false;
+}
+
+bool BaseGameScene::CheckDataForPlayer(const std::string& input)
+{
+	//Reads a block of tile data, with x/y coordinate
+	const std::regex myRegex{ R"(^(?:Player=)([-]?\d+(?:\.\d+)?),\s*([-]?\d+(?:\.\d+)?),\s*(\w+)$)" };
+
+	//Store matches in here
+	std::smatch matches;
+
+	//Search using the regex
+	if (std::regex_search(input, matches, myRegex))
+	{
+		//Only can accept 3 matches + 1 original match
+		if (matches.size() == 4)
+		{
+			//Add players and stuff
+			{
+				//Is this P1?
+				const bool isP1 = (matches[3].str().compare("true") == 0) ? true : false;
+
+				//Root
+				anemoia::GameObject* const pPlayer = new anemoia::GameObject(this);
+				pPlayer->SetPosition(std::stof(matches[1]), std::stof(matches[2]), 0.f);
+
+				//Texture
+				anemoia::Transform transform = anemoia::Transform(glm::vec3(0.f, 0.f, 0.f), glm::vec2(0.5f, 1.f));
+				anemoia::TextureComponent* const pTexComp = new anemoia::TextureComponent(pPlayer, transform, nullptr);
+				pPlayer->AddComponent(pTexComp);
+
+				//Collision
+				anemoia::ColliderComponent* const pColl = new anemoia::ColliderComponent(pPlayer, transform, glm::vec2(48.f, 48.f));
+				pPlayer->AddComponent(pColl);
+
+				//Rigid body
+				anemoia::RigidBodyComponent* const pRigid = new anemoia::RigidBodyComponent(pPlayer, pColl);
+				pPlayer->AddComponent(pRigid);
+
+				//Behaviour
+				PlayerBehaviour* const pBehaviour = new PlayerBehaviour(pPlayer, pRigid, pTexComp, !isP1);
+				pPlayer->AddComponent(pBehaviour);
+
+				//Tag
+				pPlayer->AddTag("Player");
+
+				//Observer
+				pPlayer->AddObserver(new PlayerObserver(true));
+
+				//Add to scene
+				AddChild(pPlayer);
 			}
 
 			return true;

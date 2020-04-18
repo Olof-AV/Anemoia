@@ -108,3 +108,19 @@ const std::vector<anemoia::ColliderComponent*>& anemoia::Scene::GetColliders() c
 	return m_Collision;
 }
 
+anemoia::GameObject* anemoia::Scene::GetObjectWithTag(const std::string& tag) const
+{
+	//Find FIRST object with tag
+	const std::vector<anemoia::GameObject*>::const_iterator cIt = std::find_if(m_Objects.cbegin(), m_Objects.cend(), [&tag](anemoia::GameObject* const pObject)
+	{
+		return pObject->HasTag(tag);
+	});
+
+	//Return, can be nullptr though
+	if (cIt != m_Objects.cend())
+	{
+		return *cIt;
+	}
+	return nullptr;
+}
+

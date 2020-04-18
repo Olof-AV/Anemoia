@@ -1,3 +1,6 @@
+//Players
+Player=92, 620, true
+
 //Big tiles left
 BigTile=0, 672
 BigTile=0, 624

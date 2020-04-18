@@ -67,16 +67,19 @@ void anemoia::RigidBodyComponent::Move(const glm::vec2& newPos)
 	CheckCollision();
 }
 
-void anemoia::RigidBodyComponent::AddVelocity(const glm::vec2& value, bool add)
+void anemoia::RigidBodyComponent::AddVelocity(const glm::vec2& value)
 {
-	if (add)
-	{
-		m_Velocity += value;
-	}
-	else
-	{
-		m_Velocity = value;
-	}
+	m_Velocity += value;
+}
+
+void anemoia::RigidBodyComponent::SetVelocity(const glm::vec2& value)
+{
+	m_Velocity = value;
+}
+
+const glm::vec2& anemoia::RigidBodyComponent::GetVelocity() const
+{
+	return m_Velocity;
 }
 
 bool anemoia::RigidBodyComponent::IsTouchingFloor() const

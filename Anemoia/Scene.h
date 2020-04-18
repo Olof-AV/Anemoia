@@ -42,6 +42,9 @@ namespace anemoia
 		void RemoveCollider(ColliderComponent* const pColl);
 		const std::vector<ColliderComponent*> &GetColliders() const;
 
+		//Tags
+		GameObject* GetObjectWithTag(const std::string& tag) const;
+
 	private:
 		std::string m_Name;
 		std::vector<GameObject*> m_Objects{};

@@ -59,6 +59,9 @@
     <ClCompile Include="PlayerObserver.cpp">
       <Filter>Patterns\Observer</Filter>
     </ClCompile>
+    <ClCompile Include="ZenBehaviour.cpp">
+      <Filter>GameComponents</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="BubbleBobbleGame.h">
@@ -84,6 +87,9 @@
     </ClInclude>
     <ClInclude Include="PlayerObserver.h">
       <Filter>Patterns\Observer</Filter>
+    </ClInclude>
+    <ClInclude Include="ZenBehaviour.h">
+      <Filter>GameComponents</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

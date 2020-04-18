@@ -1,3 +1,6 @@
+//Players
+Player=92, 620, true
+
 //ZenChans
 ZenChan=550, 200
 ZenChan=475, 200

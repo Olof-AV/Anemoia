@@ -32,7 +32,9 @@ namespace anemoia
 
 		//Functions
 		void Move(const glm::vec2& newPos);
-		void AddVelocity(const glm::vec2 &value, bool add = true);
+		void AddVelocity(const glm::vec2 &value);
+		void SetVelocity(const glm::vec2& value);
+		const glm::vec2 &GetVelocity() const;
 		bool IsTouchingFloor() const;
 
 	private:

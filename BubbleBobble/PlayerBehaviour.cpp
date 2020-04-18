@@ -37,9 +37,8 @@ PlayerBehaviour::PlayerBehaviour(anemoia::GameObject* const pParent, anemoia::Ri
 		m_InputDir.y += -1.f;
 	}));
 
+	//Load textures
 	const std::string startPath = ((isP2) ? "Player/Bobby/" : "Player/Bubby/");
-
-	//Load texs
 	m_pTexIdle = anemoia::ResourceManager::GetInstance()->LoadTexture(startPath + "Idle.png");
 
 	//Set tex for now
@@ -57,10 +56,13 @@ void PlayerBehaviour::FixedUpdate(float timeStep)
 
 void PlayerBehaviour::Update(float elapsedSec)
 {
+	UNREFERENCED_PARAMETER(elapsedSec);
+
 	if (m_IsDead)
 	{
 		m_IsDead = false;
 		m_pRigid->Move(glm::vec2(92.f, 620.f));
+		m_pRigid->SetVelocity(glm::vec2(0.f, 0.f));
 	}
 	else
 	{
@@ -77,9 +79,8 @@ void PlayerBehaviour::Update(float elapsedSec)
 		}
 
 		//Move, will need to be remade because this is just testing stuff
-		glm::vec3 pos = GetParent()->GetPosition();
-		const glm::vec2 newPos(pos.x + m_InputDir.x * m_MovSpeed * elapsedSec, pos.y);
-		m_pRigid->Move(newPos);
+		const glm::vec2 velocity = m_pRigid->GetVelocity();
+		m_pRigid->SetVelocity(glm::vec2(m_InputDir.x * m_MovSpeed, velocity.y));
 
 		//Jump if touching floor
 		if (m_pRigid->IsTouchingFloor())
@@ -105,10 +106,15 @@ void PlayerBehaviour::OnCollide(anemoia::GameObject* const pOther)
 	{
 		if (pOther->HasTag("ZenChan"))
 		{
-			std::cout << "Die here";
-			m_IsDead = true;
-
-			m_pParent->Notify(anemoia::Events::PLAYER_DEATH);
+			Die();
 		}
 	}
+}
+
+void PlayerBehaviour::Die()
+{
+	std::cout << "Die here";
+	m_IsDead = true;
+
+	m_pParent->Notify(anemoia::Events::PLAYER_DEATH);
 }
