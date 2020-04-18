@@ -37,6 +37,9 @@ public:
 #pragma region Delete
 
 private:
+	float m_BurstTimer;
+	float m_BurstTimerMax;
+
 	glm::vec2 m_Movement;
 	float m_SlowDownRate;
 	bool m_MovesLeft;

@@ -24,6 +24,8 @@ BubbleBehaviour::BubbleBehaviour(anemoia::GameObject* const pParent, anemoia::Ri
 	m_Movement = glm::vec2();
 	m_Movement.x = (movesLeft) ? -200.f : 200.f;
 	m_SlowDownRate = 100.f;
+	m_BurstTimer = 0.f;
+	m_BurstTimerMax = 7.f;
 }
 
 void BubbleBehaviour::FixedUpdate(float timeStep)
@@ -33,9 +35,8 @@ void BubbleBehaviour::FixedUpdate(float timeStep)
 
 void BubbleBehaviour::Update(float elapsedSec)
 {
-	UNREFERENCED_PARAMETER(elapsedSec);
+	//Bubble slows down
 	m_pRigid->SetVelocity(m_Movement);
-
 	if (m_MovesLeft)
 	{
 		if (m_Movement.x < 0.f)
@@ -57,6 +58,15 @@ void BubbleBehaviour::Update(float elapsedSec)
 		{
 			m_Movement.x = 0.f;
 		}
+	}
+
+	if (m_BurstTimer < m_BurstTimerMax)
+	{
+		m_BurstTimer += elapsedSec;
+	}
+	else
+	{
+		m_pParent->GetParentScene()->RemoveChild(m_pParent);
 	}
 }
 
