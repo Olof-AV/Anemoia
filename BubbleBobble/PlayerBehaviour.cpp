@@ -4,10 +4,14 @@
 #include "InputManager.h"
 #include "Command.h"
 #include "GameObject.h"
+
 #include "RigidBodyComponent.h"
 #include "TextureComponent.h"
+#include "ColliderComponent.h"
 
 #include "ResourceManager.h"
+
+#include "Scene.h"
 
 PlayerBehaviour::PlayerBehaviour(anemoia::GameObject* const pParent, anemoia::RigidBodyComponent* const pRigid, anemoia::TextureComponent* const pTexComp, bool isP2)
 	: BaseComponent(pParent, anemoia::Transform()),
@@ -37,7 +41,7 @@ PlayerBehaviour::PlayerBehaviour(anemoia::GameObject* const pParent, anemoia::Ri
 		m_InputDir.y += -1.f;
 	}));
 	pInput->RegisterCommand(new anemoia::Command("Shoot", pParent->GetParentScene(), controllerId,
-		XINPUT_GAMEPAD_X, ((isP2) ? VK_NUMPAD5 : 'X'), anemoia::ButtonState::Down, std::bind(&PlayerBehaviour::Die, this) ));
+		XINPUT_GAMEPAD_X, ((isP2) ? VK_NUMPAD5 : 'X'), anemoia::ButtonState::Down, std::bind(&PlayerBehaviour::ShootBubble, this) ));
 
 	//Load textures
 	const std::string startPath = ((isP2) ? "Player/Bobby/" : "Player/Bubby/");
@@ -142,4 +146,39 @@ void PlayerBehaviour::Die()
 
 		m_pParent->Notify(anemoia::Events::PLAYER_DEATH);
 	}
+}
+
+void PlayerBehaviour::ShootBubble()
+{
+	//Params
+	const bool isLookingLeft = (m_pTexComp->GetTransform().GetFlip() == SDL_FLIP_HORIZONTAL) ? true : false;
+	anemoia::Scene* pScene = GetParent()->GetParentScene();
+
+	//Obj
+	anemoia::GameObject* const pObj = new anemoia::GameObject(pScene);
+	glm::vec3 finalPos = GetParent()->GetPosition();
+	finalPos += ((isLookingLeft) ? glm::vec3(-60.f, -28.f, 0.f) : glm::vec3(60.f, -28.f, 0.f));
+	pObj->SetPosition(finalPos);
+
+	//Transform
+	anemoia::Transform transform = anemoia::Transform(glm::vec3(), glm::vec2(0.5f, 0.5f));
+
+	//Collider 
+	anemoia::ColliderComponent* const pColl = new anemoia::ColliderComponent(pObj, transform, glm::vec2(48.f, 48.f), true);
+	pObj->AddComponent(pColl);
+
+	//Texture
+	anemoia::TextureComponent* const pTexComp = new anemoia::TextureComponent(pObj, transform, nullptr);
+	pObj->AddComponent(pTexComp);
+
+	//Rigid
+	anemoia::RigidBodyComponent* const pRigid = new anemoia::RigidBodyComponent(pObj, pColl);
+	pObj->AddComponent(pRigid);
+	pRigid->AddIgnoreTag("Treasure");
+
+	//Tag
+	pObj->AddTag("Bubble");
+
+	//Add to scene
+	pScene->AddChild(pObj);
 }

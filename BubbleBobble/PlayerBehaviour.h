@@ -38,6 +38,7 @@ public:
 
 	//Functions
 	void Die();
+	void ShootBubble();
 
 private:
 	anemoia::RigidBodyComponent* m_pRigid;
