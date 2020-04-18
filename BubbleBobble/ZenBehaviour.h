@@ -48,6 +48,7 @@ private:
 
 	float m_MovSpeed;
 	float m_JumpForce;
+	float m_Threshold;
 
 	bool m_IsDead;
 };
