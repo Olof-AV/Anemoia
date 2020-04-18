@@ -179,7 +179,7 @@ void PlayerBehaviour::ShootBubble()
 	pRigid->AddIgnoreTag("Bubble");
 
 	//Bubble behaviour
-	BubbleBehaviour* const pBehaviour = new BubbleBehaviour(pObj, pRigid, pTexComp);
+	BubbleBehaviour* const pBehaviour = new BubbleBehaviour(pObj, pRigid, pTexComp, isLookingLeft);
 	pObj->AddComponent(pBehaviour);
 
 	//Tag

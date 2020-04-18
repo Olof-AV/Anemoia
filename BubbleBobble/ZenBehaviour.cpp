@@ -126,9 +126,9 @@ void ZenBehaviour::LateUpdate(float elapsedSec)
 void ZenBehaviour::OnCollide(anemoia::GameObject* const pOther)
 {
 	//Extra safety check to ensure player actually dies
-	if (pOther == m_pPlayer)
+	if (pOther->HasTag("Player"))
 	{
-		m_pPlayer->GetComponent<PlayerBehaviour>()->Die();
+		pOther->GetComponent<PlayerBehaviour>()->Die();
 	}
 	else if (pOther->HasTag("Bubble"))
 	{

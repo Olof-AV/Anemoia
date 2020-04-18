@@ -13,7 +13,7 @@ class BubbleBehaviour final : public anemoia::BaseComponent
 {
 public:
 #pragma region Constructors
-	BubbleBehaviour(anemoia::GameObject* const pParent, anemoia::RigidBodyComponent* const pRigid, anemoia::TextureComponent* const pTexComp);
+	BubbleBehaviour(anemoia::GameObject* const pParent, anemoia::RigidBodyComponent* const pRigid, anemoia::TextureComponent* const pTexComp, bool movesLeft);
 	virtual ~BubbleBehaviour() = default;
 
 	BubbleBehaviour(const BubbleBehaviour& other) = delete;
@@ -37,6 +37,10 @@ public:
 #pragma region Delete
 
 private:
+	glm::vec2 m_Movement;
+	float m_SlowDownRate;
+	bool m_MovesLeft;
+
 	anemoia::RigidBodyComponent* m_pRigid;
 	anemoia::TextureComponent* m_pTexComp;
 
