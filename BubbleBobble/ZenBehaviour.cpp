@@ -26,7 +26,7 @@ ZenBehaviour::ZenBehaviour(anemoia::GameObject* const pParent, anemoia::RigidBod
 	//Params
 	m_MovSpeed = 100.f;
 	m_JumpForce = 600.f;
-	m_HorThreshold = 1.f;
+	m_HorThreshold = 50.f;
 	m_VerThreshold = 30.f;
 
 	//Player
@@ -63,13 +63,14 @@ void ZenBehaviour::Update(float elapsedSec)
 				//Jump
 				if (abs(horDistance) < m_HorThreshold)
 				{
+					m_InputDir.x = (playerPos.x < myPos.x) ? -1.f : 1.f;
 					m_InputDir.y = -1.f;
-					m_InputDir.x = 0.f;
 				}
 				//If not moving, start moving towards player
 				else
 				{
 					m_InputDir.x = (playerPos.x < myPos.x) ? -1.f : 1.f;
+					m_InputDir.y = 0.f;
 				}
 
 			}
