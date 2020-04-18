@@ -87,6 +87,18 @@ bool anemoia::RigidBodyComponent::IsTouchingFloor() const
 	return m_IsTouchingFloor;
 }
 
+bool anemoia::RigidBodyComponent::AddIgnoreTag(const std::string& tag)
+{
+	//This returns whether it was actually inserted or not
+	return m_IgnoreTags.insert(tag).second;
+}
+
+bool anemoia::RigidBodyComponent::RemoveIgnoreTag(const std::string& tag)
+{	
+	//Returns whether something has been removed or not
+	return m_IgnoreTags.erase(tag);
+}
+
 void anemoia::RigidBodyComponent::CheckCollision()
 {
 	//Used later down the line
@@ -96,6 +108,16 @@ void anemoia::RigidBodyComponent::CheckCollision()
 	SDL_Rect rect = m_pLinkedCollider->GetRect();
 	std::vector<ColliderComponent*> colliders = GetParent()->GetParentScene()->GetColliders();
 	colliders.erase(std::find(colliders.cbegin(), colliders.cend(), m_pLinkedCollider)); //NO SELF COLLIDE
+
+	//Remove any collider that has a tag contained within the "ignoretag" of this rigidbody
+	const std::vector<ColliderComponent*>::const_iterator cIt = std::remove_if(colliders.begin(), colliders.end(), [this](ColliderComponent* const pColl)
+	{
+		return std::any_of(m_IgnoreTags.cbegin(), m_IgnoreTags.cend(), [pColl](const std::string &tag)
+		{
+			return pColl->GetParent()->HasTag(tag);
+		});
+	});
+	colliders.erase(cIt, colliders.cend());
 
 	//BOTTOM COLLISION
 	if (m_Velocity.y > 0.f)

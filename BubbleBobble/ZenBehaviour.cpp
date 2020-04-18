@@ -26,7 +26,8 @@ ZenBehaviour::ZenBehaviour(anemoia::GameObject* const pParent, anemoia::RigidBod
 	//Params
 	m_MovSpeed = 100.f;
 	m_JumpForce = 600.f;
-	m_Threshold = 30.f;
+	m_HorThreshold = 1.f;
+	m_VerThreshold = 30.f;
 
 	//Player
 	m_pPlayer = pParent->GetParentScene()->GetObjectWithTag("Player");
@@ -54,21 +55,23 @@ void ZenBehaviour::Update(float elapsedSec)
 	if (m_pRigid->IsTouchingFloor())
 	{
 		//If vertical distance needs to be examined
-		if (abs(verDistance) > m_Threshold)
+		if (abs(verDistance) > m_VerThreshold)
 		{
 			//If player is above
 			if (verDistance > 0.f)
 			{
-				//Jump, but only if close enough on horizontal axis
-				if (abs(horDistance) < m_Threshold)
+				//Jump
+				if (abs(horDistance) < m_HorThreshold)
 				{
 					m_InputDir.y = -1.f;
+					m_InputDir.x = 0.f;
 				}
 				//If not moving, start moving towards player
-				else if(m_InputDir.x == 0.f || abs(vel.x) < 1.f)
+				else
 				{
 					m_InputDir.x = (playerPos.x < myPos.x) ? -1.f : 1.f;
 				}
+
 			}
 			//Player is below
 			else

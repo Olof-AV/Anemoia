@@ -19,7 +19,7 @@
 #include <fstream>
 
 BaseGameScene::BaseGameScene(UINT levelNum)
-	: Scene("Stage" + std::to_string(levelNum)), m_LevelNum(2)
+	: Scene("Stage" + std::to_string(levelNum)), m_LevelNum(levelNum)
 {
 }
 
@@ -286,6 +286,8 @@ bool BaseGameScene::CheckDataForZenChan(const std::string& input)
 
 				//Rigid body
 				anemoia::RigidBodyComponent* const pRigid = new anemoia::RigidBodyComponent(pZen, pColl);
+				pRigid->AddIgnoreTag("ZenChan");
+				pRigid->AddIgnoreTag("Treasure");
 				pZen->AddComponent(pRigid);
 
 				//Behaviour
@@ -340,6 +342,7 @@ bool BaseGameScene::CheckDataForPlayer(const std::string& input)
 
 				//Rigid body
 				anemoia::RigidBodyComponent* const pRigid = new anemoia::RigidBodyComponent(pPlayer, pColl);
+				pRigid->AddIgnoreTag("Player");
 				pPlayer->AddComponent(pRigid);
 
 				//Behaviour

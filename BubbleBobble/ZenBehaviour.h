@@ -48,7 +48,8 @@ private:
 
 	float m_MovSpeed;
 	float m_JumpForce;
-	float m_Threshold;
+	float m_HorThreshold;
+	float m_VerThreshold;
 
 	bool m_IsDead;
 };

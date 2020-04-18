@@ -1,5 +1,6 @@
 #pragma once
 #include "BaseComponent.h"
+#include <unordered_set>
 
 namespace anemoia
 {
@@ -37,9 +38,16 @@ namespace anemoia
 		const glm::vec2 &GetVelocity() const;
 		bool IsTouchingFloor() const;
 
+#pragma region Tags
+		bool AddIgnoreTag(const std::string& tag);
+		bool RemoveIgnoreTag(const std::string& tag);
+#pragma endregion Tags
+
 	private:
 		void CheckCollision();
 		void CheckOutOfBounds();
+
+		std::unordered_set<std::string> m_IgnoreTags;
 
 		ColliderComponent* m_pLinkedCollider;
 
