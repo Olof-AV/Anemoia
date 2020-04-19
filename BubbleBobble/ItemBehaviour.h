@@ -36,6 +36,9 @@ public:
 	void SetTransform(const anemoia::Transform & newTransform) = delete;
 #pragma endregion Delete
 
+	//Functions
+	void Collect(anemoia::GameObject* const pOther);
+
 private:
 	anemoia::RigidBodyComponent* m_pRigid;
 	anemoia::TextureComponent* m_pTexComp;

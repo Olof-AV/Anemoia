@@ -15,6 +15,7 @@
 #include "Scene.h"
 
 #include "ZenBehaviour.h"
+#include "ItemBehaviour.h"
 
 PlayerBehaviour::PlayerBehaviour(anemoia::GameObject* const pParent, anemoia::RigidBodyComponent* const pRigid, anemoia::TextureComponent* const pTexComp, bool isP2)
 	: BaseComponent(pParent, anemoia::Transform()),
@@ -108,6 +109,10 @@ void PlayerBehaviour::OnCollide(anemoia::GameObject* const pOther)
 	else if (pOther->HasTag("Bubble"))
 	{
 		m_pParent->GetParentScene()->RemoveChild(pOther);
+	}
+	else if (pOther->HasTag("Treasure"))
+	{
+		pOther->GetComponent<ItemBehaviour>()->Collect(m_pParent);
 	}
 }
 

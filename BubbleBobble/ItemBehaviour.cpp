@@ -48,13 +48,18 @@ void ItemBehaviour::LateUpdate(float elapsedSec)
 
 void ItemBehaviour::OnCollide(anemoia::GameObject* const pOther)
 {
+	if (pOther->HasTag("Player"))
+	{
+		Collect(pOther);
+	}
+}
+
+void ItemBehaviour::Collect(anemoia::GameObject* const pOther)
+{
 	if (!m_pParent->GetMarkForDelete())
 	{
-		if (pOther->HasTag("Player"))
-		{
-			m_pParent->GetParentScene()->RemoveChild(m_pParent);
-			m_pParent->GetParentScene()->GetObjectWithTag("HUD")->GetComponent<HUDComponent>()->UpdateScores();
-			pOther->Notify(m_AttachedEvent);
-		}
+		m_pParent->GetParentScene()->RemoveChild(m_pParent);
+		pOther->Notify(m_AttachedEvent);
+		m_pParent->GetParentScene()->GetObjectWithTag("HUD")->GetComponent<HUDComponent>()->UpdateScores();
 	}
 }

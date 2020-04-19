@@ -90,6 +90,9 @@ void BaseGameScene::OnSceneActivated()
 {
 	//Call root
 	Scene::OnSceneActivated();
+
+	//Update HUD
+	m_pHUD->GetComponent<HUDComponent>()->UpdateScores();
 }
 
 void BaseGameScene::OnSceneDeactivated()
