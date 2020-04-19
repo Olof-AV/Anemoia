@@ -41,6 +41,7 @@ namespace anemoia
 #pragma region Tags
 		bool AddIgnoreTag(const std::string& tag);
 		bool RemoveIgnoreTag(const std::string& tag);
+		const std::unordered_set<std::string>& GetIgnoreTags() const;
 #pragma endregion Tags
 
 	private:

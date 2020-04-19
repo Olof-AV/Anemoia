@@ -99,6 +99,11 @@ bool anemoia::RigidBodyComponent::RemoveIgnoreTag(const std::string& tag)
 	return m_IgnoreTags.erase(tag);
 }
 
+const std::unordered_set<std::string>& anemoia::RigidBodyComponent::GetIgnoreTags() const
+{
+	return m_IgnoreTags;
+}
+
 void anemoia::RigidBodyComponent::CheckCollision()
 {
 	//Used later down the line
@@ -121,15 +126,22 @@ void anemoia::RigidBodyComponent::CheckCollision()
 		colliders.erase(cIt, colliders.cend());
 	}
 
-	//Remove any collider that has an ignoretag that matches a tag on the parent of this rigidbody
+	//Remove any other collider which has ignore tags that match our tags
 	{
-		const std::unordered_set<std::string>& tags = m_pParent->GetTags();
-		const std::vector<ColliderComponent*>::const_iterator cIt = std::remove_if(colliders.begin(), colliders.end(), [&tags](ColliderComponent* const pColl)
+		const std::vector<ColliderComponent*>::const_iterator cIt = std::remove_if(colliders.begin(), colliders.end(), [this](ColliderComponent* const pColl)
 		{
-			return std::any_of(tags.cbegin(), tags.cend(), [pColl](const std::string& tag)
+			//Ignore tags only exist on rigid bodies
+			RigidBodyComponent* const pOtherRigid = pColl->GetParent()->GetComponent<RigidBodyComponent>();
+			if (pOtherRigid)
 			{
-				return pColl->GetParent()->HasTag(tag);
-			});
+				const std::unordered_set<std::string>& ignoreTags = pOtherRigid->GetIgnoreTags();
+				return std::any_of(ignoreTags.cbegin(), ignoreTags.cend(), [this](const std::string& tag)
+				{
+					return m_pParent->HasTag(tag);
+				});
+			}
+
+			return false;
 		});
 		colliders.erase(cIt, colliders.cend());
 	}
@@ -152,10 +164,9 @@ void anemoia::RigidBodyComponent::CheckCollision()
 			if (SDL_IntersectRectAndLine(&box, &x1, &y1, &x2, &y2))
 			{
 				//Notify
+				m_IsTouchingFloor = true;
 				colliders[i]->OnCollide(GetParent());
 				GetParent()->OnCollide(colliders[i]->GetParent());
-
-				m_IsTouchingFloor = true;
 				break;
 			}
 		}

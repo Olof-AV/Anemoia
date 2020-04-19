@@ -18,13 +18,6 @@ ItemBehaviour::ItemBehaviour(anemoia::GameObject* const pParent, anemoia::RigidB
 void ItemBehaviour::FixedUpdate(float timeStep)
 {
 	UNREFERENCED_PARAMETER(timeStep);
-
-	//Has to touch floor before being active
-	if (!m_HasHitFloor)
-	{
-		if (m_pRigid->IsTouchingFloor()) { m_HasHitFloor = true; }
-		m_pRigid->RemoveIgnoreTag("Player");
-	}
 }
 
 void ItemBehaviour::Update(float elapsedSec)
@@ -51,6 +44,18 @@ void ItemBehaviour::OnCollide(anemoia::GameObject* const pOther)
 	if (pOther->HasTag("Player"))
 	{
 		Collect(pOther);
+	}
+	else
+	{
+		//Has to touch floor before being active
+		if (!m_HasHitFloor)
+		{
+			if (m_pRigid->IsTouchingFloor())
+			{
+				m_HasHitFloor = true;
+				m_pRigid->RemoveIgnoreTag("Player");
+			}
+		}
 	}
 }
 

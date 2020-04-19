@@ -48,22 +48,6 @@ void ZenBehaviour::FixedUpdate(float timeStep)
 
 void ZenBehaviour::Update(float elapsedSec)
 {
-	switch (m_CurrentState)
-	{
-	case ZenState::run:
-		HandleMovement();
-
-		break;
-
-	case ZenState::bubble:
-		HandleBubbleMov();
-
-		m_BubbleBurstTimer += elapsedSec;
-		if (m_BubbleBurstTimer > m_BubbleBurstTimerMax) { SetState(ZenState::run); }
-
-		break;
-	}
-
 	//AI, will be moved later
 	if (m_CurrentState != ZenState::bubble)
 	{
@@ -124,6 +108,22 @@ void ZenBehaviour::Update(float elapsedSec)
 	else
 	{
 		m_InputDir = glm::vec2();
+	}
+
+	switch (m_CurrentState)
+	{
+	case ZenState::run:
+		HandleMovement();
+
+		break;
+
+	case ZenState::bubble:
+		HandleBubbleMov();
+
+		m_BubbleBurstTimer += elapsedSec;
+		if (m_BubbleBurstTimer > m_BubbleBurstTimerMax) { SetState(ZenState::run); }
+
+		break;
 	}
 }
 
@@ -220,11 +220,11 @@ void ZenBehaviour::PlayerTouch(anemoia::GameObject* const pOther)
 
 				//Texture
 				anemoia::Texture2D* const pTex = anemoia::ResourceManager::GetInstance()->LoadTexture("Items/Watermelon.png");
-				anemoia::TextureComponent* const pTexComp = new anemoia::TextureComponent(pObj, m_Transform, pTex);
+				anemoia::TextureComponent* const pTexComp = new anemoia::TextureComponent(pObj, m_pTexComp->GetTransform(), pTex);
 				pObj->AddComponent(pTexComp);
 
 				//Collider
-				anemoia::ColliderComponent* const pColl = new anemoia::ColliderComponent(pObj, m_Transform, glm::vec2(48.f, 48.f));
+				anemoia::ColliderComponent* const pColl = new anemoia::ColliderComponent(pObj, m_pTexComp->GetTransform(), glm::vec2(48.f, 48.f));
 				pObj->AddComponent(pColl);
 
 				//Rigid body
@@ -232,6 +232,7 @@ void ZenBehaviour::PlayerTouch(anemoia::GameObject* const pOther)
 				pObj->AddComponent(pRigid);
 				pRigid->AddIgnoreTag("ZenChan");
 				pRigid->AddIgnoreTag("Bubble");
+				pRigid->AddIgnoreTag("Treasure");
 
 				//Behaviour
 				ItemBehaviour* const pBehaviour = new ItemBehaviour(pObj, pRigid, pTexComp, anemoia::Events::PLAYER_OBTAIN_WATERMELON);
