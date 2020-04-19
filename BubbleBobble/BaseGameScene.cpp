@@ -12,6 +12,7 @@
 #include "HUDComponent.h"
 #include "PlayerBehaviour.h"
 #include "ZenBehaviour.h"
+#include "MaitaBehaviour.h"
 
 #include "PlayerObserver.h"
 
@@ -178,6 +179,10 @@ void BaseGameScene::ReadLevelData()
 			{
 				continue;
 			}
+			if (CheckDataForMaita(input))
+			{
+				continue;
+			}
 			if (CheckDataForPlayer(input))
 			{
 				continue;
@@ -333,6 +338,7 @@ bool BaseGameScene::CheckDataForZenChan(const std::string& input)
 				//Rigid body
 				anemoia::RigidBodyComponent* const pRigid = new anemoia::RigidBodyComponent(pZen, pColl);
 				pRigid->AddIgnoreTag("ZenChan");
+				pRigid->AddIgnoreTag("Maita");
 				pRigid->AddIgnoreTag("Treasure");
 				pZen->AddComponent(pRigid);
 
@@ -348,6 +354,63 @@ bool BaseGameScene::CheckDataForZenChan(const std::string& input)
 
 				//This is an enemy
 				m_Enemies.emplace_back(pZen);
+			}
+
+			return true;
+		}
+	}
+
+	return false;
+}
+
+bool BaseGameScene::CheckDataForMaita(const std::string& input)
+{
+	//Reads a block of tile data, with x/y coordinate
+	const std::regex myRegex{ R"(^(?:Maita=)([-]?\d+(?:\.\d+)?),\s*([-]?\d+(?:\.\d+)?)$)" };
+
+	//Store matches in here
+	std::smatch matches;
+
+	//Search using the regex
+	if (std::regex_search(input, matches, myRegex))
+	{
+		//Only can accept 2 matches + 1 original match
+		if (matches.size() == 3)
+		{
+			//Create ZenChan
+			{
+				//Root
+				anemoia::GameObject* const pMaita = new anemoia::GameObject(this);
+				pMaita->SetPosition(std::stof(matches[1]), std::stof(matches[2]), 0.f);
+
+				//Texture
+				anemoia::Transform transform = anemoia::Transform(glm::vec3(0.f, 0.f, 0.f), glm::vec2(0.5f, 1.f));
+				anemoia::TextureComponent* const pTexComp = new anemoia::TextureComponent(pMaita, transform, nullptr);
+				pMaita->AddComponent(pTexComp);
+
+				//Collision
+				anemoia::ColliderComponent* const pColl = new anemoia::ColliderComponent(pMaita, transform, glm::vec2(48.f, 48.f));
+				pMaita->AddComponent(pColl);
+
+				//Rigid body
+				anemoia::RigidBodyComponent* const pRigid = new anemoia::RigidBodyComponent(pMaita, pColl);
+				pRigid->AddIgnoreTag("ZenChan");
+				pRigid->AddIgnoreTag("Maita");
+				pRigid->AddIgnoreTag("Treasure");
+				pMaita->AddComponent(pRigid);
+
+				//Behaviour
+				MaitaBehaviour* const pBehaviour = new MaitaBehaviour(pMaita, pRigid, pTexComp);
+				pMaita->AddComponent(pBehaviour);
+
+				//Tag
+				pMaita->AddTag("Maita");
+
+				//Add to scene
+				AddChild(pMaita);
+
+				//This is an enemy
+				m_Enemies.emplace_back(pMaita);
 			}
 
 			return true;

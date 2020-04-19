@@ -47,6 +47,7 @@ protected:
 	bool CheckDataForBigTile(const std::string& input);
 	bool CheckDataForBigTileInvis(const std::string& input);
 	bool CheckDataForZenChan(const std::string& input);
+	bool CheckDataForMaita(const std::string& input);
 	bool CheckDataForPlayer(const std::string& input);
 
 	void CreateTile(const glm::vec2& pos, bool isBig, bool isImportant, bool isInvisible = false, bool hasCollision = true);

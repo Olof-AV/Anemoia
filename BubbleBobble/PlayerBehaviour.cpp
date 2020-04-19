@@ -15,6 +15,7 @@
 #include "Scene.h"
 
 #include "ZenBehaviour.h"
+#include "MaitaBehaviour.h"
 #include "ItemBehaviour.h"
 
 PlayerBehaviour::PlayerBehaviour(anemoia::GameObject* const pParent, anemoia::RigidBodyComponent* const pRigid, anemoia::TextureComponent* const pTexComp, bool isP2)
@@ -105,6 +106,10 @@ void PlayerBehaviour::OnCollide(anemoia::GameObject* const pOther)
 	if (pOther->HasTag("ZenChan"))
 	{
 		pOther->GetComponent<ZenBehaviour>()->PlayerTouch(m_pParent);
+	}
+	if (pOther->HasTag("Maita"))
+	{
+		pOther->GetComponent<MaitaBehaviour>()->PlayerTouch(m_pParent);
 	}
 	else if (pOther->HasTag("Bubble"))
 	{
