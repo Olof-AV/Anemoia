@@ -92,7 +92,8 @@ void ZenBehaviour::Update(float elapsedSec)
 					//If not moving, start moving towards player
 					if (m_InputDir.x == 0.f || abs(vel.x) < 1.f)
 					{
-						m_InputDir.x = (playerPos.x < myPos.x) ? -1.f : 1.f;
+						//m_InputDir.x = (playerPos.x < myPos.x) ? -1.f : 1.f;
+						m_InputDir.x = (rand() % 2) ? -1.f : 1.f;
 					}
 				}
 			}

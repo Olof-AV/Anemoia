@@ -23,6 +23,9 @@ const float anemoia::Engine::m_MaxElapsedSec = 0.128f;
 
 void anemoia::Engine::Initialise()
 {
+	//Random numbers
+	srand(unsigned int(time(NULL)));
+
 	//Try to initialise video
 	if (SDL_Init(SDL_INIT_VIDEO) != 0) 
 	{
