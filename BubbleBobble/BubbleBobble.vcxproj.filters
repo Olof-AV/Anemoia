@@ -65,6 +65,9 @@
     <ClCompile Include="BubbleBehaviour.cpp">
       <Filter>GameComponents</Filter>
     </ClCompile>
+    <ClCompile Include="ItemBehaviour.cpp">
+      <Filter>GameComponents</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="BubbleBobbleGame.h">
@@ -95,6 +98,9 @@
       <Filter>GameComponents</Filter>
     </ClInclude>
     <ClInclude Include="BubbleBehaviour.h">
+      <Filter>GameComponents</Filter>
+    </ClInclude>
+    <ClInclude Include="ItemBehaviour.h">
       <Filter>GameComponents</Filter>
     </ClInclude>
   </ItemGroup>

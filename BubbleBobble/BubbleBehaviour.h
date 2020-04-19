@@ -34,7 +34,7 @@ public:
 #pragma region Delete
 	const anemoia::Transform& GetTransform() const = delete;
 	void SetTransform(const anemoia::Transform& newTransform) = delete;
-#pragma region Delete
+#pragma endregion Delete
 
 private:
 	float m_BurstTimer;

@@ -40,6 +40,7 @@ public:
 #pragma region Delete
 	const anemoia::Transform& GetTransform() const = delete;
 	void SetTransform(const anemoia::Transform & newTransform) = delete;
+#pragma endregion Delete
 
 	//Functions
 	ZenState GetState() const;

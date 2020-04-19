@@ -196,6 +196,7 @@ xcopy "$(SolutionDir)3rdParty\SDL2_mixer\lib\x64\*.dll" "$(OutputPath)" /R /Y</C
     <ClCompile Include="FrameCounterScene.cpp" />
     <ClCompile Include="HUDComponent.cpp" />
     <ClCompile Include="IntroScene.cpp" />
+    <ClCompile Include="ItemBehaviour.cpp" />
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="pch.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
@@ -215,6 +216,7 @@ xcopy "$(SolutionDir)3rdParty\SDL2_mixer\lib\x64\*.dll" "$(OutputPath)" /R /Y</C
     <ClInclude Include="FrameCounterScene.h" />
     <ClInclude Include="HUDComponent.h" />
     <ClInclude Include="IntroScene.h" />
+    <ClInclude Include="ItemBehaviour.h" />
     <ClInclude Include="pch.h" />
     <ClInclude Include="PlayerBehaviour.h" />
     <ClInclude Include="PlayerObserver.h" />
