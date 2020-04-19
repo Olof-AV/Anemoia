@@ -232,3 +232,9 @@ TileHard=624, 216
 
 //Players
 Player=92, 620, true
+
+//ZenChans
+ZenChan=264, 150
+ZenChan=504, 150
+ZenChan=180, 280
+ZenChan=588, 280
