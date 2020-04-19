@@ -24,6 +24,11 @@ BaseGameScene::BaseGameScene(UINT levelNum)
 	: Scene("Stage" + std::to_string(levelNum)), m_LevelNum(levelNum)
 {
 	m_Enemies.clear();
+
+	//Params
+	m_EndTimerActive = false;
+	m_EndTimer = 0.f;
+	m_EndTimerMax = 5.f;
 }
 
 BaseGameScene::~BaseGameScene()
@@ -40,6 +45,16 @@ void BaseGameScene::Update(float elapsedSec)
 {
 	//Call root
 	Scene::Update(elapsedSec);
+
+	//If the end timer is active, it will eventually switch to the next stage
+	if (m_EndTimerActive)
+	{
+		m_EndTimer += elapsedSec;
+		if (m_EndTimer > m_EndTimerMax)
+		{
+			anemoia::SceneManager::GetInstance()->SetActiveScene("Stage" + std::to_string(m_LevelNum + 1));
+		}
+	}
 }
 
 void BaseGameScene::LateUpdate(float elapsedSec)
@@ -103,16 +118,21 @@ void BaseGameScene::OnSceneDeactivated()
 
 void BaseGameScene::NotifyEnemyDeath(anemoia::GameObject* const pObj)
 {
+	//If enemies left
 	if (m_Enemies.size() > 0)
 	{
+		//Try to remove the given enemy
 		const std::vector<anemoia::GameObject*>::const_iterator cIt = std::find(m_Enemies.cbegin(), m_Enemies.cend(), pObj);
 
+		//If found, erase it
 		if (cIt != m_Enemies.cend())
 		{
 			m_Enemies.erase(cIt);
+
+			//If no enemies left, start the end timer (which will switch to next stage)
 			if (m_Enemies.size() == 0)
 			{
-				anemoia::SceneManager::GetInstance()->SetActiveScene("Stage" + std::to_string(m_LevelNum + 1));
+				m_EndTimerActive = true;
 			}
 		}
 	}

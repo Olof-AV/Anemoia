@@ -55,4 +55,8 @@ protected:
 	UINT m_LevelNum = 0;
 
 	std::vector<anemoia::GameObject*> m_Enemies;
+
+	bool m_EndTimerActive;
+	float m_EndTimer;
+	float m_EndTimerMax;
 };
