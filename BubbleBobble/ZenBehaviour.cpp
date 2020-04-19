@@ -198,16 +198,20 @@ void ZenBehaviour::HandleMovement()
 
 void ZenBehaviour::HandleBubbleMov()
 {
+	//Just floats up a little + reset input
 	m_pRigid->SetVelocity(glm::vec2(0.f, m_FloatRate));
+	m_InputDir = glm::vec2();
 }
 
 void ZenBehaviour::PlayerTouch(anemoia::GameObject* const pOther)
 {
+	//If touched while bubbled, this ZenChan dies
 	if (m_CurrentState == ZenState::bubble)
 	{
 		m_pParent->GetParentScene()->RemoveChild(m_pParent);
 		static_cast<BaseGameScene*>(m_pParent->GetParentScene())->NotifyEnemyDeath(m_pParent);
 	}
+	//Otherwise, the player dies
 	else
 	{
 		pOther->GetComponent<PlayerBehaviour>()->Die();
