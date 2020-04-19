@@ -1,12 +1,3 @@
-//Players
-Player=92, 620, true
-
-//ZenChans
-ZenChan=550, 200
-ZenChan=475, 200
-ZenChan=400, 200
-ZenChan=325, 200
-
 //Big tiles left
 BigTile=0, 672
 BigTile=0, 624
@@ -170,3 +161,12 @@ Tile=552, 312
 Tile=576, 312
 Tile=672, 312
 Tile=696, 312
+
+//Players
+Player=92, 620, true
+
+//ZenChans
+ZenChan=550, 200
+ZenChan=475, 200
+ZenChan=400, 200
+ZenChan=325, 200
