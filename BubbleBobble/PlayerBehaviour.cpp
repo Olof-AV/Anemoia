@@ -47,16 +47,21 @@ PlayerBehaviour::PlayerBehaviour(anemoia::GameObject* const pParent, anemoia::Ri
 	//Load textures
 	const std::string startPath = ((isP2) ? "Player/Bobby/" : "Player/Bubby/");
 	m_pTexIdle = anemoia::ResourceManager::GetInstance()->LoadTexture(startPath + "Idle.png");
+	m_pTexShoot = anemoia::ResourceManager::GetInstance()->LoadTexture(startPath + "Shoot.png");
 
-	//Set tex for now
-	m_pTexComp->SetTexture(m_pTexIdle);
+	//Set base state
+	SetState(PlayerState::idle);
 
 	//Params
 	m_MovSpeed = 200.f;
 	m_JumpForce = 600.f;
 	m_IsInvincible = false;
+
 	m_InvincibilityTimer = 0.f;
 	m_InvincibilityTimerMax = 3.f;
+
+	m_ShootCoolTimer = 0.f;
+	m_ShootCoolTimerMax = 0.75f;
 }
 
 void PlayerBehaviour::FixedUpdate(float timeStep)
@@ -66,8 +71,47 @@ void PlayerBehaviour::FixedUpdate(float timeStep)
 
 void PlayerBehaviour::Update(float elapsedSec)
 {
-	UNREFERENCED_PARAMETER(elapsedSec);
+	switch (m_CurrentState)
+	{
+	case PlayerState::idle:
+		HandleMovement();
+		HandleInvincibilityTimer(elapsedSec);
 
+		break;
+
+	case PlayerState::shoot:
+		HandleMovement();
+		HandleInvincibilityTimer(elapsedSec);
+		
+		m_ShootCoolTimer += elapsedSec;
+		if (m_ShootCoolTimer > m_ShootCoolTimerMax) { SetState(PlayerState::idle); }
+
+		break;
+	}
+}
+
+void PlayerBehaviour::LateUpdate(float elapsedSec)
+{
+	UNREFERENCED_PARAMETER(elapsedSec);
+}
+
+void PlayerBehaviour::OnCollide(anemoia::GameObject* const pOther)
+{
+	BaseComponent::OnCollide(pOther);
+
+	if (pOther->HasTag("ZenChan"))
+	{
+		Die();
+	}
+	else if (pOther->HasTag("Bubble"))
+	{
+		m_pParent->GetParentScene()->RemoveChild(pOther);
+	}
+}
+
+void PlayerBehaviour::HandleMovement()
+{
+	//Teleport on death
 	if (m_IsDead)
 	{
 		m_IsInvincible = true;
@@ -75,6 +119,7 @@ void PlayerBehaviour::Update(float elapsedSec)
 		m_pRigid->Move(glm::vec2(92.f, 620.f));
 		m_pRigid->SetVelocity(glm::vec2(0.f, 0.f));
 	}
+	//Otherwise handle mov related transform stuff + movement
 	else
 	{
 		anemoia::Transform transform = m_pTexComp->GetTransform();
@@ -102,7 +147,10 @@ void PlayerBehaviour::Update(float elapsedSec)
 		//Reset
 		m_InputDir = glm::vec2{};
 	}
+}
 
+void PlayerBehaviour::HandleInvincibilityTimer(float elapsedSec)
+{
 	//Invincibility timer
 	if (m_IsInvincible)
 	{
@@ -123,25 +171,6 @@ void PlayerBehaviour::Update(float elapsedSec)
 	}
 }
 
-void PlayerBehaviour::LateUpdate(float elapsedSec)
-{
-	UNREFERENCED_PARAMETER(elapsedSec);
-}
-
-void PlayerBehaviour::OnCollide(anemoia::GameObject* const pOther)
-{
-	BaseComponent::OnCollide(pOther);
-
-	if (pOther->HasTag("ZenChan"))
-	{
-		Die();
-	}
-	else if (pOther->HasTag("Bubble"))
-	{
-		m_pParent->GetParentScene()->RemoveChild(pOther);
-	}
-}
-
 void PlayerBehaviour::Die()
 {
 	if (!m_IsDead && !m_IsInvincible)
@@ -155,40 +184,76 @@ void PlayerBehaviour::Die()
 
 void PlayerBehaviour::ShootBubble()
 {
-	//Params
-	const bool isLookingLeft = (m_pTexComp->GetTransform().GetFlip() == SDL_FLIP_HORIZONTAL) ? true : false;
-	anemoia::Scene* pScene = GetParent()->GetParentScene();
+	//Can't shoot if cooldown is in effect, or if invincibility is in effect
+	if (m_CurrentState != PlayerState::shoot && !m_IsInvincible)
+	{
+		//State
+		SetState(PlayerState::shoot);
 
-	//Obj
-	anemoia::GameObject* const pObj = new anemoia::GameObject(pScene);
-	glm::vec3 finalPos = GetParent()->GetPosition();
-	finalPos += ((isLookingLeft) ? glm::vec3(-60.f, -28.f, 0.f) : glm::vec3(60.f, -28.f, 0.f));
-	pObj->SetPosition(finalPos);
+		//Spawn bubble
+		{
+			//Params
+			const bool isLookingLeft = (m_pTexComp->GetTransform().GetFlip() == SDL_FLIP_HORIZONTAL) ? true : false;
+			anemoia::Scene* pScene = GetParent()->GetParentScene();
 
-	//Transform
-	anemoia::Transform transform = anemoia::Transform(glm::vec3(), glm::vec2(0.5f, 0.5f));
+			//Obj
+			anemoia::GameObject* const pObj = new anemoia::GameObject(pScene);
+			glm::vec3 finalPos = GetParent()->GetPosition();
+			finalPos += ((isLookingLeft) ? glm::vec3(-60.f, -28.f, 0.f) : glm::vec3(60.f, -28.f, 0.f));
+			pObj->SetPosition(finalPos);
 
-	//Collider 
-	anemoia::ColliderComponent* const pColl = new anemoia::ColliderComponent(pObj, transform, glm::vec2(48.f, 48.f), true);
-	pObj->AddComponent(pColl);
+			//Transform
+			anemoia::Transform transform = anemoia::Transform(glm::vec3(), glm::vec2(0.5f, 0.5f));
 
-	//Texture
-	anemoia::TextureComponent* const pTexComp = new anemoia::TextureComponent(pObj, transform, nullptr);
-	pObj->AddComponent(pTexComp);
+			//Collider 
+			anemoia::ColliderComponent* const pColl = new anemoia::ColliderComponent(pObj, transform, glm::vec2(48.f, 48.f), true);
+			pObj->AddComponent(pColl);
 
-	//Rigid
-	anemoia::RigidBodyComponent* const pRigid = new anemoia::RigidBodyComponent(pObj, pColl, 0.f);
-	pObj->AddComponent(pRigid);
-	pRigid->AddIgnoreTag("Treasure");
-	pRigid->AddIgnoreTag("Bubble");
+			//Texture
+			anemoia::TextureComponent* const pTexComp = new anemoia::TextureComponent(pObj, transform, nullptr);
+			pObj->AddComponent(pTexComp);
 
-	//Bubble behaviour
-	BubbleBehaviour* const pBehaviour = new BubbleBehaviour(pObj, pRigid, pTexComp, isLookingLeft);
-	pObj->AddComponent(pBehaviour);
+			//Rigid
+			anemoia::RigidBodyComponent* const pRigid = new anemoia::RigidBodyComponent(pObj, pColl, 0.f);
+			pObj->AddComponent(pRigid);
+			pRigid->AddIgnoreTag("Treasure");
+			pRigid->AddIgnoreTag("Bubble");
 
-	//Tag
-	pObj->AddTag("Bubble");
+			//Bubble behaviour
+			BubbleBehaviour* const pBehaviour = new BubbleBehaviour(pObj, pRigid, pTexComp, isLookingLeft);
+			pObj->AddComponent(pBehaviour);
 
-	//Add to scene
-	pScene->AddChild(pObj);
+			//Tag
+			pObj->AddTag("Bubble");
+
+			//Add to scene
+			pScene->AddChild(pObj);
+		}
+	}
+}
+
+PlayerState PlayerBehaviour::GetState() const
+{
+	return m_CurrentState;
+}
+
+void PlayerBehaviour::SetState(PlayerState newState)
+{
+	//Machine according to new state
+	switch (newState)
+	{
+	case PlayerState::idle:
+		m_pTexComp->SetTexture(m_pTexIdle);
+
+		break;
+
+	case PlayerState::shoot:
+		m_pTexComp->SetTexture(m_pTexShoot);
+		m_ShootCoolTimer = 0.f;
+
+		break;
+	}
+
+	//Don't forget to change state
+	m_CurrentState = newState;
 }

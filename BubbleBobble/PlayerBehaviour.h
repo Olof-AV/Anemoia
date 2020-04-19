@@ -9,6 +9,12 @@ namespace anemoia
 	class GameObject;
 }
 
+enum class PlayerState
+{
+	idle,
+	shoot
+};
+
 class PlayerBehaviour final : public anemoia::BaseComponent
 {
 public:
@@ -37,14 +43,22 @@ public:
 #pragma region Delete
 
 	//Functions
+	void HandleMovement();
+	void HandleInvincibilityTimer(float elapsedSec);
+
 	void Die();
 	void ShootBubble();
+
+	PlayerState GetState() const;
+	void SetState(PlayerState newState);
 
 private:
 	anemoia::RigidBodyComponent* m_pRigid;
 	anemoia::TextureComponent* m_pTexComp;
 
 	anemoia::Texture2D* m_pTexIdle;
+	anemoia::Texture2D* m_pTexShoot;
+	PlayerState m_CurrentState;
 
 	glm::vec2 m_InputDir;
 
@@ -56,5 +70,9 @@ private:
 	bool m_IsInvincible;
 	float m_InvincibilityTimer;
 	float m_InvincibilityTimerMax;
+
+	//Shoot stuff
+	float m_ShootCoolTimer;
+	float m_ShootCoolTimerMax;
 };
 

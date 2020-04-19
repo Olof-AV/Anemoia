@@ -32,17 +32,12 @@ BubbleBehaviour::BubbleBehaviour(anemoia::GameObject* const pParent, anemoia::Ri
 
 void BubbleBehaviour::FixedUpdate(float timeStep)
 {
-	UNREFERENCED_PARAMETER(timeStep);
-}
-
-void BubbleBehaviour::Update(float elapsedSec)
-{
 	//Bubble slows down
 	if (m_MovesLeft)
 	{
 		if (m_Movement.x < 0.f)
 		{
-			m_Movement.x += elapsedSec * m_SlowDownRate;
+			m_Movement.x += timeStep * m_SlowDownRate;
 		}
 		else
 		{
@@ -53,15 +48,17 @@ void BubbleBehaviour::Update(float elapsedSec)
 	{
 		if (m_Movement.x > 0.f)
 		{
-			m_Movement.x -= elapsedSec * m_SlowDownRate;
+			m_Movement.x -= timeStep * m_SlowDownRate;
 		}
 		else
 		{
 			m_Movement.x = 0.f;
 		}
 	}
+}
 
-
+void BubbleBehaviour::Update(float elapsedSec)
+{
 	//If slow enough, will float up
 	if (abs(m_Movement).x < m_HorThreshold && GetParent()->GetPosition().y > 192.f)
 	{
