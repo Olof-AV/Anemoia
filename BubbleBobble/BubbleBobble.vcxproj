@@ -191,6 +191,7 @@ xcopy "$(SolutionDir)3rdParty\SDL2_mixer\lib\x64\*.dll" "$(OutputPath)" /R /Y</C
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="BaseGameScene.cpp" />
+    <ClCompile Include="BoulderBehaviour.cpp" />
     <ClCompile Include="BubbleBehaviour.cpp" />
     <ClCompile Include="BubbleBobbleGame.cpp" />
     <ClCompile Include="FrameCounterScene.cpp" />
@@ -212,6 +213,7 @@ xcopy "$(SolutionDir)3rdParty\SDL2_mixer\lib\x64\*.dll" "$(OutputPath)" /R /Y</C
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="BaseGameScene.h" />
+    <ClInclude Include="BoulderBehaviour.h" />
     <ClInclude Include="BubbleBehaviour.h" />
     <ClInclude Include="BubbleBobbleGame.h" />
     <ClInclude Include="FrameCounterScene.h" />

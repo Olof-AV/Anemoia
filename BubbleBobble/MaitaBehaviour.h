@@ -51,6 +51,8 @@ public:
 
 	void PlayerTouch(anemoia::GameObject* const pOther);
 
+	void ShootBoulder();
+
 #pragma region Delete
 
 private:
@@ -73,6 +75,12 @@ private:
 	float m_FloatRate;
 	float m_BubbleBurstTimer;
 	float m_BubbleBurstTimerMax;
+
+	bool m_BoulderCooldown;
+	float m_BoulderTimer;
+	float m_BoulderTimerMax;
+
+	bool m_ShootRequested = false;
 
 	bool m_IsDead;
 };

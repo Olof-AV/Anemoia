@@ -115,6 +115,11 @@ void PlayerBehaviour::OnCollide(anemoia::GameObject* const pOther)
 	{
 		m_pParent->GetParentScene()->RemoveChild(pOther);
 	}
+	else if (pOther->HasTag("Boulder"))
+	{
+		m_pParent->GetParentScene()->RemoveChild(pOther);
+		Die();
+	}
 	else if (pOther->HasTag("Treasure"))
 	{
 		pOther->GetComponent<ItemBehaviour>()->Collect(m_pParent);

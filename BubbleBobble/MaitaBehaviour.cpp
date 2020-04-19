@@ -12,6 +12,7 @@
 #include "ResourceManager.h"
 
 #include "PlayerBehaviour.h"
+#include "BoulderBehaviour.h"
 
 MaitaBehaviour::MaitaBehaviour(anemoia::GameObject* const pParent, anemoia::RigidBodyComponent* const pRigid, anemoia::TextureComponent* const pTexComp)
 	: anemoia::BaseComponent(pParent, anemoia::Transform()), m_pRigid{ pRigid }, m_pTexComp{ pTexComp },
@@ -36,6 +37,10 @@ MaitaBehaviour::MaitaBehaviour(anemoia::GameObject* const pParent, anemoia::Rigi
 
 	m_BubbleBurstTimer = 0.f;
 	m_BubbleBurstTimerMax = 7.f;
+	
+	m_BoulderCooldown = false;
+	m_BoulderTimer = 0.f;
+	m_BoulderTimerMax = 5.f;
 
 	//Player
 	m_pPlayer = pParent->GetParentScene()->GetObjectWithTag("Player");
@@ -66,6 +71,8 @@ void MaitaBehaviour::Update(float elapsedSec)
 			//If vertical distance needs to be examined
 			if (abs(verDistance) > m_VerThreshold)
 			{
+				m_ShootRequested = false;
+
 				//If player is above
 				if (verDistance > 0.f)
 				{
@@ -103,6 +110,7 @@ void MaitaBehaviour::Update(float elapsedSec)
 				//Just move towards player
 				m_InputDir.y = 0.f;
 				m_InputDir.x = (playerPos.x < myPos.x) ? -1.f : 1.f;
+				m_ShootRequested = true;
 			}
 		}
 	}
@@ -115,6 +123,17 @@ void MaitaBehaviour::Update(float elapsedSec)
 	{
 	case MaitaState::run:
 		HandleMovement();
+
+		if (m_BoulderCooldown)
+		{
+			m_BoulderTimer += elapsedSec;
+			if (m_BoulderTimer > m_BoulderTimerMax) { m_BoulderCooldown = false; m_BoulderTimer = 0.f; }
+		}
+		else if (m_ShootRequested)
+		{
+			m_ShootRequested = false;
+			ShootBoulder();
+		}
 
 		break;
 
@@ -255,5 +274,57 @@ void MaitaBehaviour::PlayerTouch(anemoia::GameObject* const pOther)
 	else
 	{
 		pOther->GetComponent<PlayerBehaviour>()->Die();
+	}
+}
+
+void MaitaBehaviour::ShootBoulder()
+{
+	//Can't shoot if cooldown is in effect, or if bubbled up
+	if (m_CurrentState != MaitaState::bubble && !m_BoulderCooldown)
+	{
+		//Spawn bubble
+		{
+			//Params
+			const bool isLookingLeft = (m_pTexComp->GetTransform().GetFlip() == SDL_FLIP_HORIZONTAL) ? true : false;
+			anemoia::Scene* pScene = GetParent()->GetParentScene();
+
+			//Obj
+			anemoia::GameObject* const pObj = new anemoia::GameObject(pScene);
+			glm::vec3 finalPos = GetParent()->GetPosition();
+			finalPos += ((isLookingLeft) ? glm::vec3(-60.f, -28.f, 0.f) : glm::vec3(60.f, -28.f, 0.f));
+			pObj->SetPosition(finalPos);
+
+			//Transform
+			anemoia::Transform transform = anemoia::Transform(glm::vec3(), glm::vec2(0.5f, 0.5f));
+
+			//Collider 
+			anemoia::ColliderComponent* const pColl = new anemoia::ColliderComponent(pObj, transform, glm::vec2(48.f, 48.f), true);
+			pObj->AddComponent(pColl);
+
+			//Texture
+			anemoia::TextureComponent* const pTexComp = new anemoia::TextureComponent(pObj, transform, nullptr);
+			pObj->AddComponent(pTexComp);
+
+			//Rigid
+			anemoia::RigidBodyComponent* const pRigid = new anemoia::RigidBodyComponent(pObj, pColl, 0.f);
+			pObj->AddComponent(pRigid);
+			pRigid->AddIgnoreTag("Treasure");
+			pRigid->AddIgnoreTag("Bubble");
+			pRigid->AddIgnoreTag("Boulder");
+			pRigid->AddIgnoreTag("Maita");
+			pRigid->AddIgnoreTag("ZenChan");
+
+			//Bubble behaviour
+			BoulderBehaviour* const pBehaviour = new BoulderBehaviour(pObj, pRigid, pTexComp, isLookingLeft);
+			pObj->AddComponent(pBehaviour);
+
+			//Tag
+			pObj->AddTag("Boulder");
+
+			//Add to scene
+			pScene->AddChild(pObj);
+		}
+
+		m_BoulderCooldown = true;
 	}
 }

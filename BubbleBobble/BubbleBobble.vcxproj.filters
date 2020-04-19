@@ -71,6 +71,9 @@
     <ClCompile Include="MaitaBehaviour.cpp">
       <Filter>GameComponents</Filter>
     </ClCompile>
+    <ClCompile Include="BoulderBehaviour.cpp">
+      <Filter>GameComponents</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="BubbleBobbleGame.h">
@@ -107,6 +110,9 @@
       <Filter>GameComponents</Filter>
     </ClInclude>
     <ClInclude Include="MaitaBehaviour.h">
+      <Filter>GameComponents</Filter>
+    </ClInclude>
+    <ClInclude Include="BoulderBehaviour.h">
       <Filter>GameComponents</Filter>
     </ClInclude>
   </ItemGroup>
