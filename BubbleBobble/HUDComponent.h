@@ -30,6 +30,9 @@ public:
 	virtual void LateUpdate(float elapsedSec) override;
 	virtual void Render() const override;
 
+	//Functions
+	void UpdateScores();
+
 private:
 	void UpdateText(anemoia::Texture2D* &pToUpdate, const std::string& newText, const SDL_Colour& colour);
 

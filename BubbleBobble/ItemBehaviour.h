@@ -5,13 +5,15 @@
 namespace anemoia
 {
 	class RigidBodyComponent;
+	class TextureComponent;
 	class GameObject;
 }
 
 class ItemBehaviour final : public anemoia::BaseComponent
 {
+public:
 #pragma region Constructors
-	ItemBehaviour(anemoia::GameObject* const pParent, anemoia::RigidBodyComponent* const pRigid, anemoia::Events attachedEvent);
+	ItemBehaviour(anemoia::GameObject* const pParent, anemoia::RigidBodyComponent* const pRigid, anemoia::TextureComponent* const pTexComp, anemoia::Events attachedEvent);
 	virtual ~ItemBehaviour() = default;
 
 	ItemBehaviour(const ItemBehaviour& other) = delete;
@@ -35,6 +37,11 @@ class ItemBehaviour final : public anemoia::BaseComponent
 #pragma endregion Delete
 
 private:
+	anemoia::RigidBodyComponent* m_pRigid;
+	anemoia::TextureComponent* m_pTexComp;
 
+	anemoia::Events m_AttachedEvent;
+
+	bool m_HasHitFloor;
 };
 

@@ -145,6 +145,11 @@ bool anemoia::GameObject::HasTag(const std::string& tag) const
 	return cIt != m_Tags.cend();
 }
 
+const std::unordered_set<std::string>& anemoia::GameObject::GetTags() const
+{
+	return m_Tags;
+}
+
 bool anemoia::GameObject::GetMarkForDelete() const
 {
 	return m_MarkForDelete;

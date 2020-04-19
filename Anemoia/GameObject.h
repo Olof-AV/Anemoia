@@ -91,6 +91,7 @@ namespace anemoia
 		bool AddTag(const std::string& tag);
 		bool RemoveTag(const std::string& tag);
 		bool HasTag(const std::string& tag) const;
+		const std::unordered_set<std::string>& GetTags() const;
 #pragma endregion Tags
 
 #pragma region MarkForDelete

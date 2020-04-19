@@ -74,6 +74,9 @@ void BaseGameScene::Initialise()
 		HUDComponent* const pHudComp = new HUDComponent(m_pHUD, anemoia::Transform{}, pFont, pTexP1, pTexP2);
 		m_pHUD->AddComponent(pHudComp);
 
+		//Tag
+		m_pHUD->AddTag("HUD");
+
 		//Add root to scene
 		AddChild(m_pHUD);
 	}

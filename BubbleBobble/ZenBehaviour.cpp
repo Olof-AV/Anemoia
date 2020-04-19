@@ -4,6 +4,8 @@
 #include "GameObject.h"
 #include "RigidBodyComponent.h"
 #include "TextureComponent.h"
+#include "ColliderComponent.h"
+#include "ItemBehaviour.h"
 
 #include "Scene.h"
 #include "BaseGameScene.h"
@@ -208,6 +210,42 @@ void ZenBehaviour::PlayerTouch(anemoia::GameObject* const pOther)
 	//If touched while bubbled, this ZenChan dies
 	if (m_CurrentState == ZenState::bubble)
 	{
+		if (!m_pParent->GetMarkForDelete())
+		{
+			//Spawn watermelon
+			{
+				//Obj
+				anemoia::GameObject* const pObj = new anemoia::GameObject(m_pParent->GetParentScene());
+				pObj->SetPosition(m_pParent->GetPosition());
+
+				//Texture
+				anemoia::Texture2D* const pTex = anemoia::ResourceManager::GetInstance()->LoadTexture("Items/Watermelon.png");
+				anemoia::TextureComponent* const pTexComp = new anemoia::TextureComponent(pObj, m_Transform, pTex);
+				pObj->AddComponent(pTexComp);
+
+				//Collider
+				anemoia::ColliderComponent* const pColl = new anemoia::ColliderComponent(pObj, m_Transform, glm::vec2(48.f, 48.f));
+				pObj->AddComponent(pColl);
+
+				//Rigid body
+				anemoia::RigidBodyComponent* const pRigid = new anemoia::RigidBodyComponent(pObj, pColl);
+				pObj->AddComponent(pRigid);
+				pRigid->AddIgnoreTag("ZenChan");
+				pRigid->AddIgnoreTag("Bubble");
+
+				//Behaviour
+				ItemBehaviour* const pBehaviour = new ItemBehaviour(pObj, pRigid, pTexComp, anemoia::Events::PLAYER_OBTAIN_WATERMELON);
+				pObj->AddComponent(pBehaviour);
+
+				//Tag
+				pObj->AddTag("Treasure");
+
+				//Add to scene
+				m_pParent->GetParentScene()->AddChild(pObj);
+			}
+		}
+
+		//Remove enemy
 		m_pParent->GetParentScene()->RemoveChild(m_pParent);
 		static_cast<BaseGameScene*>(m_pParent->GetParentScene())->NotifyEnemyDeath(m_pParent);
 	}

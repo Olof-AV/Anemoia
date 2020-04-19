@@ -15,10 +15,8 @@ HUDComponent::HUDComponent(anemoia::GameObject* const pParent, const anemoia::Tr
 {
 	m_pGameInstance = static_cast<BubbleBobbleGame*>(anemoia::Locator::GetEngine());
 
+	UpdateScores();
 	UpdateText(m_pTextHiScore, "HIGH SCORE", SDL_Colour{ 255, 0, 0 });
-	UpdateText(m_pTextHiScoreNum, std::to_string(m_pGameInstance->GetHiScore()), SDL_Colour{ 255, 255, 255 });
-	UpdateText(m_pTextScoreP1, std::to_string(m_pGameInstance->GetScore(true)), SDL_Colour{ 255, 255, 255 });
-	UpdateText(m_pTextScoreP2, std::to_string(m_pGameInstance->GetScore(false)), SDL_Colour{ 255, 255, 255 });
 
 	//Update initial texts already
 	switch (m_pGameInstance->GetGamemode())
@@ -120,6 +118,14 @@ void HUDComponent::Render() const
 	DrawTextUI(m_pTextHiScoreNum, glm::vec2{ 0.5f, 0.045f });
 	DrawTextUI(m_pTextScoreP1, glm::vec2{ 0.2f, 0.045f });
 	DrawTextUI(m_pTextScoreP2, glm::vec2{ 0.8f, 0.045f });
+}
+
+void HUDComponent::UpdateScores()
+{
+	//Updates scores exclusively
+	UpdateText(m_pTextHiScoreNum, std::to_string(m_pGameInstance->GetHiScore()), SDL_Colour{ 255, 255, 255 });
+	UpdateText(m_pTextScoreP1, std::to_string(m_pGameInstance->GetScore(true)), SDL_Colour{ 255, 255, 255 });
+	UpdateText(m_pTextScoreP2, std::to_string(m_pGameInstance->GetScore(false)), SDL_Colour{ 255, 255, 255 });
 }
 
 void HUDComponent::UpdateText(anemoia::Texture2D* &pToUpdate, const std::string& newText, const SDL_Colour& colour)

@@ -110,14 +110,29 @@ void anemoia::RigidBodyComponent::CheckCollision()
 	colliders.erase(std::find(colliders.cbegin(), colliders.cend(), m_pLinkedCollider)); //NO SELF COLLIDE
 
 	//Remove any collider that has a tag contained within the "ignoretag" of this rigidbody
-	const std::vector<ColliderComponent*>::const_iterator cIt = std::remove_if(colliders.begin(), colliders.end(), [this](ColliderComponent* const pColl)
 	{
-		return std::any_of(m_IgnoreTags.cbegin(), m_IgnoreTags.cend(), [pColl](const std::string &tag)
+		const std::vector<ColliderComponent*>::const_iterator cIt = std::remove_if(colliders.begin(), colliders.end(), [this](ColliderComponent* const pColl)
 		{
-			return pColl->GetParent()->HasTag(tag);
+			return std::any_of(m_IgnoreTags.cbegin(), m_IgnoreTags.cend(), [pColl](const std::string& tag)
+			{
+				return pColl->GetParent()->HasTag(tag);
+			});
 		});
-	});
-	colliders.erase(cIt, colliders.cend());
+		colliders.erase(cIt, colliders.cend());
+	}
+
+	//Remove any collider that has an ignoretag that matches a tag on the parent of this rigidbody
+	{
+		const std::unordered_set<std::string>& tags = m_pParent->GetTags();
+		const std::vector<ColliderComponent*>::const_iterator cIt = std::remove_if(colliders.begin(), colliders.end(), [&tags](ColliderComponent* const pColl)
+		{
+			return std::any_of(tags.cbegin(), tags.cend(), [pColl](const std::string& tag)
+			{
+				return pColl->GetParent()->HasTag(tag);
+			});
+		});
+		colliders.erase(cIt, colliders.cend());
+	}
 
 	//BOTTOM COLLISION
 	if (m_Velocity.y > 0.f)

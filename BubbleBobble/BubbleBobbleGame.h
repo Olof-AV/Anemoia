@@ -35,9 +35,9 @@ private:
 	Gamemode m_CurrentMode;
 
 	//Data to keep between scenes
-	int m_HiScore = 123550;
-	int m_ScoreP1 = 11110;
-	int m_ScoreP2 = 1050;
+	int m_HiScore = 0;
+	int m_ScoreP1 = 0;
+	int m_ScoreP2 = 0;
 
 	bool m_HiScoreChanged = false;
 	bool m_ScoreP1Changed = false;
