@@ -136,6 +136,10 @@ void PlayerBehaviour::OnCollide(anemoia::GameObject* const pOther)
 	{
 		Die();
 	}
+	else if (pOther->HasTag("Bubble"))
+	{
+		m_pParent->GetParentScene()->RemoveChild(pOther);
+	}
 }
 
 void PlayerBehaviour::Die()

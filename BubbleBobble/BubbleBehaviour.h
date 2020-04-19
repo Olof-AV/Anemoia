@@ -44,6 +44,8 @@ private:
 	float m_SlowDownRate;
 	bool m_MovesLeft;
 
+	float m_HorThreshold;
+
 	anemoia::RigidBodyComponent* m_pRigid;
 	anemoia::TextureComponent* m_pTexComp;
 

@@ -27,6 +27,7 @@ BubbleBehaviour::BubbleBehaviour(anemoia::GameObject* const pParent, anemoia::Ri
 	m_SlowDownRate = 100.f;
 	m_BurstTimer = 0.f;
 	m_BurstTimerMax = 7.f;
+	m_HorThreshold = 10.f;
 }
 
 void BubbleBehaviour::FixedUpdate(float timeStep)
@@ -37,7 +38,6 @@ void BubbleBehaviour::FixedUpdate(float timeStep)
 void BubbleBehaviour::Update(float elapsedSec)
 {
 	//Bubble slows down
-	m_pRigid->SetVelocity(m_Movement);
 	if (m_MovesLeft)
 	{
 		if (m_Movement.x < 0.f)
@@ -61,6 +61,22 @@ void BubbleBehaviour::Update(float elapsedSec)
 		}
 	}
 
+
+	//If slow enough, will float up
+	if (abs(m_Movement).x < m_HorThreshold && GetParent()->GetPosition().y > 192.f)
+	{
+		m_Movement.y = -50.f;
+	}
+	else
+	{
+		//Prevent bubble from going too far up
+		m_Movement.y = 0.f;
+	}
+	
+	//Update
+	m_pRigid->SetVelocity(m_Movement);
+	
+	//Bubble bursts after a given amount of time
 	if (m_BurstTimer < m_BurstTimerMax)
 	{
 		m_BurstTimer += elapsedSec;
@@ -82,7 +98,7 @@ void BubbleBehaviour::OnCollide(anemoia::GameObject* const pOther)
 
 	if (pOther->HasTag("Player"))
 	{
-
+		m_pParent->GetParentScene()->RemoveChild(m_pParent);
 	}
 	else if (pOther->HasTag("ZenChan"))
 	{
