@@ -42,7 +42,9 @@ private:
 
 	glm::vec2 m_Movement;
 	float m_SlowDownRate;
+	float m_FloatRate;
 	bool m_MovesLeft;
+	float m_UpperLimit;
 
 	float m_HorThreshold;
 

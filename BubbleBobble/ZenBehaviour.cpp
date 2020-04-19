@@ -13,22 +13,27 @@
 
 ZenBehaviour::ZenBehaviour(anemoia::GameObject* const pParent, anemoia::RigidBodyComponent* const pRigid, anemoia::TextureComponent* const pTexComp)
 	: anemoia::BaseComponent(pParent, anemoia::Transform()), m_pRigid{ pRigid }, m_pTexComp{ pTexComp },
-	m_IsDead{ false }
+	m_IsDead{ false }, m_CurrentState{ ZenState::run }
 {
 	m_InputDir = glm::vec2{};
 
 	//Load texs
 	const std::string startPath = "Enemies/ZenChan/";
-	m_pTexIdle = anemoia::ResourceManager::GetInstance()->LoadTexture(startPath + "Run.png");
+	m_pTexRun = anemoia::ResourceManager::GetInstance()->LoadTexture(startPath + "Run.png");
+	m_pTexBubble = anemoia::ResourceManager::GetInstance()->LoadTexture(startPath + "Bubble.png");
 
 	//Set tex for now
-	m_pTexComp->SetTexture(m_pTexIdle);
+	m_pTexComp->SetTexture(m_pTexRun);
 
 	//Params
 	m_MovSpeed = 100.f;
 	m_JumpForce = 600.f;
 	m_HorThreshold = 50.f;
 	m_VerThreshold = 30.f;
+	m_FloatRate = -75.f;
+
+	m_BubbleBurstTimer = 0.f;
+	m_BubbleBurstTimerMax = 7.f;
 
 	//Player
 	m_pPlayer = pParent->GetParentScene()->GetObjectWithTag("Player");
@@ -41,62 +46,134 @@ void ZenBehaviour::FixedUpdate(float timeStep)
 
 void ZenBehaviour::Update(float elapsedSec)
 {
-	UNREFERENCED_PARAMETER(elapsedSec);
-
-	//To compare positions
-	const glm::vec3 playerPos = m_pPlayer->GetPosition();
-	const glm::vec3 myPos = m_pParent->GetPosition();
-
-	//Current parameters
-	const float horDistance = myPos.x - playerPos.x;
-	const float verDistance = myPos.y - playerPos.y;
-	glm::vec2 vel = m_pRigid->GetVelocity();
-
-	//AI doesn't do anything if not touching floor
-	if (m_pRigid->IsTouchingFloor())
+	switch (m_CurrentState)
 	{
-		//If vertical distance needs to be examined
-		if (abs(verDistance) > m_VerThreshold)
-		{
-			//If player is above
-			if (verDistance > 0.f)
-			{
-				//Jump
-				if (abs(horDistance) < m_HorThreshold)
-				{
-					m_InputDir.x = (playerPos.x < myPos.x) ? -1.f : 1.f;
-					m_InputDir.y = -1.f;
-				}
-				//If not moving, start moving towards player
-				else
-				{
-					m_InputDir.x = (playerPos.x < myPos.x) ? -1.f : 1.f;
-					m_InputDir.y = 0.f;
-				}
+	case ZenState::run:
+		HandleMovement();
 
-			}
-			//Player is below
-			else
-			{
-				//Don't jump
-				m_InputDir.y = 0.f;
+		break;
 
-				//If not moving, start moving towards player
-				if (m_InputDir.x == 0.f || abs(vel.x) < 1.f)
-				{
-					m_InputDir.x = (playerPos.x < myPos.x) ? -1.f : 1.f;
-				}
-			}
-		}
-		//Same level
-		else
-		{
-			//Just move towards player
-			m_InputDir.y = 0.f;
-			m_InputDir.x = (playerPos.x < myPos.x) ? -1.f : 1.f;
-		}
+	case ZenState::bubble:
+		HandleBubbleMov();
+
+		m_BubbleBurstTimer += elapsedSec;
+		if (m_BubbleBurstTimer > m_BubbleBurstTimerMax) { SetState(ZenState::run); }
+
+		break;
 	}
 
+	//AI, will be moved later
+	if (m_CurrentState != ZenState::bubble)
+	{
+		//To compare positions
+		const glm::vec3 playerPos = m_pPlayer->GetPosition();
+		const glm::vec3 myPos = m_pParent->GetPosition();
+
+		//Current parameters
+		const float horDistance = myPos.x - playerPos.x;
+		const float verDistance = myPos.y - playerPos.y;
+		glm::vec2 vel = m_pRigid->GetVelocity();
+
+		//AI doesn't do anything if not touching floor
+		if (m_pRigid->IsTouchingFloor())
+		{
+			//If vertical distance needs to be examined
+			if (abs(verDistance) > m_VerThreshold)
+			{
+				//If player is above
+				if (verDistance > 0.f)
+				{
+					//Jump
+					if (abs(horDistance) < m_HorThreshold)
+					{
+						m_InputDir.x = (playerPos.x < myPos.x) ? -1.f : 1.f;
+						m_InputDir.y = -1.f;
+					}
+					//If not moving, start moving towards player
+					else
+					{
+						m_InputDir.x = (playerPos.x < myPos.x) ? -1.f : 1.f;
+						m_InputDir.y = 0.f;
+					}
+
+				}
+				//Player is below
+				else
+				{
+					//Don't jump
+					m_InputDir.y = 0.f;
+
+					//If not moving, start moving towards player
+					if (m_InputDir.x == 0.f || abs(vel.x) < 1.f)
+					{
+						m_InputDir.x = (playerPos.x < myPos.x) ? -1.f : 1.f;
+					}
+				}
+			}
+			//Same level
+			else
+			{
+				//Just move towards player
+				m_InputDir.y = 0.f;
+				m_InputDir.x = (playerPos.x < myPos.x) ? -1.f : 1.f;
+			}
+		}
+	}
+	else
+	{
+		m_InputDir = glm::vec2();
+	}
+}
+
+void ZenBehaviour::LateUpdate(float elapsedSec)
+{
+	UNREFERENCED_PARAMETER(elapsedSec);
+}
+
+void ZenBehaviour::OnCollide(anemoia::GameObject* const pOther)
+{
+	//Extra safety check to ensure player actually dies
+	if (pOther->HasTag("Player"))
+	{
+		PlayerTouch(pOther);
+	}
+	//Get bubbled
+	else if (pOther->HasTag("Bubble"))
+	{
+		m_pParent->GetParentScene()->RemoveChild(pOther);
+		SetState(ZenState::bubble);
+	}
+}
+
+ZenState ZenBehaviour::GetState() const
+{
+	return m_CurrentState;
+}
+
+void ZenBehaviour::SetState(ZenState newState)
+{
+	//Machine on new state
+	switch (newState)
+	{
+	case ZenState::run:
+		m_pTexComp->SetTexture(m_pTexRun);
+
+		break;
+
+	case ZenState::bubble:
+		m_pTexComp->SetTexture(m_pTexBubble);
+		m_BubbleBurstTimer = 0.f;
+
+		break;
+	}
+
+	//Don't forget to change
+	m_CurrentState = newState;
+}
+
+void ZenBehaviour::HandleMovement()
+{
+	glm::vec2 vel = m_pRigid->GetVelocity();
 	//Inputs are used on rigidbody
 	if (m_pRigid->IsTouchingFloor())
 	{
@@ -119,22 +196,20 @@ void ZenBehaviour::Update(float elapsedSec)
 	}
 }
 
-void ZenBehaviour::LateUpdate(float elapsedSec)
+void ZenBehaviour::HandleBubbleMov()
 {
-	UNREFERENCED_PARAMETER(elapsedSec);
+	m_pRigid->SetVelocity(glm::vec2(0.f, m_FloatRate));
 }
 
-void ZenBehaviour::OnCollide(anemoia::GameObject* const pOther)
+void ZenBehaviour::PlayerTouch(anemoia::GameObject* const pOther)
 {
-	//Extra safety check to ensure player actually dies
-	if (pOther->HasTag("Player"))
-	{
-		pOther->GetComponent<PlayerBehaviour>()->Die();
-	}
-	else if (pOther->HasTag("Bubble"))
+	if (m_CurrentState == ZenState::bubble)
 	{
 		m_pParent->GetParentScene()->RemoveChild(m_pParent);
-		m_pParent->GetParentScene()->RemoveChild(pOther);
 		static_cast<BaseGameScene*>(m_pParent->GetParentScene())->NotifyEnemyDeath(m_pParent);
+	}
+	else
+	{
+		pOther->GetComponent<PlayerBehaviour>()->Die();
 	}
 }

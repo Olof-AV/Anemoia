@@ -14,10 +14,12 @@
 
 #include "Scene.h"
 
+#include "ZenBehaviour.h"
+
 PlayerBehaviour::PlayerBehaviour(anemoia::GameObject* const pParent, anemoia::RigidBodyComponent* const pRigid, anemoia::TextureComponent* const pTexComp, bool isP2)
 	: BaseComponent(pParent, anemoia::Transform()),
 	m_pRigid{ pRigid }, m_pTexComp{ pTexComp },
-	m_IsDead{false}
+	m_IsDead{ false }, m_CurrentState{ PlayerState::idle }
 {
 	m_InputDir = glm::vec2{};
 
@@ -101,7 +103,7 @@ void PlayerBehaviour::OnCollide(anemoia::GameObject* const pOther)
 
 	if (pOther->HasTag("ZenChan"))
 	{
-		Die();
+		pOther->GetComponent<ZenBehaviour>()->PlayerTouch(m_pParent);
 	}
 	else if (pOther->HasTag("Bubble"))
 	{

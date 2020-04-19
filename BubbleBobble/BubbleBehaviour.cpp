@@ -10,6 +10,8 @@
 #include "Scene.h"
 #include "BaseGameScene.h"
 
+#include "ZenBehaviour.h"
+
 BubbleBehaviour::BubbleBehaviour(anemoia::GameObject* const pParent, anemoia::RigidBodyComponent* const pRigid, anemoia::TextureComponent* const pTexComp, bool movesLeft)
 	: anemoia::BaseComponent(pParent, anemoia::Transform()), m_pRigid{ pRigid }, m_pTexComp{ pTexComp },
 	m_MovesLeft{movesLeft}
@@ -28,6 +30,8 @@ BubbleBehaviour::BubbleBehaviour(anemoia::GameObject* const pParent, anemoia::Ri
 	m_BurstTimer = 0.f;
 	m_BurstTimerMax = 7.f;
 	m_HorThreshold = 10.f;
+	m_FloatRate = -50.f;
+	m_UpperLimit = 192.f;
 }
 
 void BubbleBehaviour::FixedUpdate(float timeStep)
@@ -60,9 +64,9 @@ void BubbleBehaviour::FixedUpdate(float timeStep)
 void BubbleBehaviour::Update(float elapsedSec)
 {
 	//If slow enough, will float up
-	if (abs(m_Movement).x < m_HorThreshold && GetParent()->GetPosition().y > 192.f)
+	if (abs(m_Movement).x < m_HorThreshold && GetParent()->GetPosition().y > m_UpperLimit)
 	{
-		m_Movement.y = -50.f;
+		m_Movement.y = m_FloatRate;
 	}
 	else
 	{
@@ -100,8 +104,7 @@ void BubbleBehaviour::OnCollide(anemoia::GameObject* const pOther)
 	else if (pOther->HasTag("ZenChan"))
 	{
 		m_pParent->GetParentScene()->RemoveChild(m_pParent);
-		m_pParent->GetParentScene()->RemoveChild(pOther);
-		static_cast<BaseGameScene*>(m_pParent->GetParentScene())->NotifyEnemyDeath(pOther);
+		pOther->GetComponent<ZenBehaviour>()->SetState(ZenState::bubble);
 	}
 	else
 	{

@@ -9,6 +9,12 @@ namespace anemoia
 	class GameObject;
 }
 
+enum class ZenState
+{
+	run,
+	bubble
+};
+
 class ZenBehaviour final : public anemoia::BaseComponent
 {
 public:
@@ -34,13 +40,25 @@ public:
 #pragma region Delete
 	const anemoia::Transform& GetTransform() const = delete;
 	void SetTransform(const anemoia::Transform & newTransform) = delete;
+
+	//Functions
+	ZenState GetState() const;
+	void SetState(ZenState newState);
+
+	void HandleMovement();
+	void HandleBubbleMov();
+
+	void PlayerTouch(anemoia::GameObject* const pOther);
+
 #pragma region Delete
 
 private:
 	anemoia::RigidBodyComponent* m_pRigid;
 	anemoia::TextureComponent* m_pTexComp;
 
-	anemoia::Texture2D* m_pTexIdle;
+	anemoia::Texture2D* m_pTexRun;
+	anemoia::Texture2D* m_pTexBubble;
+	ZenState m_CurrentState;
 
 	anemoia::GameObject* m_pPlayer;
 
@@ -50,6 +68,10 @@ private:
 	float m_JumpForce;
 	float m_HorThreshold;
 	float m_VerThreshold;
+
+	float m_FloatRate;
+	float m_BubbleBurstTimer;
+	float m_BubbleBurstTimerMax;
 
 	bool m_IsDead;
 };
