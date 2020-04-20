@@ -45,4 +45,6 @@ private:
 
 	int m_LivesP1 = 4;
 	int m_LivesP2 = 4;
+	bool m_DeadP1 = false;
+	bool m_DeadP2 = false;
 };

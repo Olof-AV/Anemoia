@@ -113,7 +113,9 @@ void BubbleBobbleGame::NotifyPlayerDeath(bool isP1)
 			break;
 
 		case Gamemode::multiplayer:
-			if (m_LivesP1 < 0 && m_LivesP2 < 0)
+			((isP1) ? m_DeadP1 : m_DeadP2) = true;
+
+			if (m_DeadP1 && m_DeadP2)
 			{
 				Exit();
 			}
@@ -121,7 +123,9 @@ void BubbleBobbleGame::NotifyPlayerDeath(bool isP1)
 			break;
 
 		case Gamemode::versus:
-			if (m_LivesP1 < 0)
+			((isP1) ? m_DeadP1 : m_DeadP2) = true;
+
+			if (m_DeadP1)
 			{
 				Exit();
 			}

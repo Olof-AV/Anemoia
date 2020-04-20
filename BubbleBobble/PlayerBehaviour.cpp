@@ -18,10 +18,14 @@
 #include "MaitaBehaviour.h"
 #include "ItemBehaviour.h"
 
+#include "Locator.h"
+#include "BubbleBobbleGame.h"
+
 PlayerBehaviour::PlayerBehaviour(anemoia::GameObject* const pParent, anemoia::RigidBodyComponent* const pRigid, anemoia::TextureComponent* const pTexComp, bool isP2)
 	: BaseComponent(pParent, anemoia::Transform()),
 	m_pRigid{ pRigid }, m_pTexComp{ pTexComp },
-	m_IsDead{ false }, m_CurrentState{ PlayerState::idle }
+	m_IsDead{ false }, m_CurrentState{ PlayerState::idle },
+	m_IsP1{!isP2}
 {
 	//Controller ID depending on P1/P2
 	const int controllerId = (isP2) ? 1 : 0;
@@ -200,9 +204,20 @@ void PlayerBehaviour::Die()
 {
 	if (!m_IsDead && !m_IsInvincible)
 	{
-		std::cout << "Die here";
-		m_IsDead = true;
+		const int lives = static_cast<BubbleBobbleGame*>(anemoia::Locator::GetEngine())->GetLives(m_IsP1);
 
+		if (lives == 0)
+		{
+			std::cout << "100% dead\n";
+			m_pParent->GetParentScene()->RemoveChild(m_pParent);
+		}
+		else
+		{
+			std::cout << "Die here\n";
+
+		}
+
+		m_IsDead = true;
 		m_pParent->Notify(anemoia::Events::PLAYER_DEATH);
 	}
 }

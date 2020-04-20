@@ -77,5 +77,8 @@ private:
 	//Shoot stuff
 	float m_ShootCoolTimer;
 	float m_ShootCoolTimerMax;
+
+	//Misc
+	bool m_IsP1;
 };
 
