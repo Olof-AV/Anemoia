@@ -21,6 +21,8 @@
 
 #include "SceneManager.h"
 
+#include "BubbleBobbleGame.h"
+
 BaseGameScene::BaseGameScene(UINT levelNum)
 	: Scene("Stage" + std::to_string(levelNum)), m_LevelNum(levelNum)
 {
@@ -435,36 +437,28 @@ bool BaseGameScene::CheckDataForPlayer(const std::string& input)
 				//Is this P1?
 				const bool isP1 = (matches[3].str().compare("true") == 0) ? true : false;
 
-				//Root
-				anemoia::GameObject* const pPlayer = new anemoia::GameObject(this);
-				pPlayer->SetPosition(std::stof(matches[1]), std::stof(matches[2]), 0.f);
+				if (!isP1)
+				{
+					//Depending on gamemode, P2 will be different
+					Gamemode mode = static_cast<BubbleBobbleGame*>(anemoia::Locator::GetEngine())->GetGamemode();
+					switch (mode)
+					{
+					case Gamemode::singleplayer:
+						break; //NO P2
 
-				//Texture
-				anemoia::Transform transform = anemoia::Transform(glm::vec3(0.f, 0.f, 0.f), glm::vec2(0.5f, 1.f));
-				anemoia::TextureComponent* const pTexComp = new anemoia::TextureComponent(pPlayer, transform, nullptr);
-				pPlayer->AddComponent(pTexComp);
+					case Gamemode::multiplayer:
+						CreatePlayer(glm::vec2(std::stof(matches[1]), std::stof(matches[2])), isP1);
+						break;
 
-				//Collision
-				anemoia::ColliderComponent* const pColl = new anemoia::ColliderComponent(pPlayer, transform, glm::vec2(48.f, 48.f));
-				pPlayer->AddComponent(pColl);
-
-				//Rigid body
-				anemoia::RigidBodyComponent* const pRigid = new anemoia::RigidBodyComponent(pPlayer, pColl);
-				pRigid->AddIgnoreTag("Player");
-				pPlayer->AddComponent(pRigid);
-
-				//Behaviour
-				PlayerBehaviour* const pBehaviour = new PlayerBehaviour(pPlayer, pRigid, pTexComp, !isP1);
-				pPlayer->AddComponent(pBehaviour);
-
-				//Tag
-				pPlayer->AddTag("Player");
-
-				//Observer
-				pPlayer->AddObserver(new PlayerObserver(true));
-
-				//Add to scene
-				AddChild(pPlayer);
+					case Gamemode::versus:
+						//No behaviour yet
+						break;
+					}
+				}
+				else
+				{
+					CreatePlayer(glm::vec2(std::stof(matches[1]), std::stof(matches[2])), isP1);
+				}
 			}
 
 			return true;
@@ -472,6 +466,40 @@ bool BaseGameScene::CheckDataForPlayer(const std::string& input)
 	}
 
 	return false;
+}
+
+void BaseGameScene::CreatePlayer(const glm::vec2& pos, bool isP1)
+{
+	//Root
+	anemoia::GameObject* const pPlayer = new anemoia::GameObject(this);
+	pPlayer->SetPosition(pos.x, pos.y, 0.f);
+
+	//Texture
+	anemoia::Transform transform = anemoia::Transform(glm::vec3(0.f, 0.f, 0.f), glm::vec2(0.5f, 1.f));
+	anemoia::TextureComponent* const pTexComp = new anemoia::TextureComponent(pPlayer, transform, nullptr);
+	pPlayer->AddComponent(pTexComp);
+
+	//Collision
+	anemoia::ColliderComponent* const pColl = new anemoia::ColliderComponent(pPlayer, transform, glm::vec2(48.f, 48.f));
+	pPlayer->AddComponent(pColl);
+
+	//Rigid body
+	anemoia::RigidBodyComponent* const pRigid = new anemoia::RigidBodyComponent(pPlayer, pColl);
+	pRigid->AddIgnoreTag("Player");
+	pPlayer->AddComponent(pRigid);
+
+	//Behaviour
+	PlayerBehaviour* const pBehaviour = new PlayerBehaviour(pPlayer, pRigid, pTexComp, !isP1);
+	pPlayer->AddComponent(pBehaviour);
+
+	//Tag
+	pPlayer->AddTag("Player");
+
+	//Observer
+	pPlayer->AddObserver(new PlayerObserver(isP1));
+
+	//Add to scene
+	AddChild(pPlayer);
 }
 
 void BaseGameScene::CreateTile(const glm::vec2& pos, bool isBig, bool isImportant, bool isInvisible, bool hasCollision)

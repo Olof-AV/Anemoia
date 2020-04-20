@@ -50,6 +50,7 @@ protected:
 	bool CheckDataForMaita(const std::string& input);
 	bool CheckDataForPlayer(const std::string& input);
 
+	void CreatePlayer(const glm::vec2& pos, bool isP1);
 	void CreateTile(const glm::vec2& pos, bool isBig, bool isImportant, bool isInvisible = false, bool hasCollision = true);
 
 	anemoia::GameObject* m_pHUD = nullptr;

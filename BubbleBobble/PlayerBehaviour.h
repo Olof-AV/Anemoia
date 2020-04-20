@@ -53,15 +53,18 @@ public:
 	void SetState(PlayerState newState);
 
 private:
+	//Components
 	anemoia::RigidBodyComponent* m_pRigid;
 	anemoia::TextureComponent* m_pTexComp;
 
+	//State
 	anemoia::Texture2D* m_pTexIdle;
 	anemoia::Texture2D* m_pTexShoot;
 	PlayerState m_CurrentState;
 
+	//Movement
+	glm::vec2 m_InitialPos;
 	glm::vec2 m_InputDir;
-
 	float m_MovSpeed;
 	float m_JumpForce;
 

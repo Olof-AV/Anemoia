@@ -23,8 +23,6 @@ PlayerBehaviour::PlayerBehaviour(anemoia::GameObject* const pParent, anemoia::Ri
 	m_pRigid{ pRigid }, m_pTexComp{ pTexComp },
 	m_IsDead{ false }, m_CurrentState{ PlayerState::idle }
 {
-	m_InputDir = glm::vec2{};
-
 	//Controller ID depending on P1/P2
 	const int controllerId = (isP2) ? 1 : 0;
 
@@ -57,6 +55,8 @@ PlayerBehaviour::PlayerBehaviour(anemoia::GameObject* const pParent, anemoia::Ri
 	SetState(PlayerState::idle);
 
 	//Params
+	m_InitialPos = pParent->GetPosition();
+	m_InputDir = glm::vec2{};
 	m_MovSpeed = 200.f;
 	m_JumpForce = 600.f;
 	m_IsInvincible = false;
@@ -87,6 +87,7 @@ void PlayerBehaviour::Update(float elapsedSec)
 		HandleMovement();
 		HandleInvincibilityTimer(elapsedSec);
 		
+		//Cooldown eventually dissipates
 		m_ShootCoolTimer += elapsedSec;
 		if (m_ShootCoolTimer > m_ShootCoolTimerMax) { SetState(PlayerState::idle); }
 
@@ -140,7 +141,7 @@ void PlayerBehaviour::HandleMovement()
 	{
 		m_IsInvincible = true;
 		m_IsDead = false;
-		m_pRigid->Move(glm::vec2(92.f, 620.f));
+		m_pRigid->Move(m_InitialPos);
 		m_pRigid->SetVelocity(glm::vec2(0.f, 0.f));
 	}
 	//Otherwise handle mov related transform stuff + movement

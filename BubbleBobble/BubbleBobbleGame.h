@@ -9,7 +9,7 @@ enum class Gamemode
 	versus
 };
 
-class BubbleBobbleGame : public anemoia::Engine
+class BubbleBobbleGame final : public anemoia::Engine
 {
 public:
 	virtual void LoadGame() const override;
@@ -32,7 +32,7 @@ public:
 
 private:
 	//Mode
-	Gamemode m_CurrentMode;
+	Gamemode m_CurrentMode = Gamemode::multiplayer;
 
 	//Data to keep between scenes
 	int m_HiScore = 0;

@@ -164,6 +164,7 @@ Tile=696, 312
 
 //Players
 Player=92, 620, true
+Player=676, 620, false
 
 //ZenChans
 ZenChan=550, 200
