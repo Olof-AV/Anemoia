@@ -16,7 +16,7 @@ class BaseGameScene final : public anemoia::Scene
 public:
 #pragma region Constructors
 	BaseGameScene(UINT levelNum);
-	virtual ~BaseGameScene();
+	virtual ~BaseGameScene() = default;
 
 	BaseGameScene(const BaseGameScene& other) = delete;
 	BaseGameScene(BaseGameScene&& other) = delete;

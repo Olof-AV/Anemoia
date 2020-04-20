@@ -113,7 +113,14 @@ void PlayerBehaviour::OnCollide(anemoia::GameObject* const pOther)
 	}
 	else if (pOther->HasTag("Bubble"))
 	{
-		m_pParent->GetParentScene()->RemoveChild(pOther);
+		if (m_InputDir.y < 0.f)
+		{
+			//Bounces on top of bubble
+		}
+		else
+		{
+			m_pParent->GetParentScene()->RemoveChild(pOther);
+		}
 	}
 	else if (pOther->HasTag("Boulder"))
 	{

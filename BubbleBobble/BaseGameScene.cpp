@@ -32,10 +32,6 @@ BaseGameScene::BaseGameScene(UINT levelNum)
 	m_EndTimerMax = 5.f;
 }
 
-BaseGameScene::~BaseGameScene()
-{
-}
-
 void BaseGameScene::FixedUpdate(float timeStep)
 {
 	//Call root
