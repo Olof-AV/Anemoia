@@ -48,8 +48,8 @@ MaitaBehaviour::MaitaBehaviour(anemoia::GameObject* const pParent, anemoia::Rigi
 	m_BoulderTimer = 0.f;
 	m_BoulderTimerMax = 5.f;
 
-	//Player
-	m_pPlayer = pParent->GetParentScene()->GetObjectWithTag("Player");
+	//Players
+	m_Targets = pParent->GetParentScene()->GetObjectsWithTag("Player");
 
 	//Add controls?
 	if (isPlayer)
@@ -262,7 +262,7 @@ void MaitaBehaviour::PlayerTouch(anemoia::GameObject* const pOther)
 		}
 
 		//Remove enemy
-		m_pParent->GetParentScene()->RemoveChild(m_pParent);
+		m_pParent->SetEnabled(false);
 		static_cast<BaseGameScene*>(m_pParent->GetParentScene())->NotifyEnemyDeath(m_pParent);
 	}
 	//Otherwise, the player dies
@@ -332,18 +332,24 @@ void MaitaBehaviour::RunAI()
 		//To compare positions
 		const glm::vec3 myPos = m_pParent->GetPosition();
 
-		//Find players -- if none, quit
-		const std::vector<anemoia::GameObject*> players = m_pParent->GetParentScene()->GetObjectsWithTag("Player");
-		if (players.empty())
-		{
-			return;
-		}
-
 		//Find closest one
-		const glm::vec3 playerPos = (*std::min_element(players.cbegin(), players.cend(), [&myPos](anemoia::GameObject* const pA, anemoia::GameObject* const pB)
+		float smallestDistance{};
+		glm::vec3 playerPos{};
+		bool found = false;
+		for (size_t i{}; i < m_Targets.size(); ++i)
 		{
-			return glm::distance2(myPos, pA->GetPosition()) < glm::distance2(myPos, pB->GetPosition());
-		}))->GetPosition();
+			if (!m_Targets[i]->IsEnabled()) { continue; }
+
+			const glm::vec3& pos = m_Targets[i]->GetPosition();
+			const float newDist = glm::distance2(myPos, pos);
+			if (!found || newDist < smallestDistance)
+			{
+				smallestDistance = newDist;
+				playerPos = pos;
+				found = true;
+			}
+		}
+		if (!found) { return; }
 
 		//Current parameters
 		const float horDistance = myPos.x - playerPos.x;

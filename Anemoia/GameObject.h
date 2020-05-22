@@ -99,6 +99,11 @@ namespace anemoia
 		void SetMarkForDelete(bool value);
 #pragma endregion MarkForDelete
 
+#pragma region Enabled
+		bool IsEnabled() const;
+		void SetEnabled(bool value);
+#pragma endregion Enabled
+
 	private:
 		Scene* m_pParentScene;
 
@@ -107,5 +112,6 @@ namespace anemoia
 		std::unordered_set<std::string> m_Tags;
 
 		bool m_MarkForDelete = false;
+		bool m_IsEnabled = true;
 	};
 }

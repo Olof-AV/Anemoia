@@ -63,7 +63,10 @@ void anemoia::Scene::FixedUpdate(float timeStep)
 	//Update all objects
 	std::for_each(m_Objects.cbegin(), m_Objects.cend(), [timeStep](GameObject* const pObject)
 	{
-		pObject->FixedUpdate(timeStep);
+		if (pObject->IsEnabled())
+		{
+			pObject->FixedUpdate(timeStep);
+		}
 	});
 }
 
@@ -72,7 +75,10 @@ void anemoia::Scene::Update(float elapsedSec)
 	//Update all objects
 	std::for_each(m_Objects.cbegin(), m_Objects.cend(), [elapsedSec](GameObject* const pObject)
 	{
-		pObject->Update(elapsedSec);
+		if (pObject->IsEnabled())
+		{
+			pObject->Update(elapsedSec);
+		}
 	});
 }
 
@@ -81,7 +87,10 @@ void anemoia::Scene::LateUpdate(float elapsedSec)
 	//Late Update all objects
 	std::for_each(m_Objects.cbegin(), m_Objects.cend(), [elapsedSec](GameObject* const pObject)
 	{
-		pObject->LateUpdate(elapsedSec);
+		if (pObject->IsEnabled())
+		{
+			pObject->LateUpdate(elapsedSec);
+		}
 	});
 }
 
@@ -90,7 +99,10 @@ void anemoia::Scene::Render() const
 	//Render all objects
 	std::for_each(m_Objects.cbegin(), m_Objects.cend(), [](GameObject* const pObject)
 	{
-		pObject->Render();
+		if (pObject->IsEnabled())
+		{
+			pObject->Render();
+		}
 	});
 }
 

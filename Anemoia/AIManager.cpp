@@ -44,17 +44,28 @@ void anemoia::AIManager::UnRegisterFunction(const BoundFunc &func)
 
 void anemoia::AIManager::Run()
 {
-	//Get scene manager, only active scenes will have their AI running
-	SceneManager* const pMan = SceneManager::GetInstance();
+	m_IsRunning = true;
 
-	//Go through registered AI functions
-	for (size_t i{}; i < m_Functions.size(); ++i)
+	//Runs in a thread until told to stop
+	while(m_IsRunning)
 	{
-		if (pMan->IsSceneActive(m_Functions[i].pScene) && m_Functions[i].func)
+		//Get scene manager, only active scenes will have their AI running
+		SceneManager* const pMan = SceneManager::GetInstance();
+
+		//Go through registered AI functions
+		for (size_t i{}; i < m_Functions.size(); ++i)
 		{
-			m_Functions[i].func();
+			if (pMan->IsSceneActive(m_Functions[i].pScene) && m_Functions[i].func)
+			{
+				m_Functions[i].func();
+			}
 		}
 	}
+}
+
+void anemoia::AIManager::Stop()
+{
+	m_IsRunning = false;
 }
 
 bool anemoia::operator==(const anemoia::BoundFunc& a, const anemoia::BoundFunc& b)

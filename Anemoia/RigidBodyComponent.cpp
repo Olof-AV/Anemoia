@@ -118,6 +118,9 @@ void anemoia::RigidBodyComponent::CheckCollision()
 	{
 		const std::vector<ColliderComponent*>::const_iterator cIt = std::remove_if(colliders.begin(), colliders.end(), [this](ColliderComponent* const pColl)
 		{
+			//Also any disabled game objects
+			if (!pColl->GetParent()->IsEnabled()) { return true; }
+
 			return std::any_of(m_IgnoreTags.cbegin(), m_IgnoreTags.cend(), [pColl](const std::string& tag)
 			{
 				return pColl->GetParent()->HasTag(tag);

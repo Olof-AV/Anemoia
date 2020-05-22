@@ -63,7 +63,7 @@ private:
 	anemoia::Texture2D* m_pTexBubble;
 	ZenState m_CurrentState;
 
-	anemoia::GameObject* m_pPlayer;
+	std::vector<anemoia::GameObject*> m_Targets;
 
 	glm::vec2 m_InputDir;
 

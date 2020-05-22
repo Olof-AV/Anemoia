@@ -159,3 +159,13 @@ void anemoia::GameObject::SetMarkForDelete(bool value)
 {
 	m_MarkForDelete = value;
 }
+
+bool anemoia::GameObject::IsEnabled() const
+{
+	return m_IsEnabled;
+}
+
+void anemoia::GameObject::SetEnabled(bool value)
+{
+	m_IsEnabled = value;
+}

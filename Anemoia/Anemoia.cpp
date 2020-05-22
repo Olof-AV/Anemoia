@@ -126,6 +126,12 @@ void anemoia::Engine::Run()
 	//Load the game
 	LoadGame();
 
+	//Start up AI thread
+	std::thread aiThread = std::thread([pAI]()
+	{
+		pAI->Run();
+	});
+
 	//Game loop
 	{
 		//Initialise prev time
@@ -153,8 +159,6 @@ void anemoia::Engine::Run()
 				lag -= m_TimeStep;
 			}
 
-			pAI->Run();
-
 			//Update
 			pSceneManager->Update(elapsedSec);
 
@@ -165,6 +169,10 @@ void anemoia::Engine::Run()
 			pRenderer->Render();
 		}
 	}
+
+	//Stop AI thread
+	pAI->Stop();
+	aiThread.join();
 
 	//Game is closing
 	Cleanup();

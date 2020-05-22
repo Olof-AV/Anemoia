@@ -220,7 +220,7 @@ void PlayerBehaviour::Die()
 		if (lives == 0)
 		{
 			std::cout << "100% dead\n";
-			m_pParent->GetParentScene()->RemoveChild(m_pParent);
+			m_pParent->SetEnabled(false);
 		}
 		else
 		{

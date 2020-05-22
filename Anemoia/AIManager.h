@@ -23,6 +23,7 @@ namespace anemoia
 		void UnRegisterFunction(const BoundFunc& func);
 
 		void Run();
+		void Stop();
 
 	private:
 		friend class Singleton<AIManager>;
