@@ -23,19 +23,19 @@ StartScene::StartScene()
 	anemoia::InputManager::GetInstance()->RegisterCommand(new anemoia::Command("sp", this, 0, XINPUT_GAMEPAD_DPAD_LEFT, VK_LEFT, anemoia::ButtonState::Down, [this]()
 	{
 		static_cast<BubbleBobbleGame*>(anemoia::Locator::GetEngine())->SetGamemode(Gamemode::singleplayer);
-		StartGame();
+		m_Start = true;
 	}));
 
-	anemoia::InputManager::GetInstance()->RegisterCommand(new anemoia::Command("mp", this, 0, XINPUT_GAMEPAD_DPAD_UP, VK_LEFT, anemoia::ButtonState::Down, [this]()
+	anemoia::InputManager::GetInstance()->RegisterCommand(new anemoia::Command("mp", this, 0, XINPUT_GAMEPAD_DPAD_UP, VK_UP, anemoia::ButtonState::Down, [this]()
 	{
 		static_cast<BubbleBobbleGame*>(anemoia::Locator::GetEngine())->SetGamemode(Gamemode::multiplayer);
-		StartGame();
+		m_Start = true;
 	}));
 
-	anemoia::InputManager::GetInstance()->RegisterCommand(new anemoia::Command("vs", this, 0, XINPUT_GAMEPAD_DPAD_RIGHT, VK_LEFT, anemoia::ButtonState::Down, [this]()
+	anemoia::InputManager::GetInstance()->RegisterCommand(new anemoia::Command("vs", this, 0, XINPUT_GAMEPAD_DPAD_RIGHT, VK_RIGHT, anemoia::ButtonState::Down, [this]()
 	{
 		static_cast<BubbleBobbleGame*>(anemoia::Locator::GetEngine())->SetGamemode(Gamemode::versus);
-		StartGame();
+		m_Start = true;
 	}));
 }
 
@@ -53,6 +53,11 @@ void StartScene::Update(float elapsedSec)
 {
 	//Call root
 	Scene::Update(elapsedSec);
+
+	if (m_Start)
+	{
+		StartGame();
+	}
 }
 
 void StartScene::LateUpdate(float elapsedSec)

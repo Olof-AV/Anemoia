@@ -123,9 +123,6 @@ void anemoia::Engine::Run()
 	//Load the game
 	LoadGame();
 
-	//Initialise scenes
-	pSceneManager->InitialiseScenes();
-
 	//Game loop
 	{
 		//Initialise prev time

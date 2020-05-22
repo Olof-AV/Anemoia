@@ -15,6 +15,11 @@
 
 void BubbleBobbleGame::LoadGame() const
 {
+	//Some extra changes
+	SDL_SetWindowTitle(m_pWindow, "Bubble Bobble - 2DAE01 - AVIRON-VIOLET Olof");
+	//SDL_SetWindowFullscreen(m_pWindow, 1);
+	SDL_SetWindowSize(m_pWindow, 256 * 3, 224 * 3);
+
 	//Test
 	/*anemoia::Scene* const pScene = new FrameCounterScene();
 	anemoia::SceneManager::GetInstance()->AddScene(pScene);
@@ -41,11 +46,6 @@ void BubbleBobbleGame::LoadGame() const
 	//Level 3 scene
 	anemoia::Scene* const pLevel3 = new BaseGameScene(3);
 	anemoia::SceneManager::GetInstance()->AddScene(pLevel3);*/
-
-	//Some extra changes
-	SDL_SetWindowTitle(m_pWindow, "Bubble Bobble - 2DAE01 - AVIRON-VIOLET Olof");
-	//SDL_SetWindowFullscreen(m_pWindow, 1);
-	SDL_SetWindowSize(m_pWindow, 256 * 3, 224 * 3);
 }
 
 Gamemode BubbleBobbleGame::GetGamemode() const

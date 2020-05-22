@@ -34,7 +34,9 @@ namespace anemoia
 		virtual void OnSceneActivated();
 		virtual void OnSceneDeactivated();
 
-		//Getter
+		//Getters
+		bool IsInitialised() const;
+
 		const std::string& GetName() const;
 		void SetName(const std::string& name);
 
@@ -53,6 +55,7 @@ namespace anemoia
 		std::vector<ColliderComponent*> m_Collision{};
 
 		bool m_ObjectsToDelete = false;
+		bool m_IsInitialised = false;
 
 		//static unsigned int m_IdCounter;
 	};

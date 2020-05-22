@@ -26,6 +26,8 @@ public:
 	virtual void OnSceneDeactivated() override;
 
 private:
+	bool m_Start = false;
+	
 	void StartGame();
 };
 

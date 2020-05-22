@@ -45,20 +45,17 @@ void anemoia::SceneManager::AddScene(Scene* const pScene)
 	if (cIt == m_Scenes.cend())
 	{
 		m_Scenes.push_back(pScene);
+
+		//Initialise?
+		if (!pScene->IsInitialised())
+		{
+			pScene->Initialise();
+		}
 	}
 	else
 	{
 		throw std::runtime_error("Failed to add scene: already present in SceneManager!");
 	}
-}
-
-void anemoia::SceneManager::InitialiseScenes() const
-{
-	//Just initialise all scenes
-	std::for_each(m_Scenes.cbegin(), m_Scenes.cend(), [](Scene* const pScene)
-	{
-		pScene->Initialise();
-	});
 }
 
 void anemoia::SceneManager::SetActiveScene(Scene* const pScene)

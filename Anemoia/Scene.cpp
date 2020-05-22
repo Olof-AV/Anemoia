@@ -8,7 +8,7 @@
 anemoia::Scene::Scene(const std::string& name)
 	: m_Name(name)
 {
-	Initialise();
+
 }
 
 anemoia::Scene::~Scene()
@@ -96,6 +96,7 @@ void anemoia::Scene::Render() const
 
 void anemoia::Scene::Initialise()
 {
+	m_IsInitialised = true;
 }
 
 void anemoia::Scene::OnSceneActivated()
@@ -104,6 +105,11 @@ void anemoia::Scene::OnSceneActivated()
 
 void anemoia::Scene::OnSceneDeactivated()
 {
+}
+
+bool anemoia::Scene::IsInitialised() const
+{
+	return m_IsInitialised;
 }
 
 const std::string& anemoia::Scene::GetName() const
