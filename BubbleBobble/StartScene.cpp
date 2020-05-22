@@ -119,7 +119,7 @@ void StartScene::StartGame()
 {
 	//Add scenes
 	{
-		/*//Game intro scene
+		//Game intro scene
 		anemoia::Scene* const pIntro = new IntroScene();
 		anemoia::SceneManager::GetInstance()->AddScene(pIntro);
 		//anemoia::SceneManager::GetInstance()->SetActiveScene(pIntro);
@@ -134,7 +134,7 @@ void StartScene::StartGame()
 
 		//Level 3 scene
 		anemoia::Scene* const pLevel3 = new BaseGameScene(3);
-		anemoia::SceneManager::GetInstance()->AddScene(pLevel3);*/
+		anemoia::SceneManager::GetInstance()->AddScene(pLevel3);
 	}
 
 	//Go to intro

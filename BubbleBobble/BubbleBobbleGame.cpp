@@ -25,7 +25,7 @@ void BubbleBobbleGame::LoadGame() const
 	anemoia::SceneManager::GetInstance()->AddScene(pStart);
 	anemoia::SceneManager::GetInstance()->SetActiveScene(pStart);
 
-	//Game intro scene
+	/*//Game intro scene
 	anemoia::Scene* const pIntro = new IntroScene();
 	anemoia::SceneManager::GetInstance()->AddScene(pIntro);
 	//anemoia::SceneManager::GetInstance()->SetActiveScene(pIntro);
@@ -40,7 +40,7 @@ void BubbleBobbleGame::LoadGame() const
 
 	//Level 3 scene
 	anemoia::Scene* const pLevel3 = new BaseGameScene(3);
-	anemoia::SceneManager::GetInstance()->AddScene(pLevel3);
+	anemoia::SceneManager::GetInstance()->AddScene(pLevel3);*/
 
 	//Some extra changes
 	SDL_SetWindowTitle(m_pWindow, "Bubble Bobble - 2DAE01 - AVIRON-VIOLET Olof");
