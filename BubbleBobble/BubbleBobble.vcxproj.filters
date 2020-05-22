@@ -74,6 +74,9 @@
     <ClCompile Include="BoulderBehaviour.cpp">
       <Filter>GameComponents</Filter>
     </ClCompile>
+    <ClCompile Include="StartScene.cpp">
+      <Filter>Scenes\GameScenes</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="BubbleBobbleGame.h">
@@ -114,6 +117,9 @@
     </ClInclude>
     <ClInclude Include="BoulderBehaviour.h">
       <Filter>GameComponents</Filter>
+    </ClInclude>
+    <ClInclude Include="StartScene.h">
+      <Filter>Scenes\GameScenes</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -16,6 +16,7 @@ public:
 
 	//Getters/Setters
 	Gamemode GetGamemode() const;
+	void SetGamemode(Gamemode mode);
 
 	int GetHiScore() const;
 	int GetScore(bool isP1) const;
@@ -32,7 +33,7 @@ public:
 
 private:
 	//Mode
-	Gamemode m_CurrentMode = Gamemode::versus;
+	Gamemode m_CurrentMode = Gamemode::singleplayer;
 
 	//Data to keep between scenes
 	int m_HiScore = 0;

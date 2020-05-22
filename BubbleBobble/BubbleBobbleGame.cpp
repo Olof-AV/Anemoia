@@ -6,6 +6,7 @@
 #include "FrameCounterScene.h"
 #include "IntroScene.h"
 #include "BaseGameScene.h"
+#include "StartScene.h"
 
 #include <SDL.h>
 #include <SDL_video.h>
@@ -19,10 +20,15 @@ void BubbleBobbleGame::LoadGame() const
 	anemoia::SceneManager::GetInstance()->AddScene(pScene);
 	anemoia::SceneManager::GetInstance()->SetActiveScene(pScene);*/
 
+	//Start screen, select gamemode
+	anemoia::Scene* const pStart = new StartScene();
+	anemoia::SceneManager::GetInstance()->AddScene(pStart);
+	anemoia::SceneManager::GetInstance()->SetActiveScene(pStart);
+
 	//Game intro scene
 	anemoia::Scene* const pIntro = new IntroScene();
 	anemoia::SceneManager::GetInstance()->AddScene(pIntro);
-	anemoia::SceneManager::GetInstance()->SetActiveScene(pIntro);
+	//anemoia::SceneManager::GetInstance()->SetActiveScene(pIntro);
 
 	//Level 1 scene
 	anemoia::Scene* const pLevel1 = new BaseGameScene(1);
@@ -45,6 +51,11 @@ void BubbleBobbleGame::LoadGame() const
 Gamemode BubbleBobbleGame::GetGamemode() const
 {
 	return m_CurrentMode;
+}
+
+void BubbleBobbleGame::SetGamemode(Gamemode mode)
+{
+	m_CurrentMode = mode;
 }
 
 int BubbleBobbleGame::GetHiScore() const

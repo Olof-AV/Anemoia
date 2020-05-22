@@ -184,7 +184,7 @@ void MaitaBehaviour::HandleMovement()
 	}
 
 	//Reset
-	m_InputDir = glm::vec2();
+	if (m_IsPlayer) { m_InputDir = glm::vec2(); }
 }
 
 void MaitaBehaviour::HandleBubbleMov()

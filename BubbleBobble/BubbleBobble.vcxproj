@@ -209,6 +209,7 @@ xcopy "$(SolutionDir)3rdParty\SDL2_mixer\lib\x64\*.dll" "$(OutputPath)" /R /Y</C
     </ClCompile>
     <ClCompile Include="PlayerBehaviour.cpp" />
     <ClCompile Include="PlayerObserver.cpp" />
+    <ClCompile Include="StartScene.cpp" />
     <ClCompile Include="ZenBehaviour.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -224,6 +225,7 @@ xcopy "$(SolutionDir)3rdParty\SDL2_mixer\lib\x64\*.dll" "$(OutputPath)" /R /Y</C
     <ClInclude Include="pch.h" />
     <ClInclude Include="PlayerBehaviour.h" />
     <ClInclude Include="PlayerObserver.h" />
+    <ClInclude Include="StartScene.h" />
     <ClInclude Include="ZenBehaviour.h" />
   </ItemGroup>
   <ItemGroup>
