@@ -401,7 +401,7 @@ bool BaseGameScene::CheckDataForPlayer(const std::string& input)
 			//Add players and stuff
 			{
 				//Is this P1?
-				const bool isP1 = (matches[3].str().compare("true") == 0) ? true : false;
+				const bool isP1 = (matches[3].str().compare("true") == 0);
 
 				if (!isP1)
 				{
@@ -417,8 +417,7 @@ bool BaseGameScene::CheckDataForPlayer(const std::string& input)
 						break;
 
 					case Gamemode::versus:
-						
-						//No behaviour yet
+						CreateMaita(glm::vec2(std::stof(matches[1]), std::stof(matches[2])), true);
 						break;
 					}
 				}
@@ -455,6 +454,7 @@ void BaseGameScene::CreateMaita(const glm::vec2& pos, bool isPlayer)
 	pRigid->AddIgnoreTag("ZenChan");
 	pRigid->AddIgnoreTag("Maita");
 	pRigid->AddIgnoreTag("Treasure");
+	pRigid->AddIgnoreTag("Boulder");
 	pMaita->AddComponent(pRigid);
 
 	//Behaviour

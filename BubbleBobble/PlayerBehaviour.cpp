@@ -263,6 +263,7 @@ void PlayerBehaviour::ShootBubble()
 			pObj->AddComponent(pRigid);
 			pRigid->AddIgnoreTag("Treasure");
 			pRigid->AddIgnoreTag("Bubble");
+			pRigid->AddIgnoreTag("Boulder");
 
 			//Bubble behaviour
 			BubbleBehaviour* const pBehaviour = new BubbleBehaviour(pObj, pRigid, pTexComp, isLookingLeft);

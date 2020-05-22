@@ -11,6 +11,7 @@
 #include "BaseGameScene.h"
 
 #include "ZenBehaviour.h"
+#include "MaitaBehaviour.h"
 
 BubbleBehaviour::BubbleBehaviour(anemoia::GameObject* const pParent, anemoia::RigidBodyComponent* const pRigid, anemoia::TextureComponent* const pTexComp, bool movesLeft)
 	: anemoia::BaseComponent(pParent, anemoia::Transform()), m_pRigid{ pRigid }, m_pTexComp{ pTexComp },
@@ -105,6 +106,11 @@ void BubbleBehaviour::OnCollide(anemoia::GameObject* const pOther)
 	{
 		m_pParent->GetParentScene()->RemoveChild(m_pParent);
 		pOther->GetComponent<ZenBehaviour>()->SetState(ZenState::bubble);
+	}
+	else if (pOther->HasTag("Maita"))
+	{
+		m_pParent->GetParentScene()->RemoveChild(m_pParent);
+		pOther->GetComponent<MaitaBehaviour>()->SetState(MaitaState::bubble);
 	}
 	else
 	{

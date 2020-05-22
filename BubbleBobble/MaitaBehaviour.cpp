@@ -14,9 +14,12 @@
 #include "PlayerBehaviour.h"
 #include "BoulderBehaviour.h"
 
+#include "InputManager.h"
+#include "Command.h"
+
 MaitaBehaviour::MaitaBehaviour(anemoia::GameObject* const pParent, anemoia::RigidBodyComponent* const pRigid, anemoia::TextureComponent* const pTexComp, bool isPlayer)
 	: anemoia::BaseComponent(pParent, anemoia::Transform()), m_pRigid{ pRigid }, m_pTexComp{ pTexComp },
-	m_IsDead{ false }, m_CurrentState{ MaitaState::run }
+	m_IsDead{ false }, m_CurrentState{ MaitaState::run }, m_IsPlayer(isPlayer)
 {
 	m_InputDir = glm::vec2{};
 
@@ -45,9 +48,27 @@ MaitaBehaviour::MaitaBehaviour(anemoia::GameObject* const pParent, anemoia::Rigi
 	//Player
 	m_pPlayer = pParent->GetParentScene()->GetObjectWithTag("Player");
 
+	//Add controls?
 	if (isPlayer)
 	{
-
+		anemoia::InputManager* const pInput = anemoia::InputManager::GetInstance();
+		pInput->RegisterCommand(new anemoia::Command("MoveLeft", pParent->GetParentScene(), 1,
+			XINPUT_GAMEPAD_DPAD_LEFT, VK_NUMPAD4, anemoia::ButtonState::Hold, [this]()
+			{
+				m_InputDir.x += -1.f;
+			}));
+		pInput->RegisterCommand(new anemoia::Command("MoveRight", pParent->GetParentScene(), 1,
+			XINPUT_GAMEPAD_DPAD_RIGHT, VK_NUMPAD6, anemoia::ButtonState::Hold, [this]()
+			{
+				m_InputDir.x += 1.f;
+			}));
+		pInput->RegisterCommand(new anemoia::Command("Jump", pParent->GetParentScene(), 1,
+			XINPUT_GAMEPAD_A, VK_NUMPAD8, anemoia::ButtonState::Hold, [this]()
+			{
+				m_InputDir.y += -1.f;
+			}));
+		pInput->RegisterCommand(new anemoia::Command("Shoot", pParent->GetParentScene(), 1,
+			XINPUT_GAMEPAD_X, VK_NUMPAD5, anemoia::ButtonState::Down, std::bind(&MaitaBehaviour::ShootBoulder, this)));
 	}
 }
 
@@ -58,70 +79,10 @@ void MaitaBehaviour::FixedUpdate(float timeStep)
 
 void MaitaBehaviour::Update(float elapsedSec)
 {
-	//AI, will be moved later
-	if (m_CurrentState != MaitaState::bubble)
+	//AI
+	if (!m_IsPlayer)
 	{
-		//To compare positions
-		const glm::vec3 playerPos = m_pPlayer->GetPosition();
-		const glm::vec3 myPos = m_pParent->GetPosition();
-
-		//Current parameters
-		const float horDistance = myPos.x - playerPos.x;
-		const float verDistance = myPos.y - playerPos.y;
-		glm::vec2 vel = m_pRigid->GetVelocity();
-
-		//AI doesn't do anything if not touching floor
-		if (m_pRigid->IsTouchingFloor())
-		{
-			//If vertical distance needs to be examined
-			if (abs(verDistance) > m_VerThreshold)
-			{
-				m_ShootRequested = false;
-
-				//If player is above
-				if (verDistance > 0.f)
-				{
-					//Jump
-					if (abs(horDistance) < m_HorThreshold)
-					{
-						m_InputDir.x = (playerPos.x < myPos.x) ? -1.f : 1.f;
-						m_InputDir.y = -1.f;
-					}
-					//If not moving, start moving towards player
-					else
-					{
-						m_InputDir.x = (playerPos.x < myPos.x) ? -1.f : 1.f;
-						m_InputDir.y = 0.f;
-					}
-
-				}
-				//Player is below
-				else
-				{
-					//Don't jump
-					m_InputDir.y = 0.f;
-
-					//If not moving, start moving towards player
-					if (m_InputDir.x == 0.f || abs(vel.x) < 1.f)
-					{
-						//m_InputDir.x = (playerPos.x < myPos.x) ? -1.f : 1.f;
-						m_InputDir.x = (rand() % 2) ? -1.f : 1.f;
-					}
-				}
-			}
-			//Same level
-			else
-			{
-				//Just move towards player
-				m_InputDir.y = 0.f;
-				m_InputDir.x = (playerPos.x < myPos.x) ? -1.f : 1.f;
-				m_ShootRequested = true;
-			}
-		}
-	}
-	else
-	{
-		m_InputDir = glm::vec2();
+		RunAI();
 	}
 
 	switch (m_CurrentState)
@@ -221,6 +182,9 @@ void MaitaBehaviour::HandleMovement()
 		transform.SetFlip(SDL_RendererFlip::SDL_FLIP_HORIZONTAL);
 		m_pTexComp->SetTransform(transform);
 	}
+
+	//Reset
+	m_InputDir = glm::vec2();
 }
 
 void MaitaBehaviour::HandleBubbleMov()
@@ -331,5 +295,74 @@ void MaitaBehaviour::ShootBoulder()
 		}
 
 		m_BoulderCooldown = true;
+	}
+}
+
+void MaitaBehaviour::RunAI()
+{
+	//AI
+	if (m_CurrentState != MaitaState::bubble)
+	{
+		//To compare positions
+		const glm::vec3 playerPos = m_pPlayer->GetPosition();
+		const glm::vec3 myPos = m_pParent->GetPosition();
+
+		//Current parameters
+		const float horDistance = myPos.x - playerPos.x;
+		const float verDistance = myPos.y - playerPos.y;
+		glm::vec2 vel = m_pRigid->GetVelocity();
+
+		//AI doesn't do anything if not touching floor
+		if (m_pRigid->IsTouchingFloor())
+		{
+			//If vertical distance needs to be examined
+			if (abs(verDistance) > m_VerThreshold)
+			{
+				m_ShootRequested = false;
+
+				//If player is above
+				if (verDistance > 0.f)
+				{
+					//Jump
+					if (abs(horDistance) < m_HorThreshold)
+					{
+						m_InputDir.x = (playerPos.x < myPos.x) ? -1.f : 1.f;
+						m_InputDir.y = -1.f;
+					}
+					//If not moving, start moving towards player
+					else
+					{
+						m_InputDir.x = (playerPos.x < myPos.x) ? -1.f : 1.f;
+						m_InputDir.y = 0.f;
+					}
+
+				}
+				//Player is below
+				else
+				{
+					//Don't jump
+					m_InputDir.y = 0.f;
+
+					//If not moving, start moving towards player
+					if (m_InputDir.x == 0.f || abs(vel.x) < 1.f)
+					{
+						//m_InputDir.x = (playerPos.x < myPos.x) ? -1.f : 1.f;
+						m_InputDir.x = (rand() % 2) ? -1.f : 1.f;
+					}
+				}
+			}
+			//Same level
+			else
+			{
+				//Just move towards player
+				m_InputDir.y = 0.f;
+				m_InputDir.x = (playerPos.x < myPos.x) ? -1.f : 1.f;
+				m_ShootRequested = true;
+			}
+		}
+	}
+	else
+	{
+		m_InputDir = glm::vec2();
 	}
 }

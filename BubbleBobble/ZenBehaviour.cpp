@@ -48,68 +48,8 @@ void ZenBehaviour::FixedUpdate(float timeStep)
 
 void ZenBehaviour::Update(float elapsedSec)
 {
-	//AI, will be moved later
-	if (m_CurrentState != ZenState::bubble)
-	{
-		//To compare positions
-		const glm::vec3 playerPos = m_pPlayer->GetPosition();
-		const glm::vec3 myPos = m_pParent->GetPosition();
-
-		//Current parameters
-		const float horDistance = myPos.x - playerPos.x;
-		const float verDistance = myPos.y - playerPos.y;
-		glm::vec2 vel = m_pRigid->GetVelocity();
-
-		//AI doesn't do anything if not touching floor
-		if (m_pRigid->IsTouchingFloor())
-		{
-			//If vertical distance needs to be examined
-			if (abs(verDistance) > m_VerThreshold)
-			{
-				//If player is above
-				if (verDistance > 0.f)
-				{
-					//Jump
-					if (abs(horDistance) < m_HorThreshold)
-					{
-						m_InputDir.x = (playerPos.x < myPos.x) ? -1.f : 1.f;
-						m_InputDir.y = -1.f;
-					}
-					//If not moving, start moving towards player
-					else
-					{
-						m_InputDir.x = (playerPos.x < myPos.x) ? -1.f : 1.f;
-						m_InputDir.y = 0.f;
-					}
-
-				}
-				//Player is below
-				else
-				{
-					//Don't jump
-					m_InputDir.y = 0.f;
-
-					//If not moving, start moving towards player
-					if (m_InputDir.x == 0.f || abs(vel.x) < 1.f)
-					{
-						//m_InputDir.x = (playerPos.x < myPos.x) ? -1.f : 1.f;
-						m_InputDir.x = (rand() % 2) ? -1.f : 1.f;
-					}
-				}
-			}
-			//Same level
-			else
-			{
-				//Just move towards player
-				m_InputDir.y = 0.f;
-				m_InputDir.x = (playerPos.x < myPos.x) ? -1.f : 1.f;
-			}
-		}
-	}
-	else
-	{
-		m_InputDir = glm::vec2();
-	}
+	//AI, will be moved
+	RunAI();
 
 	switch (m_CurrentState)
 	{
@@ -255,5 +195,71 @@ void ZenBehaviour::PlayerTouch(anemoia::GameObject* const pOther)
 	else
 	{
 		pOther->GetComponent<PlayerBehaviour>()->Die();
+	}
+}
+
+void ZenBehaviour::RunAI()
+{
+	//AI
+	if (m_CurrentState != ZenState::bubble)
+	{
+		//To compare positions
+		const glm::vec3 playerPos = m_pPlayer->GetPosition();
+		const glm::vec3 myPos = m_pParent->GetPosition();
+
+		//Current parameters
+		const float horDistance = myPos.x - playerPos.x;
+		const float verDistance = myPos.y - playerPos.y;
+		glm::vec2 vel = m_pRigid->GetVelocity();
+
+		//AI doesn't do anything if not touching floor
+		if (m_pRigid->IsTouchingFloor())
+		{
+			//If vertical distance needs to be examined
+			if (abs(verDistance) > m_VerThreshold)
+			{
+				//If player is above
+				if (verDistance > 0.f)
+				{
+					//Jump
+					if (abs(horDistance) < m_HorThreshold)
+					{
+						m_InputDir.x = (playerPos.x < myPos.x) ? -1.f : 1.f;
+						m_InputDir.y = -1.f;
+					}
+					//If not moving, start moving towards player
+					else
+					{
+						m_InputDir.x = (playerPos.x < myPos.x) ? -1.f : 1.f;
+						m_InputDir.y = 0.f;
+					}
+
+				}
+				//Player is below
+				else
+				{
+					//Don't jump
+					m_InputDir.y = 0.f;
+
+					//If not moving, start moving towards player
+					if (m_InputDir.x == 0.f || abs(vel.x) < 1.f)
+					{
+						//m_InputDir.x = (playerPos.x < myPos.x) ? -1.f : 1.f;
+						m_InputDir.x = (rand() % 2) ? -1.f : 1.f;
+					}
+				}
+			}
+			//Same level
+			else
+			{
+				//Just move towards player
+				m_InputDir.y = 0.f;
+				m_InputDir.x = (playerPos.x < myPos.x) ? -1.f : 1.f;
+			}
+		}
+	}
+	else
+	{
+		m_InputDir = glm::vec2();
 	}
 }

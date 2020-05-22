@@ -53,6 +53,8 @@ public:
 
 	void ShootBoulder();
 
+	void RunAI();
+
 #pragma region Delete
 
 private:
@@ -83,4 +85,6 @@ private:
 	bool m_ShootRequested = false;
 
 	bool m_IsDead;
+
+	bool m_IsPlayer;
 };

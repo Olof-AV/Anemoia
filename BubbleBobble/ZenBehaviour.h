@@ -51,6 +51,8 @@ public:
 
 	void PlayerTouch(anemoia::GameObject* const pOther);
 
+	void RunAI();
+
 #pragma region Delete
 
 private:
