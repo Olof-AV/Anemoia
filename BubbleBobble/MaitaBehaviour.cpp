@@ -14,7 +14,7 @@
 #include "PlayerBehaviour.h"
 #include "BoulderBehaviour.h"
 
-MaitaBehaviour::MaitaBehaviour(anemoia::GameObject* const pParent, anemoia::RigidBodyComponent* const pRigid, anemoia::TextureComponent* const pTexComp)
+MaitaBehaviour::MaitaBehaviour(anemoia::GameObject* const pParent, anemoia::RigidBodyComponent* const pRigid, anemoia::TextureComponent* const pTexComp, bool isPlayer)
 	: anemoia::BaseComponent(pParent, anemoia::Transform()), m_pRigid{ pRigid }, m_pTexComp{ pTexComp },
 	m_IsDead{ false }, m_CurrentState{ MaitaState::run }
 {
@@ -44,6 +44,11 @@ MaitaBehaviour::MaitaBehaviour(anemoia::GameObject* const pParent, anemoia::Rigi
 
 	//Player
 	m_pPlayer = pParent->GetParentScene()->GetObjectWithTag("Player");
+
+	if (isPlayer)
+	{
+
+	}
 }
 
 void MaitaBehaviour::FixedUpdate(float timeStep)

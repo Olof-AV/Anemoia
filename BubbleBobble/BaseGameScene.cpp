@@ -375,41 +375,7 @@ bool BaseGameScene::CheckDataForMaita(const std::string& input)
 		//Only can accept 2 matches + 1 original match
 		if (matches.size() == 3)
 		{
-			//Create ZenChan
-			{
-				//Root
-				anemoia::GameObject* const pMaita = new anemoia::GameObject(this);
-				pMaita->SetPosition(std::stof(matches[1]), std::stof(matches[2]), 0.f);
-
-				//Texture
-				anemoia::Transform transform = anemoia::Transform(glm::vec3(0.f, 0.f, 0.f), glm::vec2(0.5f, 1.f));
-				anemoia::TextureComponent* const pTexComp = new anemoia::TextureComponent(pMaita, transform, nullptr);
-				pMaita->AddComponent(pTexComp);
-
-				//Collision
-				anemoia::ColliderComponent* const pColl = new anemoia::ColliderComponent(pMaita, transform, glm::vec2(48.f, 48.f));
-				pMaita->AddComponent(pColl);
-
-				//Rigid body
-				anemoia::RigidBodyComponent* const pRigid = new anemoia::RigidBodyComponent(pMaita, pColl);
-				pRigid->AddIgnoreTag("ZenChan");
-				pRigid->AddIgnoreTag("Maita");
-				pRigid->AddIgnoreTag("Treasure");
-				pMaita->AddComponent(pRigid);
-
-				//Behaviour
-				MaitaBehaviour* const pBehaviour = new MaitaBehaviour(pMaita, pRigid, pTexComp);
-				pMaita->AddComponent(pBehaviour);
-
-				//Tag
-				pMaita->AddTag("Maita");
-
-				//Add to scene
-				AddChild(pMaita);
-
-				//This is an enemy
-				m_Enemies.emplace_back(pMaita);
-			}
+			CreateMaita(glm::vec2(std::stof(matches[1]), std::stof(matches[2])), false);
 
 			return true;
 		}
@@ -451,6 +417,7 @@ bool BaseGameScene::CheckDataForPlayer(const std::string& input)
 						break;
 
 					case Gamemode::versus:
+						
 						//No behaviour yet
 						break;
 					}
@@ -466,6 +433,42 @@ bool BaseGameScene::CheckDataForPlayer(const std::string& input)
 	}
 
 	return false;
+}
+
+void BaseGameScene::CreateMaita(const glm::vec2& pos, bool isPlayer)
+{
+	//Root
+	anemoia::GameObject* const pMaita = new anemoia::GameObject(this);
+	pMaita->SetPosition(pos.x, pos.y, 0.f);
+
+	//Texture
+	anemoia::Transform transform = anemoia::Transform(glm::vec3(0.f, 0.f, 0.f), glm::vec2(0.5f, 1.f));
+	anemoia::TextureComponent* const pTexComp = new anemoia::TextureComponent(pMaita, transform, nullptr);
+	pMaita->AddComponent(pTexComp);
+
+	//Collision
+	anemoia::ColliderComponent* const pColl = new anemoia::ColliderComponent(pMaita, transform, glm::vec2(48.f, 48.f));
+	pMaita->AddComponent(pColl);
+
+	//Rigid body
+	anemoia::RigidBodyComponent* const pRigid = new anemoia::RigidBodyComponent(pMaita, pColl);
+	pRigid->AddIgnoreTag("ZenChan");
+	pRigid->AddIgnoreTag("Maita");
+	pRigid->AddIgnoreTag("Treasure");
+	pMaita->AddComponent(pRigid);
+
+	//Behaviour
+	MaitaBehaviour* const pBehaviour = new MaitaBehaviour(pMaita, pRigid, pTexComp, isPlayer);
+	pMaita->AddComponent(pBehaviour);
+
+	//Tag
+	pMaita->AddTag("Maita");
+
+	//Add to scene
+	AddChild(pMaita);
+
+	//This is an enemy
+	m_Enemies.emplace_back(pMaita);
 }
 
 void BaseGameScene::CreatePlayer(const glm::vec2& pos, bool isP1)

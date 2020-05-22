@@ -19,7 +19,7 @@ class MaitaBehaviour final : public anemoia::BaseComponent
 {
 public:
 #pragma region Constructors
-	MaitaBehaviour(anemoia::GameObject* const pParent, anemoia::RigidBodyComponent* const pRigid, anemoia::TextureComponent* const pTexComp);
+	MaitaBehaviour(anemoia::GameObject* const pParent, anemoia::RigidBodyComponent* const pRigid, anemoia::TextureComponent* const pTexComp, bool isPlayer);
 	virtual ~MaitaBehaviour() = default;
 
 	MaitaBehaviour(const MaitaBehaviour& other) = delete;
