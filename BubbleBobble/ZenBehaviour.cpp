@@ -67,9 +67,6 @@ void ZenBehaviour::FixedUpdate(float timeStep)
 
 void ZenBehaviour::Update(float elapsedSec)
 {
-	//AI, will be moved
-	//RunAI();
-
 	switch (m_CurrentState)
 	{
 	case ZenState::run:
