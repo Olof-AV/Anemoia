@@ -17,6 +17,8 @@
 #include "InputManager.h"
 #include "Command.h"
 
+#include "AIManager.h"
+
 MaitaBehaviour::MaitaBehaviour(anemoia::GameObject* const pParent, anemoia::RigidBodyComponent* const pRigid, anemoia::TextureComponent* const pTexComp, bool isPlayer)
 	: anemoia::BaseComponent(pParent, anemoia::Transform()), m_pRigid{ pRigid }, m_pTexComp{ pTexComp },
 	m_IsDead{ false }, m_CurrentState{ MaitaState::run }, m_IsPlayer(isPlayer)
@@ -52,23 +54,52 @@ MaitaBehaviour::MaitaBehaviour(anemoia::GameObject* const pParent, anemoia::Rigi
 	if (isPlayer)
 	{
 		anemoia::InputManager* const pInput = anemoia::InputManager::GetInstance();
-		pInput->RegisterCommand(new anemoia::Command("MoveLeft", pParent->GetParentScene(), 1,
+		pInput->RegisterCommand(m_pCommand_Left = new anemoia::Command("MoveLeft", pParent->GetParentScene(), 1,
 			XINPUT_GAMEPAD_DPAD_LEFT, VK_NUMPAD4, anemoia::ButtonState::Hold, [this]()
 			{
 				m_InputDir.x += -1.f;
 			}));
-		pInput->RegisterCommand(new anemoia::Command("MoveRight", pParent->GetParentScene(), 1,
+		pInput->RegisterCommand(m_pCommand_Right = new anemoia::Command("MoveRight", pParent->GetParentScene(), 1,
 			XINPUT_GAMEPAD_DPAD_RIGHT, VK_NUMPAD6, anemoia::ButtonState::Hold, [this]()
 			{
 				m_InputDir.x += 1.f;
 			}));
-		pInput->RegisterCommand(new anemoia::Command("Jump", pParent->GetParentScene(), 1,
+		pInput->RegisterCommand(m_pCommand_Jump = new anemoia::Command("Jump", pParent->GetParentScene(), 1,
 			XINPUT_GAMEPAD_A, VK_NUMPAD8, anemoia::ButtonState::Hold, [this]()
 			{
 				m_InputDir.y += -1.f;
 			}));
-		pInput->RegisterCommand(new anemoia::Command("Shoot", pParent->GetParentScene(), 1,
+		pInput->RegisterCommand(m_pCommand_Shoot = new anemoia::Command("Shoot", pParent->GetParentScene(), 1,
 			XINPUT_GAMEPAD_X, VK_NUMPAD5, anemoia::ButtonState::Down, std::bind(&MaitaBehaviour::ShootBoulder, this)));
+	}
+	else
+	{
+		//AI
+		anemoia::BoundFunc func;
+		func.func = std::bind(&MaitaBehaviour::RunAI, this);
+		func.pParent = pParent;
+		func.pScene = pParent->GetParentScene();
+		anemoia::AIManager::GetInstance()->RegisterFunction(func);
+	}
+}
+
+MaitaBehaviour::~MaitaBehaviour()
+{
+	//AI cleanup
+	if (!m_IsPlayer)
+	{
+		anemoia::BoundFunc func;
+		func.func = std::bind(&MaitaBehaviour::RunAI, this);
+		func.pParent = GetParent();
+		func.pScene = func.pParent->GetParentScene();
+		anemoia::AIManager::GetInstance()->UnRegisterFunction(func);
+	}
+	else
+	{
+		delete anemoia::InputManager::GetInstance()->UnregisterCommand(m_pCommand_Left);
+		delete anemoia::InputManager::GetInstance()->UnregisterCommand(m_pCommand_Right);
+		delete anemoia::InputManager::GetInstance()->UnregisterCommand(m_pCommand_Jump);
+		delete anemoia::InputManager::GetInstance()->UnregisterCommand(m_pCommand_Shoot);
 	}
 }
 
@@ -79,12 +110,6 @@ void MaitaBehaviour::FixedUpdate(float timeStep)
 
 void MaitaBehaviour::Update(float elapsedSec)
 {
-	//AI
-	if (!m_IsPlayer)
-	{
-		RunAI();
-	}
-
 	switch (m_CurrentState)
 	{
 	case MaitaState::run:

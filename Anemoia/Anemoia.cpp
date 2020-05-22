@@ -8,6 +8,7 @@
 #include "SceneManager.h"
 #include "Renderer.h"
 #include "ResourceManager.h"
+#include "AIManager.h"
 
 #include <SDL.h>
 #include "TextComponent.h"
@@ -97,6 +98,7 @@ void anemoia::Engine::Cleanup()
 	SceneManager::DestroyInstance();
 	InputManager::DestroyInstance();
 	ResourceManager::DestroyInstance();
+	AIManager::DestroyInstance();
 
 	//Destroy window instance
 	SDL_DestroyWindow(m_pWindow);
@@ -113,6 +115,7 @@ void anemoia::Engine::Run()
 	Renderer* const pRenderer = Renderer::GetInstance();
 	SceneManager* const pSceneManager = SceneManager::GetInstance();
 	InputManager* const pInput = InputManager::GetInstance();
+	AIManager* const pAI = AIManager::GetInstance();
 
 	//Setup locator
 	Locator::SetInputManager(pInput);
@@ -149,6 +152,8 @@ void anemoia::Engine::Run()
 				pSceneManager->FixedUpdate(m_TimeStep);
 				lag -= m_TimeStep;
 			}
+
+			pAI->Run();
 
 			//Update
 			pSceneManager->Update(elapsedSec);

@@ -114,10 +114,14 @@ void anemoia::InputManager::RegisterCommand(Command* const pCommand)
 anemoia::Command* anemoia::InputManager::UnregisterCommand(Command* const pCommand)
 {
 	//Remove from managed commands
-	const std::vector<Command*>::const_iterator cIt = std::find(m_Commands.cbegin(), m_Commands.cend(), pCommand);
-	m_Commands.erase(cIt);
+	const std::vector<Command*>::const_iterator cIt = std::remove(m_Commands.begin(), m_Commands.end(), pCommand);
+	if (cIt != m_Commands.cend())
+	{
+		m_Commands.erase(cIt);
+		return pCommand;
+	}
 
-	return *cIt;
+	return nullptr;
 }
 
 anemoia::Command* const anemoia::InputManager::GetCommand(const std::string& name) const

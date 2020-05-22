@@ -13,6 +13,8 @@
 
 #include "PlayerBehaviour.h"
 
+#include "AIManager.h"
+
 ZenBehaviour::ZenBehaviour(anemoia::GameObject* const pParent, anemoia::RigidBodyComponent* const pRigid, anemoia::TextureComponent* const pTexComp)
 	: anemoia::BaseComponent(pParent, anemoia::Transform()), m_pRigid{ pRigid }, m_pTexComp{ pTexComp },
 	m_IsDead{ false }, m_CurrentState{ ZenState::run }
@@ -39,6 +41,23 @@ ZenBehaviour::ZenBehaviour(anemoia::GameObject* const pParent, anemoia::RigidBod
 
 	//Player
 	m_pPlayer = pParent->GetParentScene()->GetObjectWithTag("Player");
+
+	//AI
+	anemoia::BoundFunc func;
+	func.func = std::bind(&ZenBehaviour::RunAI, this);
+	func.pParent = pParent;
+	func.pScene = pParent->GetParentScene();
+	anemoia::AIManager::GetInstance()->RegisterFunction(func);
+}
+
+ZenBehaviour::~ZenBehaviour()
+{
+	//AI cleanup
+	anemoia::BoundFunc func;
+	func.func = std::bind(&ZenBehaviour::RunAI, this);
+	func.pParent = GetParent();
+	func.pScene = func.pParent->GetParentScene();
+	anemoia::AIManager::GetInstance()->UnRegisterFunction(func);
 }
 
 void ZenBehaviour::FixedUpdate(float timeStep)
@@ -49,7 +68,7 @@ void ZenBehaviour::FixedUpdate(float timeStep)
 void ZenBehaviour::Update(float elapsedSec)
 {
 	//AI, will be moved
-	RunAI();
+	//RunAI();
 
 	switch (m_CurrentState)
 	{

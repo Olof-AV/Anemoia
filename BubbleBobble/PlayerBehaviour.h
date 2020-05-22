@@ -7,6 +7,7 @@ namespace anemoia
 	class RigidBodyComponent;
 	class TextureComponent;
 	class GameObject;
+	class Command;
 }
 
 enum class PlayerState
@@ -20,7 +21,7 @@ class PlayerBehaviour final : public anemoia::BaseComponent
 public:
 #pragma region Constructors
 	PlayerBehaviour(anemoia::GameObject* const pParent, anemoia::RigidBodyComponent* const pRigid, anemoia::TextureComponent* const pTexComp, bool isP2 = false);
-	virtual ~PlayerBehaviour() = default;
+	virtual ~PlayerBehaviour();
 
 	PlayerBehaviour(const PlayerBehaviour& other) = delete;
 	PlayerBehaviour(PlayerBehaviour&& other) = delete;
@@ -80,5 +81,11 @@ private:
 
 	//Misc
 	bool m_IsP1;
+
+	//Commands
+	anemoia::Command* m_pCommand_Left;
+	anemoia::Command* m_pCommand_Right;
+	anemoia::Command* m_pCommand_Jump;
+	anemoia::Command* m_pCommand_Shoot;
 };
 

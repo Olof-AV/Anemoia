@@ -20,7 +20,7 @@ class ZenBehaviour final : public anemoia::BaseComponent
 public:
 #pragma region Constructors
 	ZenBehaviour(anemoia::GameObject* const pParent, anemoia::RigidBodyComponent* const pRigid, anemoia::TextureComponent* const pTexComp);
-	virtual ~ZenBehaviour() = default;
+	virtual ~ZenBehaviour();
 
 	ZenBehaviour(const ZenBehaviour& other) = delete;
 	ZenBehaviour(ZenBehaviour&& other) = delete;

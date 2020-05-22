@@ -32,22 +32,22 @@ PlayerBehaviour::PlayerBehaviour(anemoia::GameObject* const pParent, anemoia::Ri
 
 	//Setup input
 	anemoia::InputManager* const pInput = anemoia::InputManager::GetInstance();
-	pInput->RegisterCommand(new anemoia::Command("MoveLeft", pParent->GetParentScene(), controllerId,
+	pInput->RegisterCommand(m_pCommand_Left = new anemoia::Command("MoveLeft", pParent->GetParentScene(), controllerId,
 		XINPUT_GAMEPAD_DPAD_LEFT, ((isP2) ? VK_NUMPAD4 : VK_LEFT), anemoia::ButtonState::Hold, [this]()
 	{
 		m_InputDir.x += -1.f;
 	}));
-	pInput->RegisterCommand(new anemoia::Command("MoveRight", pParent->GetParentScene(), controllerId,
+	pInput->RegisterCommand(m_pCommand_Right = new anemoia::Command("MoveRight", pParent->GetParentScene(), controllerId,
 		XINPUT_GAMEPAD_DPAD_RIGHT, ((isP2) ? VK_NUMPAD6 : VK_RIGHT), anemoia::ButtonState::Hold, [this]()
 	{
 		m_InputDir.x += 1.f;
 	}));
-	pInput->RegisterCommand(new anemoia::Command("Jump", pParent->GetParentScene(), controllerId,
+	pInput->RegisterCommand(m_pCommand_Jump = new anemoia::Command("Jump", pParent->GetParentScene(), controllerId,
 		XINPUT_GAMEPAD_A, ((isP2) ? VK_NUMPAD8 : 'Z'), anemoia::ButtonState::Hold, [this]()
 	{
 		m_InputDir.y += -1.f;
 	}));
-	pInput->RegisterCommand(new anemoia::Command("Shoot", pParent->GetParentScene(), controllerId,
+	pInput->RegisterCommand(m_pCommand_Shoot = new anemoia::Command("Shoot", pParent->GetParentScene(), controllerId,
 		XINPUT_GAMEPAD_X, ((isP2) ? VK_NUMPAD5 : 'X'), anemoia::ButtonState::Down, std::bind(&PlayerBehaviour::ShootBubble, this) ));
 
 	//Load textures
@@ -70,6 +70,14 @@ PlayerBehaviour::PlayerBehaviour(anemoia::GameObject* const pParent, anemoia::Ri
 
 	m_ShootCoolTimer = 0.f;
 	m_ShootCoolTimerMax = 0.75f;
+}
+
+PlayerBehaviour::~PlayerBehaviour()
+{
+	delete anemoia::InputManager::GetInstance()->UnregisterCommand(m_pCommand_Left);
+	delete anemoia::InputManager::GetInstance()->UnregisterCommand(m_pCommand_Right);
+	delete anemoia::InputManager::GetInstance()->UnregisterCommand(m_pCommand_Jump);
+	delete anemoia::InputManager::GetInstance()->UnregisterCommand(m_pCommand_Shoot);
 }
 
 void PlayerBehaviour::FixedUpdate(float timeStep)

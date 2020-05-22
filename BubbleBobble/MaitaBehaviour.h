@@ -7,6 +7,7 @@ namespace anemoia
 	class RigidBodyComponent;
 	class TextureComponent;
 	class GameObject;
+	class Command;
 }
 
 enum class MaitaState
@@ -20,7 +21,7 @@ class MaitaBehaviour final : public anemoia::BaseComponent
 public:
 #pragma region Constructors
 	MaitaBehaviour(anemoia::GameObject* const pParent, anemoia::RigidBodyComponent* const pRigid, anemoia::TextureComponent* const pTexComp, bool isPlayer);
-	virtual ~MaitaBehaviour() = default;
+	virtual ~MaitaBehaviour();
 
 	MaitaBehaviour(const MaitaBehaviour& other) = delete;
 	MaitaBehaviour(MaitaBehaviour&& other) = delete;
@@ -87,4 +88,10 @@ private:
 	bool m_IsDead;
 
 	bool m_IsPlayer;
+
+	//Commands
+	anemoia::Command* m_pCommand_Left;
+	anemoia::Command* m_pCommand_Right;
+	anemoia::Command* m_pCommand_Jump;
+	anemoia::Command* m_pCommand_Shoot;
 };
