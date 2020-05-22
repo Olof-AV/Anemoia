@@ -32,7 +32,7 @@ public:
 
 private:
 	//Mode
-	Gamemode m_CurrentMode = Gamemode::multiplayer;
+	Gamemode m_CurrentMode = Gamemode::singleplayer;
 
 	//Data to keep between scenes
 	int m_HiScore = 0;

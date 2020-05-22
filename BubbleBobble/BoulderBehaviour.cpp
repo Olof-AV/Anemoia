@@ -25,7 +25,7 @@ BoulderBehaviour::BoulderBehaviour(anemoia::GameObject* const pParent, anemoia::
 
 	//Params
 	m_Movement = glm::vec2();
-	m_Movement.x = (movesLeft) ? -200.f : 200.f;
+	m_Movement.x = (movesLeft) ? -100.f : 100.f;
 	m_pRigid->SetVelocity(m_Movement);
 }
 

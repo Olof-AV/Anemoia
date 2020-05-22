@@ -191,6 +191,9 @@ void PlayerBehaviour::HandleInvincibilityTimer(float elapsedSec)
 		{
 			m_InvincibilityTimer = 0.f;
 			m_IsInvincible = false;
+
+			m_pRigid->RemoveIgnoreTag("ZenChan");
+			m_pRigid->RemoveIgnoreTag("Maita");
 		}
 		m_pTexComp->SetColourMod(glm::vec4(255.f, 255.f, 255.f, 128.f));
 	}
@@ -215,6 +218,8 @@ void PlayerBehaviour::Die()
 		{
 			std::cout << "Die here\n";
 
+			m_pRigid->AddIgnoreTag("ZenChan");
+			m_pRigid->AddIgnoreTag("Maita");
 		}
 
 		m_IsDead = true;

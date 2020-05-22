@@ -234,8 +234,8 @@ TileHard=624, 216
 Player=92, 620, true
 Player=676, 620, false
 
-//Maitas
-Maita=264, 150
+//Enemies
+ZenChan=264, 150
 Maita=504, 150
-Maita=180, 280
+ZenChan=180, 280
 Maita=588, 280
