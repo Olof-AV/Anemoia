@@ -161,3 +161,18 @@ anemoia::GameObject* anemoia::Scene::GetObjectWithTag(const std::string& tag) co
 	return nullptr;
 }
 
+std::vector<anemoia::GameObject*> anemoia::Scene::GetObjectsWithTag(const std::string& tag) const
+{
+	//Create vector
+	std::vector<GameObject*> toReturn{};
+
+	//Copy relevant objects
+	std::copy_if(m_Objects.cbegin(), m_Objects.cend(), std::back_inserter(toReturn), [&tag](anemoia::GameObject* const pObject)
+	{
+		return pObject->HasTag(tag);
+	});
+
+	//Return result
+	return toReturn;
+}
+

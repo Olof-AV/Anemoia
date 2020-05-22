@@ -18,6 +18,7 @@
 #include "Command.h"
 
 #include "AIManager.h"
+#include <algorithm>
 
 MaitaBehaviour::MaitaBehaviour(anemoia::GameObject* const pParent, anemoia::RigidBodyComponent* const pRigid, anemoia::TextureComponent* const pTexComp, bool isPlayer)
 	: anemoia::BaseComponent(pParent, anemoia::Transform()), m_pRigid{ pRigid }, m_pTexComp{ pTexComp },
@@ -329,8 +330,20 @@ void MaitaBehaviour::RunAI()
 	if (m_CurrentState != MaitaState::bubble)
 	{
 		//To compare positions
-		const glm::vec3 playerPos = m_pPlayer->GetPosition();
 		const glm::vec3 myPos = m_pParent->GetPosition();
+
+		//Find players -- if none, quit
+		const std::vector<anemoia::GameObject*> players = m_pParent->GetParentScene()->GetObjectsWithTag("Player");
+		if (players.empty())
+		{
+			return;
+		}
+
+		//Find closest one
+		const glm::vec3 playerPos = (*std::min_element(players.cbegin(), players.cend(), [&myPos](anemoia::GameObject* const pA, anemoia::GameObject* const pB)
+		{
+			return glm::distance2(myPos, pA->GetPosition()) < glm::distance2(myPos, pB->GetPosition());
+		}))->GetPosition();
 
 		//Current parameters
 		const float horDistance = myPos.x - playerPos.x;

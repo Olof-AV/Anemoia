@@ -5,12 +5,12 @@
 
 anemoia::AIManager::AIManager()
 {
-
+	m_Functions.clear();
 }
 
 anemoia::AIManager::~AIManager()
 {
-
+	m_Functions.clear();
 }
 
 void anemoia::AIManager::RegisterFunction(const BoundFunc& func)
@@ -44,11 +44,13 @@ void anemoia::AIManager::UnRegisterFunction(const BoundFunc &func)
 
 void anemoia::AIManager::Run()
 {
-	SceneManager::GetInstance();
+	//Get scene manager, only active scenes will have their AI running
+	SceneManager* const pMan = SceneManager::GetInstance();
 
+	//Go through registered AI functions
 	for (size_t i{}; i < m_Functions.size(); ++i)
 	{
-		if (m_Functions[i].func)
+		if (pMan->IsSceneActive(m_Functions[i].pScene) && m_Functions[i].func)
 		{
 			m_Functions[i].func();
 		}

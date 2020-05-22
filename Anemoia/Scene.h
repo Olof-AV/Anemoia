@@ -47,6 +47,7 @@ namespace anemoia
 
 		//Tags
 		GameObject* GetObjectWithTag(const std::string& tag) const;
+		std::vector<GameObject*> GetObjectsWithTag(const std::string& tag) const;
 
 	private:
 		std::string m_Name;

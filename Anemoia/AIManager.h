@@ -11,8 +11,8 @@ namespace anemoia
 	struct BoundFunc
 	{
 		std::function<void(void)> func;
-		Scene* pScene;
-		GameObject* pParent;
+		Scene* pScene = nullptr;
+		GameObject* pParent = nullptr;
 	};
 	bool operator==(const anemoia::BoundFunc& a, const anemoia::BoundFunc& b);
 

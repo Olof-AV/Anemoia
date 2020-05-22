@@ -15,6 +15,8 @@
 
 #include "AIManager.h"
 
+#include <algorithm>
+
 ZenBehaviour::ZenBehaviour(anemoia::GameObject* const pParent, anemoia::RigidBodyComponent* const pRigid, anemoia::TextureComponent* const pTexComp)
 	: anemoia::BaseComponent(pParent, anemoia::Transform()), m_pRigid{ pRigid }, m_pTexComp{ pTexComp },
 	m_IsDead{ false }, m_CurrentState{ ZenState::run }
@@ -220,8 +222,20 @@ void ZenBehaviour::RunAI()
 	if (m_CurrentState != ZenState::bubble)
 	{
 		//To compare positions
-		const glm::vec3 playerPos = m_pPlayer->GetPosition();
 		const glm::vec3 myPos = m_pParent->GetPosition();
+
+		//Find players -- if none, quit
+		const std::vector<anemoia::GameObject*> players = m_pParent->GetParentScene()->GetObjectsWithTag("Player");
+		if (players.empty())
+		{
+			return;
+		}
+
+		//Find closest one
+		const glm::vec3 playerPos = (*std::min_element(players.cbegin(), players.cend(), [&myPos](anemoia::GameObject* const pA, anemoia::GameObject* const pB)
+		{
+			return glm::distance2(myPos, pA->GetPosition()) < glm::distance2(myPos, pB->GetPosition());
+		}))->GetPosition();
 
 		//Current parameters
 		const float horDistance = myPos.x - playerPos.x;

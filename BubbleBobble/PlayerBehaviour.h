@@ -83,9 +83,9 @@ private:
 	bool m_IsP1;
 
 	//Commands
-	anemoia::Command* m_pCommand_Left;
-	anemoia::Command* m_pCommand_Right;
-	anemoia::Command* m_pCommand_Jump;
-	anemoia::Command* m_pCommand_Shoot;
+	anemoia::Command* m_pCommand_Left = nullptr;
+	anemoia::Command* m_pCommand_Right = nullptr;
+	anemoia::Command* m_pCommand_Jump = nullptr;
+	anemoia::Command* m_pCommand_Shoot = nullptr;
 };
 
