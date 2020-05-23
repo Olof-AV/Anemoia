@@ -9,6 +9,11 @@ enum class Gamemode
 	versus
 };
 
+namespace anemoia
+{
+	class Sound;
+}
+
 class BubbleBobbleGame final : public anemoia::Engine
 {
 public:
@@ -48,4 +53,7 @@ private:
 	int m_LivesP2 = 4;
 	bool m_DeadP1 = false;
 	bool m_DeadP2 = false;
+	
+	//Sound
+	anemoia::Sound* m_pSound_Collect = nullptr;
 };

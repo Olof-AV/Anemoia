@@ -13,6 +13,9 @@
 
 #include "Locator.h"
 
+#include "ResourceManager.h"
+#include "Sound.h"
+
 void BubbleBobbleGame::LoadGame()
 {
 	//Default params
@@ -28,11 +31,15 @@ void BubbleBobbleGame::LoadGame()
 	m_LivesP2 = 4;
 	m_DeadP1 = false;
 	m_DeadP2 = false;
+	
+	//Load stuff
+	m_pSound_Collect = anemoia::ResourceManager::GetInstance()->LoadSound("Items/Pickup.wav");
 
 	//Some extra changes
 	SDL_SetWindowTitle(m_pWindow, "Bubble Bobble - 2DAE01 - AVIRON-VIOLET Olof");
 	//SDL_SetWindowFullscreen(m_pWindow, 1);
-	SDL_SetWindowSize(m_pWindow, 256 * 3, 224 * 3);
+	const int scale = 3;
+	SDL_SetWindowSize(m_pWindow, 256 * scale, 224 * scale);
 
 	//Test
 	/*anemoia::Scene* const pScene = new FrameCounterScene();
@@ -99,11 +106,16 @@ int BubbleBobbleGame::GetLives(bool isP1) const
 
 void BubbleBobbleGame::AddScore(int change, bool isP1)
 {
+	//Change relevant score
 	(isP1) ? m_ScoreP1 += change : m_ScoreP2 += change;
 	(isP1) ? m_ScoreP1Changed = true : m_ScoreP2Changed = true;
 
+	//Hiscore changed?
 	if (m_ScoreP1 > m_HiScore) { m_HiScore = m_ScoreP1; m_HiScoreChanged = true; }
 	if (m_ScoreP2 > m_HiScore) { m_HiScore = m_ScoreP2; m_HiScoreChanged = true; }
+
+	//Sound
+	m_pSound_Collect->Play(0);
 }
 
 void BubbleBobbleGame::SetHiScoreChanged(bool value)
