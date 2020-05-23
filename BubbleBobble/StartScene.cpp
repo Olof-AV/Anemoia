@@ -17,6 +17,7 @@
 
 #include "TextureComponent.h"
 #include "Texture2D.h"
+#include "Sound.h"
 
 StartScene::StartScene()
 	: Scene("StartScene")
@@ -117,6 +118,10 @@ void StartScene::Initialise()
 		//Add to scene
 		AddChild(pRoot);
 	}
+
+	//Load sound + play
+	m_pSound_Intro = anemoia::ResourceManager::GetInstance()->LoadSound("HUD/Opening.wav");
+	m_pSound_Intro->Play(0);
 }
 
 void StartScene::OnSceneActivated()

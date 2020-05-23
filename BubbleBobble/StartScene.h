@@ -4,6 +4,7 @@
 namespace anemoia
 {
 	class TextureComponent;
+	class Sound;
 }
 
 class StartScene final : public anemoia::Scene
@@ -35,5 +36,6 @@ private:
 	bool m_Start = false;
 
 	anemoia::TextureComponent* m_pLogo = nullptr;
+	anemoia::Sound* m_pSound_Intro = nullptr;
 };
 
