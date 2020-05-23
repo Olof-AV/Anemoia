@@ -34,6 +34,7 @@ void BubbleBobbleGame::LoadGame()
 	
 	//Load stuff
 	m_pSound_Collect = anemoia::ResourceManager::GetInstance()->LoadSound("Items/Pickup.wav");
+	m_pSound_Music = anemoia::ResourceManager::GetInstance()->LoadSound("MainTheme.mp3");
 
 	//Some extra changes
 	SDL_SetWindowTitle(m_pWindow, "Bubble Bobble - 2DAE01 - AVIRON-VIOLET Olof");
@@ -77,6 +78,18 @@ Gamemode BubbleBobbleGame::GetGamemode() const
 void BubbleBobbleGame::SetGamemode(Gamemode mode)
 {
 	m_CurrentMode = mode;
+}
+
+void BubbleBobbleGame::PlayMusic(bool value)
+{
+	if (value)
+	{
+		m_pSound_Music->Play(-1);
+	}
+	else
+	{
+		m_pSound_Music->Stop();
+	}
 }
 
 int BubbleBobbleGame::GetHiScore() const

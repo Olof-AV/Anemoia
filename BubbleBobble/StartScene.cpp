@@ -166,4 +166,7 @@ void StartScene::StartGame()
 
 	//Go to intro
 	anemoia::SceneManager::GetInstance()->SetActiveScene("IntroScene");
+
+	//Start music
+	static_cast<BubbleBobbleGame*>(anemoia::Locator::GetEngine())->PlayMusic(true);
 }

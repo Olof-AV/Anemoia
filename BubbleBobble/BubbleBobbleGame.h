@@ -23,17 +23,23 @@ public:
 	Gamemode GetGamemode() const;
 	void SetGamemode(Gamemode mode);
 
+	//Music
+	void PlayMusic(bool value);
+
+	//Score--lives getters
 	int GetHiScore() const;
 	int GetScore(bool isP1) const;
 	bool GetHiScoreChanged() const;
 	bool GetScoreChanged(bool isP1) const;
 	int GetLives(bool isP1) const;
 
+	//Score--lives setters
 	void AddScore(int change, bool isP1);
 	void SetHiScoreChanged(bool value);
 	void SetScoreChanged(bool isP1, bool value);
 	void SetLives(bool isP1, int value);
 
+	//Notify
 	void NotifyPlayerDeath(bool isP1);
 
 private:
@@ -56,4 +62,5 @@ private:
 	
 	//Sound
 	anemoia::Sound* m_pSound_Collect = nullptr;
+	anemoia::Sound* m_pSound_Music = nullptr;
 };
