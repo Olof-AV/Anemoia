@@ -121,6 +121,8 @@ void StartScene::Initialise()
 
 	//Load sound + play
 	m_pSound_Intro = anemoia::ResourceManager::GetInstance()->LoadSound("HUD/Opening.wav");
+	m_pSound_Select = anemoia::ResourceManager::GetInstance()->LoadSound("HUD/Select.wav");
+
 	m_pSound_Intro->Play(0);
 }
 
@@ -138,6 +140,10 @@ void StartScene::OnSceneDeactivated()
 
 void StartScene::StartGame()
 {
+	//Select
+	m_pSound_Select->Play(0);
+	m_pSound_Intro->Stop();
+
 	//Add scenes
 	{
 		//Game intro scene

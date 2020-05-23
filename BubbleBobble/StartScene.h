@@ -37,5 +37,6 @@ private:
 
 	anemoia::TextureComponent* m_pLogo = nullptr;
 	anemoia::Sound* m_pSound_Intro = nullptr;
+	anemoia::Sound* m_pSound_Select = nullptr;
 };
 

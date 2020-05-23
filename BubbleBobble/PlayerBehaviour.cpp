@@ -76,6 +76,7 @@ PlayerBehaviour::PlayerBehaviour(anemoia::GameObject* const pParent, anemoia::Ri
 	//Load sounds
 	{
 		m_pSound_Jump = anemoia::ResourceManager::GetInstance()->LoadSound("Player/Jump.wav");
+		m_pSound_JumpBubble = anemoia::ResourceManager::GetInstance()->LoadSound("Player/Jump_Bubble.wav");
 		m_pSound_Shoot = anemoia::ResourceManager::GetInstance()->LoadSound("Player/Shoot.wav");
 	}
 }
@@ -126,17 +127,34 @@ void PlayerBehaviour::OnCollide(anemoia::GameObject* const pOther)
 
 	if (pOther->HasTag("ZenChan"))
 	{
-		pOther->GetComponent<ZenBehaviour>()->PlayerTouch(m_pParent);
+		if (m_InputDir.y < 0.f)
+		{
+			//Bounces on top of bubble
+			m_pSound_JumpBubble->Play(0);
+		}
+		else
+		{
+			pOther->GetComponent<ZenBehaviour>()->PlayerTouch(m_pParent);
+		}
 	}
 	if (pOther->HasTag("Maita"))
 	{
-		pOther->GetComponent<MaitaBehaviour>()->PlayerTouch(m_pParent);
+		if (m_InputDir.y < 0.f)
+		{
+			//Bounces on top of bubble
+			m_pSound_JumpBubble->Play(0);
+		}
+		else
+		{
+			pOther->GetComponent<MaitaBehaviour>()->PlayerTouch(m_pParent);
+		}
 	}
 	else if (pOther->HasTag("Bubble"))
 	{
 		if (m_InputDir.y < 0.f)
 		{
 			//Bounces on top of bubble
+			m_pSound_JumpBubble->Play(0);
 		}
 		else
 		{

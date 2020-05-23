@@ -91,6 +91,7 @@ private:
 
 	//Sounds
 	anemoia::Sound* m_pSound_Jump = nullptr;
+	anemoia::Sound* m_pSound_JumpBubble = nullptr;
 	anemoia::Sound* m_pSound_Shoot = nullptr;
 };
 
