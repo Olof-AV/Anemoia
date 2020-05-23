@@ -125,5 +125,7 @@ anemoia::ResourceManager::~ResourceManager()
 	//Remember to close down libraries
 	IMG_Quit();
 	TTF_Quit();
+
+	Mix_CloseAudio();
 	Mix_Quit();
 }

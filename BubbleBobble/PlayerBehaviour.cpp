@@ -21,6 +21,8 @@
 #include "Locator.h"
 #include "BubbleBobbleGame.h"
 
+#include "Sound.h"
+
 PlayerBehaviour::PlayerBehaviour(anemoia::GameObject* const pParent, anemoia::RigidBodyComponent* const pRigid, anemoia::TextureComponent* const pTexComp, bool isP2)
 	: BaseComponent(pParent, anemoia::Transform()),
 	m_pRigid{ pRigid }, m_pTexComp{ pTexComp },
@@ -70,6 +72,12 @@ PlayerBehaviour::PlayerBehaviour(anemoia::GameObject* const pParent, anemoia::Ri
 
 	m_ShootCoolTimer = 0.f;
 	m_ShootCoolTimerMax = 0.75f;
+
+	//Load sounds
+	{
+		m_pSound_Jump = anemoia::ResourceManager::GetInstance()->LoadSound("Player/Jump.wav");
+		m_pSound_Shoot = anemoia::ResourceManager::GetInstance()->LoadSound("Player/Shoot.wav");
+	}
 }
 
 PlayerBehaviour::~PlayerBehaviour()
@@ -177,6 +185,7 @@ void PlayerBehaviour::HandleMovement()
 		//Jump if touching floor
 		if (m_pRigid->IsTouchingFloor() && m_InputDir.y != 0.f)
 		{
+			m_pSound_Jump->Play(0);
 			m_pRigid->SetVelocity(glm::vec2(m_pRigid->GetVelocity().x, m_InputDir.y * m_JumpForce));
 		}
 
@@ -281,6 +290,9 @@ void PlayerBehaviour::ShootBubble()
 
 			//Add to scene
 			pScene->AddChild(pObj);
+
+			//Play sound
+			m_pSound_Shoot->Play(0);
 		}
 	}
 }

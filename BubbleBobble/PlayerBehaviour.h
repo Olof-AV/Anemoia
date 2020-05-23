@@ -8,6 +8,7 @@ namespace anemoia
 	class TextureComponent;
 	class GameObject;
 	class Command;
+	class Sound;
 }
 
 enum class PlayerState
@@ -87,5 +88,9 @@ private:
 	anemoia::Command* m_pCommand_Right = nullptr;
 	anemoia::Command* m_pCommand_Jump = nullptr;
 	anemoia::Command* m_pCommand_Shoot = nullptr;
+
+	//Sounds
+	anemoia::Sound* m_pSound_Jump = nullptr;
+	anemoia::Sound* m_pSound_Shoot = nullptr;
 };
 
