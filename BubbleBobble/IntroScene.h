@@ -34,7 +34,7 @@ public:
 	virtual void OnSceneDeactivated() override;
 
 private:
-	const float m_MaxTime = 1.f;
+	const float m_MaxTime = 5.f;
 	float m_CurrentTime = 0.f;
 	anemoia::Sound* m_pSound = nullptr;
 };
