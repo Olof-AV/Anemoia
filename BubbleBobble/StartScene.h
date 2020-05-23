@@ -1,6 +1,11 @@
 #pragma once
 #include "Scene.h"
 
+namespace anemoia
+{
+	class TextureComponent;
+}
+
 class StartScene final : public anemoia::Scene
 {
 public:
@@ -26,8 +31,9 @@ public:
 	virtual void OnSceneDeactivated() override;
 
 private:
-	bool m_Start = false;
-	
 	void StartGame();
+	bool m_Start = false;
+
+	anemoia::TextureComponent* m_pLogo = nullptr;
 };
 

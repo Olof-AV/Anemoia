@@ -32,6 +32,9 @@ namespace anemoia
 
 		const glm::vec4 &GetColourMod() const;
 		void SetColourMod(const glm::vec4& colour);
+
+		float GetAlpha() const;
+		void SetAlpha(float value);
 #pragma endregion GettersSetters
 
 	private:

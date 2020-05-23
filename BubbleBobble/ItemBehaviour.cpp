@@ -26,11 +26,11 @@ void ItemBehaviour::Update(float elapsedSec)
 
 	if (m_HasHitFloor)
 	{
-		m_pTexComp->SetColourMod(glm::vec4(255.f, 255.f, 255.f, 255.f));
+		m_pTexComp->SetAlpha(255.f);
 	}
 	else
 	{
-		m_pTexComp->SetColourMod(glm::vec4(255.f, 255.f, 255.f, 128.f));
+		m_pTexComp->SetAlpha(128.f);
 	}
 }
 

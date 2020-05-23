@@ -13,8 +13,22 @@
 
 #include "Locator.h"
 
-void BubbleBobbleGame::LoadGame() const
+void BubbleBobbleGame::LoadGame()
 {
+	//Default params
+	m_HiScore = 0;
+	m_ScoreP1 = 0;
+	m_ScoreP2 = 0;
+
+	m_HiScoreChanged = false;
+	m_ScoreP1Changed = false;
+	m_ScoreP2Changed = false;
+
+	m_LivesP1 = 4;
+	m_LivesP2 = 4;
+	m_DeadP1 = false;
+	m_DeadP2 = false;
+
 	//Some extra changes
 	SDL_SetWindowTitle(m_pWindow, "Bubble Bobble - 2DAE01 - AVIRON-VIOLET Olof");
 	//SDL_SetWindowFullscreen(m_pWindow, 1);
@@ -119,7 +133,7 @@ void BubbleBobbleGame::NotifyPlayerDeath(bool isP1)
 		switch (m_CurrentMode)
 		{
 		case Gamemode::singleplayer:
-			Exit();
+			Restart();
 
 			break;
 
@@ -128,7 +142,7 @@ void BubbleBobbleGame::NotifyPlayerDeath(bool isP1)
 
 			if (m_DeadP1 && m_DeadP2)
 			{
-				Exit();
+				Restart();
 			}
 
 			break;
@@ -138,7 +152,7 @@ void BubbleBobbleGame::NotifyPlayerDeath(bool isP1)
 
 			if (m_DeadP1)
 			{
-				Exit();
+				Restart();
 			}
 
 			break;

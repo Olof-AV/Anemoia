@@ -49,13 +49,13 @@ void FrameCounterScene::Update(float elapsedSec)
 	m_pText->SetTransform(transform);
 
 	//Change alpha of background
-	glm::vec4 colour = m_pBackground->GetColourMod();
-	colour.a += elapsedSec * 100.f;
-	if (colour.a > 255.f)
+	float alpha = m_pBackground->GetAlpha();
+	alpha += elapsedSec * 100.f;
+	if (alpha > 255.f)
 	{
-		colour.a = 0.f;
+		alpha = 0.f;
 	}
-	m_pBackground->SetColourMod(colour);
+	m_pBackground->SetAlpha(alpha);
 }
 
 void FrameCounterScene::LateUpdate(float elapsedSec)

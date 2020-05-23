@@ -170,14 +170,16 @@ void anemoia::RigidBodyComponent::CheckCollision()
 				m_IsTouchingFloor = true;
 				colliders[i]->OnCollide(GetParent());
 				GetParent()->OnCollide(colliders[i]->GetParent());
+
+				//Adjust
+				if (colliders[i]->AffectRigids())
+				{
+					pos.y = float(y1 + offset);
+					m_Velocity.y = 1.f;
+				}
+
 				break;
 			}
-		}
-
-		if (m_IsTouchingFloor)
-		{
-			pos.y = float(y1 + offset);
-			m_Velocity.y = 1.f;
 		}
 	}
 	else
@@ -198,7 +200,6 @@ void anemoia::RigidBodyComponent::CheckCollision()
 		int y2 = y1;
 		const float offset = pos.x - float(x2);
 
-		bool result = false;
 		for (size_t i{}; i < colliders.size(); ++i)
 		{
 			if (!colliders[i]->IsImportant())
@@ -215,16 +216,16 @@ void anemoia::RigidBodyComponent::CheckCollision()
 				//Notify
 				colliders[i]->OnCollide(GetParent());
 				GetParent()->OnCollide(colliders[i]->GetParent());
-				
-				result = true;
+
+				//Adjust
+				if (colliders[i]->AffectRigids())
+				{
+					pos.x = x1 + offset;
+					m_Velocity.x = 0.f;
+				}
+
 				break;
 			}
-		}
-
-		if (result)
-		{
-			pos.x = x1 + offset;
-			m_Velocity.x = 0.f;
 		}
 	}
 
@@ -241,7 +242,6 @@ void anemoia::RigidBodyComponent::CheckCollision()
 		int y2 = y1;
 		const float offset = pos.x - (float)x2 + 1.f;
 
-		bool result = false;
 		for (size_t i{}; i < colliders.size(); ++i)
 		{
 			if (!colliders[i]->IsImportant())
@@ -259,15 +259,15 @@ void anemoia::RigidBodyComponent::CheckCollision()
 				colliders[i]->OnCollide(GetParent());
 				GetParent()->OnCollide(colliders[i]->GetParent());
 
-				result = true;
+				//Adjust
+				if (colliders[i]->AffectRigids())
+				{
+					pos.x = x1 + offset;
+					m_Velocity.x = 0.f;
+				}
+
 				break;
 			}
-		}
-
-		if (result)
-		{
-			pos.x = x1 + offset;
-			m_Velocity.x = 0.f;
 		}
 	}
 

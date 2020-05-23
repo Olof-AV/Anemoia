@@ -7,11 +7,13 @@ namespace anemoia
 	{
 	public:
 		void Initialise();
-		virtual void LoadGame() const = 0;
+		virtual void LoadGame() = 0;
 		void Cleanup();
 		void Run();
 
 		void Exit();
+
+		void Restart();
 
 	protected:
 		static const float m_TimeStep; //0.016 for 60 fps, 0.033 for 30 fps
@@ -19,5 +21,6 @@ namespace anemoia
 		SDL_Window* m_pWindow{};
 
 		bool m_IsRunning = true;
+		bool m_IsRestarting = true;
 	};
 }

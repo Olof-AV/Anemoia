@@ -55,6 +55,8 @@ void anemoia::AIManager::Run()
 		//Go through registered AI functions
 		for (size_t i{}; i < m_Functions.size(); ++i)
 		{
+			if (!m_IsRunning) { return; } //Quit?
+
 			if (pMan->IsSceneActive(m_Functions[i].pScene) && m_Functions[i].func)
 			{
 				m_Functions[i].func();

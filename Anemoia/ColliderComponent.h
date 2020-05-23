@@ -7,7 +7,7 @@ namespace anemoia
 	{
 	public:
 #pragma region Constructors
-		ColliderComponent(GameObject* const pParent, const Transform& transform, const glm::vec2 &hitbox, bool isImportant = true);
+		ColliderComponent(GameObject* const pParent, const Transform& transform, const glm::vec2 &hitbox, bool isImportant = true, bool affectRigids = true);
 		virtual ~ColliderComponent();
 
 		ColliderComponent(const ColliderComponent& other) = delete;
@@ -25,10 +25,12 @@ namespace anemoia
 		//Rect stuff
 		SDL_Rect GetRect() const;
 		bool IsImportant() const;
+		bool AffectRigids() const;
 
 	private:
 		glm::vec2 m_Hitbox;
 
 		bool m_IsImportant;
+		bool m_AffectRigids;
 	};
 }

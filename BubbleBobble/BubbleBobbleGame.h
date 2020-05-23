@@ -12,7 +12,7 @@ enum class Gamemode
 class BubbleBobbleGame final : public anemoia::Engine
 {
 public:
-	virtual void LoadGame() const override;
+	virtual void LoadGame() override;
 
 	//Getters/Setters
 	Gamemode GetGamemode() const;

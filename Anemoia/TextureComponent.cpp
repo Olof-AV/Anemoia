@@ -71,3 +71,13 @@ void anemoia::TextureComponent::SetColourMod(const glm::vec4& colour)
 {
 	m_ColourMod = colour;
 }
+
+float anemoia::TextureComponent::GetAlpha() const
+{
+	return m_ColourMod.a;
+}
+
+void anemoia::TextureComponent::SetAlpha(float value)
+{
+	m_ColourMod.a = value;
+}

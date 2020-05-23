@@ -15,6 +15,9 @@
 #include "BaseGameScene.h"
 #include "SceneManager.h"
 
+#include "TextureComponent.h"
+#include "Texture2D.h"
+
 StartScene::StartScene()
 	: Scene("StartScene")
 {
@@ -53,6 +56,9 @@ void StartScene::Update(float elapsedSec)
 	//Call root
 	Scene::Update(elapsedSec);
 
+	//Logo appears gradually
+	m_pLogo->SetAlpha(glm::mix(m_pLogo->GetAlpha(), 255.f, 0.5f * elapsedSec));
+
 	if (m_Start)
 	{
 		StartGame();
@@ -87,11 +93,11 @@ void StartScene::Initialise()
 
 		//Create text holder
 		anemoia::GameObject* const pRoot = new anemoia::GameObject(this);
-		anemoia::TextComponent* pText1 = new anemoia::TextComponent(pRoot, anemoia::Transform{ glm::vec3{0.f, -100.f, 0.f}, glm::vec2{0.5f, 0.5f} },
+		anemoia::TextComponent* const pText1 = new anemoia::TextComponent(pRoot, anemoia::Transform{ glm::vec3{0.f, -100.f, 0.f}, glm::vec2{0.5f, 0.5f} },
 			"<- for singleplayer", pFont, SDL_Color{ 255, 255, 255 });
-		anemoia::TextComponent* pText2 = new anemoia::TextComponent(pRoot, anemoia::Transform{ glm::vec3{0.f, -50.f, 0.f}, glm::vec2{0.5f, 0.5f} },
+		anemoia::TextComponent* const pText2 = new anemoia::TextComponent(pRoot, anemoia::Transform{ glm::vec3{0.f, -50.f, 0.f}, glm::vec2{0.5f, 0.5f} },
 			"^ for multiplayer", pFont, SDL_Color{ 255, 255, 255 });
-		anemoia::TextComponent* pText3 = new anemoia::TextComponent(pRoot, anemoia::Transform{ glm::vec3{0.f, 0.f, 0.f}, glm::vec2{0.5f, 0.5f} },
+		anemoia::TextComponent* const pText3 = new anemoia::TextComponent(pRoot, anemoia::Transform{ glm::vec3{0.f, 0.f, 0.f}, glm::vec2{0.5f, 0.5f} },
 			"-> for versus", pFont, SDL_Color{ 255, 255, 255 });
 
 		//Add them
@@ -99,7 +105,13 @@ void StartScene::Initialise()
 		pRoot->AddComponent(pText2);
 		pRoot->AddComponent(pText3);
 
-		//Move text
+		//Logo
+		anemoia::Texture2D* const pLogoTex = anemoia::ResourceManager::GetInstance()->LoadTexture("HUD/Logo.png");
+		m_pLogo =
+			new anemoia::TextureComponent(pRoot, anemoia::Transform(glm::vec3{ 0.f, -375.f, 0.f }, glm::vec2{ 0.5f, 0.5f }), pLogoTex, glm::vec4(255.f, 255.f, 255.f, 0.f));
+		pRoot->AddComponent(m_pLogo);
+
+		//Move whole
 		pRoot->SetPosition(0.5f * x, 0.95f * y, 0.f);
 
 		//Add to scene
@@ -129,15 +141,15 @@ void StartScene::StartGame()
 		//anemoia::SceneManager::GetInstance()->SetActiveScene(pIntro);
 
 		//Level 1 scene
-		anemoia::Scene* const pLevel1 = new BaseGameScene(1);
+		anemoia::Scene* const pLevel1 = new BaseGameScene(1, false);
 		anemoia::SceneManager::GetInstance()->AddScene(pLevel1);
 
 		//Level 2 scene
-		anemoia::Scene* const pLevel2 = new BaseGameScene(2);
+		anemoia::Scene* const pLevel2 = new BaseGameScene(2, false);
 		anemoia::SceneManager::GetInstance()->AddScene(pLevel2);
 
 		//Level 3 scene
-		anemoia::Scene* const pLevel3 = new BaseGameScene(3);
+		anemoia::Scene* const pLevel3 = new BaseGameScene(3, true);
 		anemoia::SceneManager::GetInstance()->AddScene(pLevel3);
 	}
 

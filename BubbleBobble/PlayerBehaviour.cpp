@@ -171,14 +171,13 @@ void PlayerBehaviour::HandleMovement()
 			m_pTexComp->SetTransform(transform);
 		}
 
-		//Move, will need to be remade because this is just testing stuff
-		const glm::vec2 velocity = m_pRigid->GetVelocity();
-		m_pRigid->SetVelocity(glm::vec2(m_InputDir.x * m_MovSpeed, velocity.y));
+		//Set lateral mov speed
+		m_pRigid->SetVelocity(glm::vec2(m_InputDir.x * m_MovSpeed, m_pRigid->GetVelocity().y));
 
 		//Jump if touching floor
-		if (m_pRigid->IsTouchingFloor())
+		if (m_pRigid->IsTouchingFloor() && m_InputDir.y != 0.f)
 		{
-			m_pRigid->AddVelocity(glm::vec2(0.f, m_InputDir.y * m_JumpForce));
+			m_pRigid->SetVelocity(glm::vec2(m_pRigid->GetVelocity().x, m_InputDir.y * m_JumpForce));
 		}
 
 		//Reset
@@ -203,11 +202,11 @@ void PlayerBehaviour::HandleInvincibilityTimer(float elapsedSec)
 			m_pRigid->RemoveIgnoreTag("ZenChan");
 			m_pRigid->RemoveIgnoreTag("Maita");
 		}
-		m_pTexComp->SetColourMod(glm::vec4(255.f, 255.f, 255.f, 128.f));
+		m_pTexComp->SetAlpha(128.f);
 	}
 	else
 	{
-		m_pTexComp->SetColourMod(glm::vec4(255.f, 255.f, 255.f, 255.f));
+		m_pTexComp->SetAlpha(255.f);
 	}
 }
 
@@ -259,7 +258,7 @@ void PlayerBehaviour::ShootBubble()
 			anemoia::Transform transform = anemoia::Transform(glm::vec3(), glm::vec2(0.5f, 0.5f));
 
 			//Collider 
-			anemoia::ColliderComponent* const pColl = new anemoia::ColliderComponent(pObj, transform, glm::vec2(48.f, 48.f), true);
+			anemoia::ColliderComponent* const pColl = new anemoia::ColliderComponent(pObj, transform, glm::vec2(48.f, 48.f), true, false);
 			pObj->AddComponent(pColl);
 
 			//Texture

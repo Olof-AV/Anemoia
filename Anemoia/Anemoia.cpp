@@ -41,7 +41,8 @@ void anemoia::Engine::Initialise()
 
 	//Try to create window
 	m_pWindow = SDL_CreateWindow(
-		"Programming 4 Assignment - AVIRON-VIOLET Olof",
+		/*"Programming 4 Assignment - AVIRON-VIOLET Olof",*/
+		"Loading...",
 		SDL_WINDOWPOS_UNDEFINED,
 		SDL_WINDOWPOS_UNDEFINED,
 		640,
@@ -68,7 +69,7 @@ void anemoia::Engine::Initialise()
 /**
  * Code constructing the scene world starts here
  */
-void anemoia::Engine::LoadGame() const
+void anemoia::Engine::LoadGame()
 {
 	/*Scene* const pScene = new FrameCounterScene();
 	SceneManager::GetInstance()->AddScene(pScene);
@@ -108,77 +109,89 @@ void anemoia::Engine::Cleanup()
 
 void anemoia::Engine::Run()
 {
-	//Initialise the game
-	Initialise();
-
-	//Initialise managers
-	Renderer* const pRenderer = Renderer::GetInstance();
-	SceneManager* const pSceneManager = SceneManager::GetInstance();
-	InputManager* const pInput = InputManager::GetInstance();
-	AIManager* const pAI = AIManager::GetInstance();
-
-	//Setup locator
-	Locator::SetInputManager(pInput);
-
-	//Tell the resource manager where it can find the game data
-	ResourceManager::GetInstance()->Init("../Data/");
-
-	//Load the game
-	LoadGame();
-
-	//Start up AI thread
-	std::thread aiThread = std::thread([pAI]()
+	while (m_IsRestarting)
 	{
-		pAI->Run();
-	});
+		m_IsRestarting = false;
+		m_IsRunning = true;
 
-	//Game loop
-	{
-		//Initialise prev time
-		std::chrono::time_point prevTime = std::chrono::steady_clock::now();
-		float lag = 0.f;
+		//Initialise the game
+		Initialise();
 
-		//Main game loop
-		while (m_IsRunning)
+		//Initialise managers
+		Renderer* const pRenderer = Renderer::GetInstance();
+		SceneManager* const pSceneManager = SceneManager::GetInstance();
+		InputManager* const pInput = InputManager::GetInstance();
+		AIManager* const pAI = AIManager::GetInstance();
+
+		//Setup locator
+		Locator::SetInputManager(pInput);
+
+		//Tell the resource manager where it can find the game data
+		ResourceManager::GetInstance()->Init("../Data/");
+
+		//Load the game
+		LoadGame();
+
+		//Start up AI thread
+		std::thread aiThread = std::thread([pAI]()
 		{
-			//Get current time, and deduce deltaTime from it
-			const std::chrono::steady_clock::time_point currentTime = std::chrono::steady_clock::now();
-			const float elapsedSec = std::fminf(std::chrono::duration<float>(currentTime - prevTime).count(), m_MaxElapsedSec);
-			lag += elapsedSec;
+			pAI->Run();
+		});
 
-			//Update previous time
-			prevTime = std::chrono::steady_clock::now();
-			
-			//Run our loop
-			const bool result = pInput->ProcessInput();
-			if (!result) { break; }
+		//Game loop
+		{
+			//Initialise prev time
+			std::chrono::time_point prevTime = std::chrono::steady_clock::now();
+			float lag = 0.f;
 
-			while (lag >= m_TimeStep)
+			//Main game loop
+			while (m_IsRunning)
 			{
-				pSceneManager->FixedUpdate(m_TimeStep);
-				lag -= m_TimeStep;
+				//Get current time, and deduce deltaTime from it
+				const std::chrono::steady_clock::time_point currentTime = std::chrono::steady_clock::now();
+				const float elapsedSec = std::fminf(std::chrono::duration<float>(currentTime - prevTime).count(), m_MaxElapsedSec);
+				lag += elapsedSec;
+
+				//Update previous time
+				prevTime = std::chrono::steady_clock::now();
+
+				//Run our loop
+				const bool result = pInput->ProcessInput();
+				if (!result) { break; }
+
+				while (lag >= m_TimeStep)
+				{
+					pSceneManager->FixedUpdate(m_TimeStep);
+					lag -= m_TimeStep;
+				}
+
+				//Update
+				pSceneManager->Update(elapsedSec);
+
+				//Late update
+				pSceneManager->LateUpdate(elapsedSec);
+
+				//Render
+				pRenderer->Render();
 			}
-
-			//Update
-			pSceneManager->Update(elapsedSec);
-
-			//Late update
-			pSceneManager->LateUpdate(elapsedSec);
-
-			//Render
-			pRenderer->Render();
 		}
+
+		//Stop AI thread
+		pAI->Stop();
+		aiThread.join();
+
+		//Game is closing
+		Cleanup();
 	}
-
-	//Stop AI thread
-	pAI->Stop();
-	aiThread.join();
-
-	//Game is closing
-	Cleanup();
 }
 
 void anemoia::Engine::Exit()
 {
+	m_IsRunning = false;
+}
+
+void anemoia::Engine::Restart()
+{
+	m_IsRestarting = true;
 	m_IsRunning = false;
 }

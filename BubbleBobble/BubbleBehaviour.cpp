@@ -26,8 +26,8 @@ BubbleBehaviour::BubbleBehaviour(anemoia::GameObject* const pParent, anemoia::Ri
 
 	//Params
 	m_Movement = glm::vec2();
-	m_Movement.x = (movesLeft) ? -200.f : 200.f;
-	m_SlowDownRate = 100.f;
+	m_Movement.x = (movesLeft) ? -400.f : 400.f;
+	m_SlowDownRate = 600.f;
 	m_BurstTimer = 0.f;
 	m_BurstTimerMax = 7.f;
 	m_HorThreshold = 10.f;

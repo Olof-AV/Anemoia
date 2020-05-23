@@ -15,7 +15,7 @@ class BaseGameScene final : public anemoia::Scene
 {
 public:
 #pragma region Constructors
-	BaseGameScene(UINT levelNum);
+	BaseGameScene(UINT levelNum, bool isFinalLevel);
 	virtual ~BaseGameScene() = default;
 
 	BaseGameScene(const BaseGameScene& other) = delete;
@@ -50,6 +50,7 @@ protected:
 	bool CheckDataForMaita(const std::string& input);
 	bool CheckDataForPlayer(const std::string& input);
 
+	void CreateZenChan(const glm::vec2& pos);
 	void CreateMaita(const glm::vec2& pos, bool isPlayer);
 	void CreatePlayer(const glm::vec2& pos, bool isP1);
 	void CreateTile(const glm::vec2& pos, bool isBig, bool isImportant, bool isInvisible = false, bool hasCollision = true);
@@ -62,4 +63,6 @@ protected:
 	bool m_EndTimerActive;
 	float m_EndTimer;
 	float m_EndTimerMax;
+
+	bool m_IsFinalLevel;
 };

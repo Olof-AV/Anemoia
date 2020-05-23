@@ -23,8 +23,8 @@
 
 #include "BubbleBobbleGame.h"
 
-BaseGameScene::BaseGameScene(UINT levelNum)
-	: Scene("Stage" + std::to_string(levelNum)), m_LevelNum(levelNum)
+BaseGameScene::BaseGameScene(UINT levelNum, bool isFinalLevel)
+	: Scene("Stage" + std::to_string(levelNum)), m_LevelNum(levelNum), m_IsFinalLevel(isFinalLevel)
 {
 	m_Enemies.clear();
 
@@ -51,7 +51,14 @@ void BaseGameScene::Update(float elapsedSec)
 		m_EndTimer += elapsedSec;
 		if (m_EndTimer > m_EndTimerMax)
 		{
-			anemoia::SceneManager::GetInstance()->SetActiveScene("Stage" + std::to_string(m_LevelNum + 1));
+			if (m_IsFinalLevel)
+			{
+				anemoia::Locator::GetEngine()->Restart();
+			}
+			else
+			{
+				anemoia::SceneManager::GetInstance()->SetActiveScene("Stage" + std::to_string(m_LevelNum + 1));
+			}
 		}
 	}
 }
@@ -318,41 +325,7 @@ bool BaseGameScene::CheckDataForZenChan(const std::string& input)
 		//Only can accept 2 matches + 1 original match
 		if (matches.size() == 3)
 		{
-			//Create ZenChan
-			{
-				//Root
-				anemoia::GameObject* const pZen = new anemoia::GameObject(this);
-				pZen->SetPosition(std::stof(matches[1]), std::stof(matches[2]), 0.f);
-
-				//Texture
-				anemoia::Transform transform = anemoia::Transform(glm::vec3(0.f, 0.f, 0.f), glm::vec2(0.5f, 1.f));
-				anemoia::TextureComponent* const pTexComp = new anemoia::TextureComponent(pZen, transform, nullptr);
-				pZen->AddComponent(pTexComp);
-
-				//Collision
-				anemoia::ColliderComponent* const pColl = new anemoia::ColliderComponent(pZen, transform, glm::vec2(48.f, 48.f));
-				pZen->AddComponent(pColl);
-
-				//Rigid body
-				anemoia::RigidBodyComponent* const pRigid = new anemoia::RigidBodyComponent(pZen, pColl);
-				pRigid->AddIgnoreTag("ZenChan");
-				pRigid->AddIgnoreTag("Maita");
-				pRigid->AddIgnoreTag("Treasure");
-				pZen->AddComponent(pRigid);
-
-				//Behaviour
-				ZenBehaviour* const pBehaviour = new ZenBehaviour(pZen, pRigid, pTexComp);
-				pZen->AddComponent(pBehaviour);
-
-				//Tag
-				pZen->AddTag("ZenChan");
-
-				//Add to scene
-				AddChild(pZen);
-
-				//This is an enemy
-				m_Enemies.emplace_back(pZen);
-			}
+			CreateZenChan(glm::vec2(std::stof(matches[1]), std::stof(matches[2])));
 
 			return true;
 		}
@@ -434,6 +407,42 @@ bool BaseGameScene::CheckDataForPlayer(const std::string& input)
 	return false;
 }
 
+void BaseGameScene::CreateZenChan(const glm::vec2& pos)
+{
+	//Root
+	anemoia::GameObject* const pZen = new anemoia::GameObject(this);
+	pZen->SetPosition(pos.x, pos.y, 0.f);
+
+	//Texture
+	anemoia::Transform transform = anemoia::Transform(glm::vec3(0.f, 0.f, 0.f), glm::vec2(0.5f, 1.f));
+	anemoia::TextureComponent* const pTexComp = new anemoia::TextureComponent(pZen, transform, nullptr);
+	pZen->AddComponent(pTexComp);
+
+	//Collision
+	anemoia::ColliderComponent* const pColl = new anemoia::ColliderComponent(pZen, transform, glm::vec2(48.f, 48.f), true, false);
+	pZen->AddComponent(pColl);
+
+	//Rigid body
+	anemoia::RigidBodyComponent* const pRigid = new anemoia::RigidBodyComponent(pZen, pColl);
+	pRigid->AddIgnoreTag("ZenChan");
+	pRigid->AddIgnoreTag("Maita");
+	pRigid->AddIgnoreTag("Treasure");
+	pZen->AddComponent(pRigid);
+
+	//Behaviour
+	ZenBehaviour* const pBehaviour = new ZenBehaviour(pZen, pRigid, pTexComp);
+	pZen->AddComponent(pBehaviour);
+
+	//Tag
+	pZen->AddTag("ZenChan");
+
+	//Add to scene
+	AddChild(pZen);
+
+	//This is an enemy
+	m_Enemies.emplace_back(pZen);
+}
+
 void BaseGameScene::CreateMaita(const glm::vec2& pos, bool isPlayer)
 {
 	//Root
@@ -446,7 +455,7 @@ void BaseGameScene::CreateMaita(const glm::vec2& pos, bool isPlayer)
 	pMaita->AddComponent(pTexComp);
 
 	//Collision
-	anemoia::ColliderComponent* const pColl = new anemoia::ColliderComponent(pMaita, transform, glm::vec2(48.f, 48.f));
+	anemoia::ColliderComponent* const pColl = new anemoia::ColliderComponent(pMaita, transform, glm::vec2(48.f, 48.f), true, false);
 	pMaita->AddComponent(pColl);
 
 	//Rigid body
@@ -483,7 +492,7 @@ void BaseGameScene::CreatePlayer(const glm::vec2& pos, bool isP1)
 	pPlayer->AddComponent(pTexComp);
 
 	//Collision
-	anemoia::ColliderComponent* const pColl = new anemoia::ColliderComponent(pPlayer, transform, glm::vec2(48.f, 48.f));
+	anemoia::ColliderComponent* const pColl = new anemoia::ColliderComponent(pPlayer, transform, glm::vec2(48.f, 48.f), true, false);
 	pPlayer->AddComponent(pColl);
 
 	//Rigid body

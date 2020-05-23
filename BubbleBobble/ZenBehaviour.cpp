@@ -183,7 +183,7 @@ void ZenBehaviour::PlayerTouch(anemoia::GameObject* const pOther)
 				pObj->AddComponent(pTexComp);
 
 				//Collider
-				anemoia::ColliderComponent* const pColl = new anemoia::ColliderComponent(pObj, m_pTexComp->GetTransform(), glm::vec2(48.f, 48.f));
+				anemoia::ColliderComponent* const pColl = new anemoia::ColliderComponent(pObj, m_pTexComp->GetTransform(), glm::vec2(48.f, 48.f), true, false);
 				pObj->AddComponent(pColl);
 
 				//Rigid body

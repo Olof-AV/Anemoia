@@ -5,8 +5,8 @@
 #include "GameObject.h"
 #include "Scene.h"
 
-anemoia::ColliderComponent::ColliderComponent(GameObject* const pParent, const Transform& transform, const glm::vec2 &hitbox, bool isImportant)
-	: BaseComponent(pParent, transform), m_Hitbox{ hitbox }, m_IsImportant{isImportant}
+anemoia::ColliderComponent::ColliderComponent(GameObject* const pParent, const Transform& transform, const glm::vec2& hitbox, bool isImportant, bool affectRigids)
+	: BaseComponent(pParent, transform), m_Hitbox{ hitbox }, m_IsImportant{ isImportant }, m_AffectRigids{ affectRigids }
 {
 	pParent->GetParentScene()->AddCollider(this);
 }
@@ -67,4 +67,9 @@ SDL_Rect anemoia::ColliderComponent::GetRect() const
 bool anemoia::ColliderComponent::IsImportant() const
 {
 	return m_IsImportant;
+}
+
+bool anemoia::ColliderComponent::AffectRigids() const
+{
+	return m_AffectRigids;
 }
