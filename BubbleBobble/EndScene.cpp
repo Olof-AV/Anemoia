@@ -86,7 +86,7 @@ void EndScene::Initialise()
 		//End text texture
 		anemoia::Texture2D* const pEndTex = anemoia::ResourceManager::GetInstance()->LoadTexture("HUD/End.png");
 		anemoia::TextureComponent* const pTexComp =
-			new anemoia::TextureComponent(pRoot, anemoia::Transform(glm::vec3{ 0.f, -375.f, 0.f }, glm::vec2{ 0.5f, 0.5f }), pEndTex, glm::vec4(255.f, 255.f, 255.f, 255.f));
+			new anemoia::TextureComponent(pRoot, anemoia::Transform(glm::vec3{ 0.f, -375.f, 0.f }, glm::vec2{ 0.5f, 0.5f }), pEndTex);
 		pRoot->AddComponent(pTexComp);
 
 		//Move whole

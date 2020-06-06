@@ -7,6 +7,7 @@ namespace anemoia
 	class TextureComponent;
 	class FPSComponent;
 	class Sound;
+	class GameObject;
 }
 
 class IntroScene final : public anemoia::Scene
@@ -34,7 +35,10 @@ public:
 	virtual void OnSceneDeactivated() override;
 
 private:
-	const float m_MaxTime = 5.f;
+	anemoia::GameObject* m_pP1 = nullptr;
+	anemoia::GameObject* m_pP2 = nullptr;
+
+	const float m_MaxTime = 7.f;
 	float m_CurrentTime = 0.f;
 	anemoia::Sound* m_pSound = nullptr;
 };

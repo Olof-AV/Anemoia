@@ -9,6 +9,8 @@
 
 #include "SceneManager.h"
 
+#include "TextureComponent.h"
+
 IntroScene::IntroScene()
 	: Scene{ "IntroScene" }
 {
@@ -28,12 +30,6 @@ void IntroScene::Update(float elapsedSec)
 {
 	//Call root update
 	Scene::Update(elapsedSec);
-}
-
-void IntroScene::LateUpdate(float elapsedSec)
-{
-	//Call root late update
-	Scene::LateUpdate(elapsedSec);
 
 	//Timer
 	m_CurrentTime += elapsedSec;
@@ -41,6 +37,17 @@ void IntroScene::LateUpdate(float elapsedSec)
 	{
 		anemoia::SceneManager::GetInstance()->SetActiveScene("Stage1");
 	}
+
+	//Move characters
+	const float mult = 5.f;
+	m_pP1->SetPosition(m_pP1->GetPosition() + glm::vec3(std::cosf(m_CurrentTime * mult), std::sinf(m_CurrentTime * mult), 0.f));
+	m_pP2->SetPosition(m_pP2->GetPosition() - glm::vec3(std::cosf(m_CurrentTime * mult), std::sinf(m_CurrentTime * mult), 0.f));
+}
+
+void IntroScene::LateUpdate(float elapsedSec)
+{
+	//Call root late update
+	Scene::LateUpdate(elapsedSec);
 }
 
 void IntroScene::Render() const
@@ -85,6 +92,40 @@ void IntroScene::Initialise()
 
 		//Add to scene
 		AddChild(pRoot);
+	}
+
+	//P1
+	{
+		//Create gameobject
+		m_pP1 = new anemoia::GameObject(this);
+
+		//Create texture + component
+		anemoia::Texture2D* const pTex = anemoia::ResourceManager::GetInstance()->LoadTexture("Player/Bubby/Intro.png");
+		anemoia::TextureComponent* const pTexComp = new anemoia::TextureComponent(m_pP1, anemoia::Transform(glm::vec3{}, glm::vec2{ 0.5f, 0.5f }), pTex);
+		m_pP1->AddComponent(pTexComp);
+
+		//Position
+		m_pP1->SetPosition(0.3f * x, 0.65f * y, 0.f);
+
+		//Add to scene
+		AddChild(m_pP1);
+	}
+
+	//P2
+	{
+		//Create gameobject
+		m_pP2 = new anemoia::GameObject(this);
+
+		//Create texture + component
+		anemoia::Texture2D* const pTex = anemoia::ResourceManager::GetInstance()->LoadTexture("Player/Bobby/Intro.png");
+		anemoia::TextureComponent* const pTexComp = new anemoia::TextureComponent(m_pP2, anemoia::Transform(glm::vec3{}, glm::vec2{ 0.5f, 0.5f }), pTex);
+		m_pP2->AddComponent(pTexComp);
+
+		//Position
+		m_pP2->SetPosition(0.7f * x, 0.65f * y, 0.f);
+
+		//Add to scene
+		AddChild(m_pP2);
 	}
 }
 
