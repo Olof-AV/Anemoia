@@ -127,26 +127,28 @@ void PlayerBehaviour::OnCollide(anemoia::GameObject* const pOther)
 
 	if (pOther->HasTag("ZenChan"))
 	{
-		if (m_InputDir.y < 0.f)
+		ZenBehaviour* const pBehaviour = pOther->GetComponent<ZenBehaviour>();
+		if (pBehaviour->GetState() == ZenState::bubble && m_InputDir.y < 0.f)
 		{
 			//Bounces on top of bubble
 			m_pSound_JumpBubble->Play(0);
 		}
 		else
 		{
-			pOther->GetComponent<ZenBehaviour>()->PlayerTouch(m_pParent);
+			pBehaviour->PlayerTouch(m_pParent);
 		}
 	}
 	if (pOther->HasTag("Maita"))
 	{
-		if (m_InputDir.y < 0.f)
+		MaitaBehaviour* const pBehaviour = pOther->GetComponent<MaitaBehaviour>();
+		if (pBehaviour->GetState() == MaitaState::bubble && m_InputDir.y < 0.f)
 		{
 			//Bounces on top of bubble
 			m_pSound_JumpBubble->Play(0);
 		}
 		else
 		{
-			pOther->GetComponent<MaitaBehaviour>()->PlayerTouch(m_pParent);
+			pBehaviour->PlayerTouch(m_pParent);
 		}
 	}
 	else if (pOther->HasTag("Bubble"))
