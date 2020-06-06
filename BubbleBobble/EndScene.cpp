@@ -10,6 +10,8 @@
 #include "TextComponent.h"
 #include "ResourceManager.h"
 
+#include "TextureComponent.h"
+
 EndScene::EndScene()
 	: Scene("EndScene")
 {
@@ -80,6 +82,12 @@ void EndScene::Initialise()
 		pRoot->AddComponent(pText1);
 		pRoot->AddComponent(pText2);
 		pRoot->AddComponent(pText3);
+
+		//End text texture
+		anemoia::Texture2D* const pEndTex = anemoia::ResourceManager::GetInstance()->LoadTexture("HUD/End.png");
+		anemoia::TextureComponent* const pTexComp =
+			new anemoia::TextureComponent(pRoot, anemoia::Transform(glm::vec3{ 0.f, -375.f, 0.f }, glm::vec2{ 0.5f, 0.5f }), pEndTex, glm::vec4(255.f, 255.f, 255.f, 255.f));
+		pRoot->AddComponent(pTexComp);
 
 		//Move whole
 		pRoot->SetPosition(0.5f * x, 0.95f * y, 0.f);
