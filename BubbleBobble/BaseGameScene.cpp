@@ -53,7 +53,7 @@ void BaseGameScene::Update(float elapsedSec)
 		{
 			if (m_IsFinalLevel)
 			{
-				anemoia::Locator::GetEngine()->Restart();
+				anemoia::SceneManager::GetInstance()->SetActiveScene("EndScene");
 			}
 			else
 			{

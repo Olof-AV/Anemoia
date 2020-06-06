@@ -7,6 +7,7 @@
 #include "IntroScene.h"
 #include "BaseGameScene.h"
 #include "StartScene.h"
+#include "EndScene.h"
 
 #include <SDL.h>
 #include <SDL_video.h>
@@ -47,10 +48,13 @@ void BubbleBobbleGame::LoadGame()
 	anemoia::SceneManager::GetInstance()->AddScene(pScene);
 	anemoia::SceneManager::GetInstance()->SetActiveScene(pScene);*/
 
-	//Start screen, select gamemode
+	//Start screen, select gamemode + add end scene already
 	anemoia::Scene* const pStart = new StartScene();
 	anemoia::SceneManager::GetInstance()->AddScene(pStart);
 	anemoia::SceneManager::GetInstance()->SetActiveScene(pStart);
+
+	anemoia::Scene* const pEnd = new EndScene();
+	anemoia::SceneManager::GetInstance()->AddScene(pEnd);
 
 	/*//Game intro scene
 	anemoia::Scene* const pIntro = new IntroScene();

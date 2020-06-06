@@ -77,6 +77,9 @@
     <ClCompile Include="StartScene.cpp">
       <Filter>Scenes\GameScenes</Filter>
     </ClCompile>
+    <ClCompile Include="EndScene.cpp">
+      <Filter>Scenes\GameScenes</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="BubbleBobbleGame.h">
@@ -119,6 +122,9 @@
       <Filter>GameComponents</Filter>
     </ClInclude>
     <ClInclude Include="StartScene.h">
+      <Filter>Scenes\GameScenes</Filter>
+    </ClInclude>
+    <ClInclude Include="EndScene.h">
       <Filter>Scenes\GameScenes</Filter>
     </ClInclude>
   </ItemGroup>
