@@ -17,14 +17,14 @@ EndScene::EndScene()
 {
 	//Inputs for starting the game
 	anemoia::InputManager::GetInstance()->RegisterCommand(new anemoia::Command("sp", this, 0, XINPUT_GAMEPAD_DPAD_LEFT, VK_LEFT, anemoia::ButtonState::Down, [this]()
-		{
-			static_cast<BubbleBobbleGame*>(anemoia::Locator::GetEngine())->Restart();
-		}));
+	{
+		static_cast<BubbleBobbleGame*>(anemoia::Locator::GetEngine())->Restart();
+	}));
 
 	anemoia::InputManager::GetInstance()->RegisterCommand(new anemoia::Command("vs", this, 0, XINPUT_GAMEPAD_DPAD_RIGHT, VK_RIGHT, anemoia::ButtonState::Down, [this]()
-		{
-			static_cast<BubbleBobbleGame*>(anemoia::Locator::GetEngine())->Exit();
-		}));
+	{
+		static_cast<BubbleBobbleGame*>(anemoia::Locator::GetEngine())->Exit();
+	}));
 }
 
 EndScene::~EndScene()
