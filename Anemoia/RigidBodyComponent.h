@@ -36,7 +36,9 @@ namespace anemoia
 		void AddVelocity(const glm::vec2 &value);
 		void SetVelocity(const glm::vec2& value);
 		const glm::vec2 &GetVelocity() const;
+
 		bool IsTouchingFloor() const;
+		void SetTouchingFloor(bool value);
 
 #pragma region Tags
 		bool AddIgnoreTag(const std::string& tag);

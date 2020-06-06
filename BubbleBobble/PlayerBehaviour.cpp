@@ -171,6 +171,7 @@ void PlayerBehaviour::OnCollide(anemoia::GameObject* const pOther)
 	else if (pOther->HasTag("Treasure"))
 	{
 		pOther->GetComponent<ItemBehaviour>()->Collect(m_pParent);
+		m_pRigid->SetTouchingFloor(false); //This prevents players from jumping on top of collectibles
 	}
 }
 

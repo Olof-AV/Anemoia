@@ -87,6 +87,11 @@ bool anemoia::RigidBodyComponent::IsTouchingFloor() const
 	return m_IsTouchingFloor;
 }
 
+void anemoia::RigidBodyComponent::SetTouchingFloor(bool value)
+{
+	m_IsTouchingFloor = value;
+}
+
 bool anemoia::RigidBodyComponent::AddIgnoreTag(const std::string& tag)
 {
 	//This returns whether it was actually inserted or not
