@@ -12,20 +12,13 @@
 #include "ZenBehaviour.h"
 #include "PlayerBehaviour.h"
 
-BoulderBehaviour::BoulderBehaviour(anemoia::GameObject* const pParent, anemoia::RigidBodyComponent* const pRigid, anemoia::TextureComponent* const pTexComp, bool movesLeft)
-	: anemoia::BaseComponent(pParent, anemoia::Transform()), m_pRigid{ pRigid }, m_pTexComp{ pTexComp },
+BoulderBehaviour::BoulderBehaviour(anemoia::GameObject* const pParent, anemoia::RigidBodyComponent* const pRigid, anemoia::AnimSpriteComponent* const pAnimComp, bool movesLeft)
+	: anemoia::BaseComponent(pParent, anemoia::Transform()), m_pRigid{ pRigid }, m_pAnimComp{ pAnimComp },
 	m_MovesLeft{ movesLeft }
 {
-	//Load texs
-	const std::string startPath = "Enemies/Maita/";
-	m_pTexBoulder = anemoia::ResourceManager::GetInstance()->LoadTexture(startPath + "Boulder.png");
-
-	//Set tex for now
-	m_pTexComp->SetTexture(m_pTexBoulder);
-
 	//Params
 	m_Movement = glm::vec2();
-	m_Movement.x = (movesLeft) ? -100.f : 100.f;
+	m_Movement.x = (movesLeft) ? -125.f : 125.f;
 	m_pRigid->SetVelocity(m_Movement);
 }
 

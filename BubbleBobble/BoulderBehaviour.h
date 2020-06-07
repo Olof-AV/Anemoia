@@ -5,7 +5,7 @@ namespace anemoia
 {
 	class Texture2D;
 	class RigidBodyComponent;
-	class TextureComponent;
+	class AnimSpriteComponent;
 	class GameObject;
 }
 
@@ -13,7 +13,7 @@ class BoulderBehaviour final : public anemoia::BaseComponent
 {
 public:
 #pragma region Constructors
-	BoulderBehaviour(anemoia::GameObject* const pParent, anemoia::RigidBodyComponent* const pRigid, anemoia::TextureComponent* const pTexComp, bool movesLeft);
+	BoulderBehaviour(anemoia::GameObject* const pParent, anemoia::RigidBodyComponent* const pRigid, anemoia::AnimSpriteComponent* const pAnimComp, bool movesLeft);
 	virtual ~BoulderBehaviour() = default;
 
 	BoulderBehaviour(const BoulderBehaviour& other) = delete;
@@ -41,8 +41,6 @@ private:
 	bool m_MovesLeft;
 
 	anemoia::RigidBodyComponent* m_pRigid;
-	anemoia::TextureComponent* m_pTexComp;
-
-	anemoia::Texture2D* m_pTexBoulder;
+	anemoia::AnimSpriteComponent* m_pAnimComp;
 };
 

@@ -290,8 +290,8 @@ void MaitaBehaviour::ShootBoulder()
 			pObj->AddComponent(pColl);
 
 			//Texture
-			anemoia::TextureComponent* const pTexComp = new anemoia::TextureComponent(pObj, transform, nullptr);
-			pObj->AddComponent(pTexComp);
+			anemoia::AnimSpriteComponent* const pAnimComp = new anemoia::AnimSpriteComponent(pObj, transform, "Anims/Boulder.txt", "Boulder");
+			pObj->AddComponent(pAnimComp);
 
 			//Rigid
 			anemoia::RigidBodyComponent* const pRigid = new anemoia::RigidBodyComponent(pObj, pColl, 0.f);
@@ -303,7 +303,7 @@ void MaitaBehaviour::ShootBoulder()
 			pRigid->AddIgnoreTag("ZenChan");
 
 			//Bubble behaviour
-			BoulderBehaviour* const pBehaviour = new BoulderBehaviour(pObj, pRigid, pTexComp, isLookingLeft);
+			BoulderBehaviour* const pBehaviour = new BoulderBehaviour(pObj, pRigid, pAnimComp, isLookingLeft);
 			pObj->AddComponent(pBehaviour);
 
 			//Tag
