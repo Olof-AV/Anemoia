@@ -5,7 +5,6 @@ namespace anemoia
 {
 	class Texture2D;
 	class RigidBodyComponent;
-	class TextureComponent;
 	class GameObject;
 }
 
@@ -13,7 +12,7 @@ class BubbleBehaviour final : public anemoia::BaseComponent
 {
 public:
 #pragma region Constructors
-	BubbleBehaviour(anemoia::GameObject* const pParent, anemoia::RigidBodyComponent* const pRigid, anemoia::TextureComponent* const pTexComp, bool movesLeft);
+	BubbleBehaviour(anemoia::GameObject* const pParent, anemoia::RigidBodyComponent* const pRigid, bool movesLeft);
 	virtual ~BubbleBehaviour() = default;
 
 	BubbleBehaviour(const BubbleBehaviour& other) = delete;
@@ -49,7 +48,6 @@ private:
 	float m_HorThreshold;
 
 	anemoia::RigidBodyComponent* m_pRigid;
-	anemoia::TextureComponent* m_pTexComp;
 
 	anemoia::Texture2D* m_pTexBubble;
 };

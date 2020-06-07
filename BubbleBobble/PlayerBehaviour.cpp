@@ -7,6 +7,7 @@
 
 #include "RigidBodyComponent.h"
 #include "TextureComponent.h"
+#include "AnimSpriteComponent.h"
 #include "ColliderComponent.h"
 #include "BubbleBehaviour.h"
 
@@ -291,9 +292,9 @@ void PlayerBehaviour::ShootBubble()
 			anemoia::ColliderComponent* const pColl = new anemoia::ColliderComponent(pObj, transform, glm::vec2(48.f, 48.f), true, false);
 			pObj->AddComponent(pColl);
 
-			//Texture
-			anemoia::TextureComponent* const pTexComp = new anemoia::TextureComponent(pObj, transform, nullptr);
-			pObj->AddComponent(pTexComp);
+			//Animation
+			anemoia::AnimSpriteComponent* const pAnimSprite = new anemoia::AnimSpriteComponent(pObj, transform, "Anims/Bubble.txt", "Bubble");
+			pObj->AddComponent(pAnimSprite);
 
 			//Rigid
 			anemoia::RigidBodyComponent* const pRigid = new anemoia::RigidBodyComponent(pObj, pColl, 0.f);
@@ -303,7 +304,7 @@ void PlayerBehaviour::ShootBubble()
 			pRigid->AddIgnoreTag("Boulder");
 
 			//Bubble behaviour
-			BubbleBehaviour* const pBehaviour = new BubbleBehaviour(pObj, pRigid, pTexComp, isLookingLeft);
+			BubbleBehaviour* const pBehaviour = new BubbleBehaviour(pObj, pRigid, isLookingLeft);
 			pObj->AddComponent(pBehaviour);
 
 			//Tag

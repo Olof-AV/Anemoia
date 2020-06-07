@@ -1,7 +1,6 @@
 #include "pch.h"
 #include "BubbleBehaviour.h"
 
-#include "TextureComponent.h"
 #include "RigidBodyComponent.h"
 
 #include "ResourceManager.h"
@@ -13,17 +12,10 @@
 #include "ZenBehaviour.h"
 #include "MaitaBehaviour.h"
 
-BubbleBehaviour::BubbleBehaviour(anemoia::GameObject* const pParent, anemoia::RigidBodyComponent* const pRigid, anemoia::TextureComponent* const pTexComp, bool movesLeft)
-	: anemoia::BaseComponent(pParent, anemoia::Transform()), m_pRigid{ pRigid }, m_pTexComp{ pTexComp },
+BubbleBehaviour::BubbleBehaviour(anemoia::GameObject* const pParent, anemoia::RigidBodyComponent* const pRigid, bool movesLeft)
+	: anemoia::BaseComponent(pParent, anemoia::Transform()), m_pRigid{ pRigid },
 	m_MovesLeft{movesLeft}
 {
-	//Load texs
-	const std::string startPath = "Player/";
-	m_pTexBubble = anemoia::ResourceManager::GetInstance()->LoadTexture(startPath + "Bubble.png");
-
-	//Set tex for now
-	m_pTexComp->SetTexture(m_pTexBubble);
-
 	//Params
 	m_Movement = glm::vec2();
 	m_Movement.x = (movesLeft) ? -400.f : 400.f;
