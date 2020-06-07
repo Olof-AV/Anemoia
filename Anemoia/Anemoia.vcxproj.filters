@@ -115,6 +115,9 @@
     <ClInclude Include="AIManager.h">
       <Filter>Managers</Filter>
     </ClInclude>
+    <ClInclude Include="AnimSpriteComponent.h">
+      <Filter>Components</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="SceneManager.cpp">
@@ -188,6 +191,9 @@
     </ClCompile>
     <ClCompile Include="AIManager.cpp">
       <Filter>Managers</Filter>
+    </ClCompile>
+    <ClCompile Include="AnimSpriteComponent.cpp">
+      <Filter>Components</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

@@ -195,6 +195,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="AIManager.h" />
+    <ClInclude Include="AnimSpriteComponent.h" />
     <ClInclude Include="BaseComponent.h" />
     <ClInclude Include="ColliderComponent.h" />
     <ClInclude Include="Command.h" />
@@ -223,6 +224,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="AIManager.cpp" />
+    <ClCompile Include="AnimSpriteComponent.cpp" />
     <ClCompile Include="BaseComponent.cpp" />
     <ClCompile Include="ColliderComponent.cpp" />
     <ClCompile Include="Command.cpp" />

@@ -66,6 +66,7 @@ anemoia::Texture2D* anemoia::ResourceManager::LoadTexture(const std::string& fil
 			throw std::runtime_error(std::string("Failed to load texture: ") + SDL_GetError());
 		}
 
+		//Get dimensions
 		int w, h;
 		SDL_QueryTexture(pTexture, nullptr, nullptr, &w, &h);
 
@@ -112,6 +113,11 @@ anemoia::Sound* anemoia::ResourceManager::LoadSound(const std::string& file)
 
 	//Return found font
 	return dynamic_cast<Sound*>((*cIt).second);
+}
+
+const std::string& anemoia::ResourceManager::GetDataPath() const
+{
+	return m_DataPath;
 }
 
 anemoia::ResourceManager::~ResourceManager()

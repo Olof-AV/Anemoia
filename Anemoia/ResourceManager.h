@@ -16,6 +16,8 @@ namespace anemoia
 		Font* LoadFont(const std::string& file, unsigned int size);
 		Sound* LoadSound(const std::string& file);
 
+		const std::string& GetDataPath() const;
+
 	private:
 		friend class Singleton<ResourceManager>;
 

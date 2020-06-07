@@ -9,7 +9,7 @@
 
 #include "SceneManager.h"
 
-#include "TextureComponent.h"
+#include "AnimSpriteComponent.h"
 
 IntroScene::IntroScene()
 	: Scene{ "IntroScene" }
@@ -99,10 +99,10 @@ void IntroScene::Initialise()
 		//Create gameobject
 		m_pP1 = new anemoia::GameObject(this);
 
-		//Create texture + component
-		anemoia::Texture2D* const pTex = anemoia::ResourceManager::GetInstance()->LoadTexture("Player/Bubby/Intro.png");
-		anemoia::TextureComponent* const pTexComp = new anemoia::TextureComponent(m_pP1, anemoia::Transform(glm::vec3{}, glm::vec2{ 0.5f, 0.5f }), pTex);
-		m_pP1->AddComponent(pTexComp);
+		//Create animated sprite comp
+		anemoia::AnimSpriteComponent* const pAnimComp = new anemoia::AnimSpriteComponent(m_pP1,
+			anemoia::Transform(glm::vec3{}, glm::vec2{ 0.5f, 0.5f }), "Anims/Intro_P1.txt", "Intro");
+		m_pP1->AddComponent(pAnimComp);
 
 		//Position
 		m_pP1->SetPosition(0.3f * x, 0.65f * y, 0.f);
@@ -116,10 +116,10 @@ void IntroScene::Initialise()
 		//Create gameobject
 		m_pP2 = new anemoia::GameObject(this);
 
-		//Create texture + component
-		anemoia::Texture2D* const pTex = anemoia::ResourceManager::GetInstance()->LoadTexture("Player/Bobby/Intro.png");
-		anemoia::TextureComponent* const pTexComp = new anemoia::TextureComponent(m_pP2, anemoia::Transform(glm::vec3{}, glm::vec2{ 0.5f, 0.5f }), pTex);
-		m_pP2->AddComponent(pTexComp);
+		//Create animated sprite comp
+		anemoia::AnimSpriteComponent* const pAnimComp = new anemoia::AnimSpriteComponent(m_pP2,
+			anemoia::Transform(glm::vec3{}, glm::vec2{ 0.5f, 0.5f }), "Anims/Intro_P2.txt", "Intro");
+		m_pP2->AddComponent(pAnimComp);
 
 		//Position
 		m_pP2->SetPosition(0.7f * x, 0.65f * y, 0.f);

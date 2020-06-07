@@ -147,7 +147,7 @@ void BaseGameScene::NotifyEnemyDeath(anemoia::GameObject* const pObj)
 void BaseGameScene::ReadLevelData()
 {
 	//Open file
-	const std::string path = "../Data/Levels/" + std::to_string(m_LevelNum) + "/Data.txt";
+	const std::string path = anemoia::ResourceManager::GetInstance()->GetDataPath() + "Levels/" + std::to_string(m_LevelNum) + "/Data.txt";
 	std::ifstream fileStream{ path };
 
 	//Read until file end
