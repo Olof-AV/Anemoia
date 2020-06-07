@@ -1,0 +1,3 @@
+//Format is: Spritesheet path, frame count, nr of cols, nr of rows and frames per sec, Anim name
+"Enemies/ZenChan/Run_Anim.png",4,2,2,8,"Run"
+"Enemies/ZenChan/Bubble_Anim.png",3,3,1,8,"Bubble"

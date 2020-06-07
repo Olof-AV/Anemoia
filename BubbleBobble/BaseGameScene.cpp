@@ -6,6 +6,7 @@
 #include "ResourceManager.h"
 
 #include "TextureComponent.h"
+#include "AnimSpriteComponent.h"
 #include "ColliderComponent.h"
 #include "RigidBodyComponent.h"
 
@@ -415,8 +416,8 @@ void BaseGameScene::CreateZenChan(const glm::vec2& pos)
 
 	//Texture
 	anemoia::Transform transform = anemoia::Transform(glm::vec3(0.f, 0.f, 0.f), glm::vec2(0.5f, 1.f));
-	anemoia::TextureComponent* const pTexComp = new anemoia::TextureComponent(pZen, transform, nullptr);
-	pZen->AddComponent(pTexComp);
+	anemoia::AnimSpriteComponent* const pAnimComp = new anemoia::AnimSpriteComponent(pZen, transform, "Anims/ZenChan.txt", "Run");
+	pZen->AddComponent(pAnimComp);
 
 	//Collision
 	anemoia::ColliderComponent* const pColl = new anemoia::ColliderComponent(pZen, transform, glm::vec2(48.f, 48.f), true, false);
@@ -430,7 +431,7 @@ void BaseGameScene::CreateZenChan(const glm::vec2& pos)
 	pZen->AddComponent(pRigid);
 
 	//Behaviour
-	ZenBehaviour* const pBehaviour = new ZenBehaviour(pZen, pRigid, pTexComp);
+	ZenBehaviour* const pBehaviour = new ZenBehaviour(pZen, pRigid, pAnimComp);
 	pZen->AddComponent(pBehaviour);
 
 	//Tag

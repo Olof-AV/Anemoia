@@ -5,7 +5,7 @@ namespace anemoia
 {
 	class Texture2D;
 	class RigidBodyComponent;
-	class TextureComponent;
+	class AnimSpriteComponent;
 	class GameObject;
 }
 
@@ -19,7 +19,7 @@ class ZenBehaviour final : public anemoia::BaseComponent
 {
 public:
 #pragma region Constructors
-	ZenBehaviour(anemoia::GameObject* const pParent, anemoia::RigidBodyComponent* const pRigid, anemoia::TextureComponent* const pTexComp);
+	ZenBehaviour(anemoia::GameObject* const pParent, anemoia::RigidBodyComponent* const pRigid, anemoia::AnimSpriteComponent* const pAnimComp);
 	virtual ~ZenBehaviour();
 
 	ZenBehaviour(const ZenBehaviour& other) = delete;
@@ -57,10 +57,8 @@ public:
 
 private:
 	anemoia::RigidBodyComponent* m_pRigid;
-	anemoia::TextureComponent* m_pTexComp;
+	anemoia::AnimSpriteComponent* m_pAnimComp;
 
-	anemoia::Texture2D* m_pTexRun;
-	anemoia::Texture2D* m_pTexBubble;
 	ZenState m_CurrentState;
 
 	std::vector<anemoia::GameObject*> m_Targets;
