@@ -4,6 +4,7 @@
 #include "GameObject.h"
 #include "RigidBodyComponent.h"
 #include "TextureComponent.h"
+#include "AnimSpriteComponent.h"
 #include "ColliderComponent.h"
 #include "ItemBehaviour.h"
 
@@ -20,19 +21,11 @@
 #include "AIManager.h"
 #include <algorithm>
 
-MaitaBehaviour::MaitaBehaviour(anemoia::GameObject* const pParent, anemoia::RigidBodyComponent* const pRigid, anemoia::TextureComponent* const pTexComp, bool isPlayer)
-	: anemoia::BaseComponent(pParent, anemoia::Transform()), m_pRigid{ pRigid }, m_pTexComp{ pTexComp },
+MaitaBehaviour::MaitaBehaviour(anemoia::GameObject* const pParent, anemoia::RigidBodyComponent* const pRigid, anemoia::AnimSpriteComponent* const pAnimComp, bool isPlayer)
+	: anemoia::BaseComponent(pParent, anemoia::Transform()), m_pRigid{ pRigid }, m_pAnimComp{ pAnimComp },
 	m_IsDead{ false }, m_CurrentState{ MaitaState::run }, m_IsPlayer(isPlayer)
 {
 	m_InputDir = glm::vec2{};
-
-	//Load texs
-	const std::string startPath = "Enemies/Maita/";
-	m_pTexRun = anemoia::ResourceManager::GetInstance()->LoadTexture(startPath + "Run.png");
-	m_pTexBubble = anemoia::ResourceManager::GetInstance()->LoadTexture(startPath + "Bubble.png");
-
-	//Set tex for now
-	m_pTexComp->SetTexture(m_pTexRun);
 
 	//Params
 	m_MovSpeed = 100.f;
@@ -170,12 +163,12 @@ void MaitaBehaviour::SetState(MaitaState newState)
 	switch (newState)
 	{
 	case MaitaState::run:
-		m_pTexComp->SetTexture(m_pTexRun);
+		m_pAnimComp->SetAnim("Run");
 
 		break;
 
 	case MaitaState::bubble:
-		m_pTexComp->SetTexture(m_pTexBubble);
+		m_pAnimComp->SetAnim("Bubble");
 		m_BubbleBurstTimer = 0.f;
 
 		break;
@@ -197,16 +190,16 @@ void MaitaBehaviour::HandleMovement()
 	m_pRigid->SetVelocity(glm::vec2(m_InputDir.x * m_MovSpeed, vel.y));
 
 	//Flip sprite based on direction
-	anemoia::Transform transform = m_pTexComp->GetTransform();
+	anemoia::Transform transform = m_pAnimComp->GetTransform();
 	if (m_InputDir.x > 0.1f)
 	{
 		transform.SetFlip(SDL_RendererFlip::SDL_FLIP_NONE);
-		m_pTexComp->SetTransform(transform);
+		m_pAnimComp->SetTransform(transform);
 	}
 	else if (m_InputDir.x < -0.1f)
 	{
 		transform.SetFlip(SDL_RendererFlip::SDL_FLIP_HORIZONTAL);
-		m_pTexComp->SetTransform(transform);
+		m_pAnimComp->SetTransform(transform);
 	}
 
 	//Reset
@@ -235,11 +228,11 @@ void MaitaBehaviour::PlayerTouch(anemoia::GameObject* const pOther)
 
 				//Texture
 				anemoia::Texture2D* const pTex = anemoia::ResourceManager::GetInstance()->LoadTexture("Items/Fries.png");
-				anemoia::TextureComponent* const pTexComp = new anemoia::TextureComponent(pObj, m_pTexComp->GetTransform(), pTex);
+				anemoia::TextureComponent* const pTexComp = new anemoia::TextureComponent(pObj, m_pAnimComp->GetTransform(), pTex);
 				pObj->AddComponent(pTexComp);
 
 				//Collider
-				anemoia::ColliderComponent* const pColl = new anemoia::ColliderComponent(pObj, m_pTexComp->GetTransform(), glm::vec2(48.f, 48.f), true, false);
+				anemoia::ColliderComponent* const pColl = new anemoia::ColliderComponent(pObj, m_pAnimComp->GetTransform(), glm::vec2(48.f, 48.f), true, false);
 				pObj->AddComponent(pColl);
 
 				//Rigid body
@@ -280,7 +273,7 @@ void MaitaBehaviour::ShootBoulder()
 		//Spawn bubble
 		{
 			//Params
-			const bool isLookingLeft = (m_pTexComp->GetTransform().GetFlip() == SDL_FLIP_HORIZONTAL) ? true : false;
+			const bool isLookingLeft = (m_pAnimComp->GetTransform().GetFlip() == SDL_FLIP_HORIZONTAL) ? true : false;
 			anemoia::Scene* pScene = GetParent()->GetParentScene();
 
 			//Obj

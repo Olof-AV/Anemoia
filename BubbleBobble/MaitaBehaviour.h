@@ -5,7 +5,7 @@ namespace anemoia
 {
 	class Texture2D;
 	class RigidBodyComponent;
-	class TextureComponent;
+	class AnimSpriteComponent;
 	class GameObject;
 	class Command;
 }
@@ -20,7 +20,7 @@ class MaitaBehaviour final : public anemoia::BaseComponent
 {
 public:
 #pragma region Constructors
-	MaitaBehaviour(anemoia::GameObject* const pParent, anemoia::RigidBodyComponent* const pRigid, anemoia::TextureComponent* const pTexComp, bool isPlayer);
+	MaitaBehaviour(anemoia::GameObject* const pParent, anemoia::RigidBodyComponent* const pRigid, anemoia::AnimSpriteComponent* const pAnimComp, bool isPlayer);
 	virtual ~MaitaBehaviour();
 
 	MaitaBehaviour(const MaitaBehaviour& other) = delete;
@@ -60,10 +60,8 @@ public:
 
 private:
 	anemoia::RigidBodyComponent* m_pRigid;
-	anemoia::TextureComponent* m_pTexComp;
+	anemoia::AnimSpriteComponent* m_pAnimComp;
 
-	anemoia::Texture2D* m_pTexRun;
-	anemoia::Texture2D* m_pTexBubble;
 	MaitaState m_CurrentState;
 
 	std::vector<anemoia::GameObject*> m_Targets;

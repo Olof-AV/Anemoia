@@ -452,8 +452,8 @@ void BaseGameScene::CreateMaita(const glm::vec2& pos, bool isPlayer)
 
 	//Texture
 	anemoia::Transform transform = anemoia::Transform(glm::vec3(0.f, 0.f, 0.f), glm::vec2(0.5f, 1.f));
-	anemoia::TextureComponent* const pTexComp = new anemoia::TextureComponent(pMaita, transform, nullptr);
-	pMaita->AddComponent(pTexComp);
+	anemoia::AnimSpriteComponent* const pAnimComp = new anemoia::AnimSpriteComponent(pMaita, transform, "Anims/Maita.txt", "Run");
+	pMaita->AddComponent(pAnimComp);
 
 	//Collision
 	anemoia::ColliderComponent* const pColl = new anemoia::ColliderComponent(pMaita, transform, glm::vec2(48.f, 48.f), true, false);
@@ -468,7 +468,7 @@ void BaseGameScene::CreateMaita(const glm::vec2& pos, bool isPlayer)
 	pMaita->AddComponent(pRigid);
 
 	//Behaviour
-	MaitaBehaviour* const pBehaviour = new MaitaBehaviour(pMaita, pRigid, pTexComp, isPlayer);
+	MaitaBehaviour* const pBehaviour = new MaitaBehaviour(pMaita, pRigid, pAnimComp, isPlayer);
 	pMaita->AddComponent(pBehaviour);
 
 	//Tag
