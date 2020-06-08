@@ -18,6 +18,7 @@ namespace anemoia
 		float framesPerSec;
 		float totalTime;
 		bool isPong;
+		bool isReverse; //If pong is used, determines when it's going backwards or not
 	};
 
 	class AnimSpriteComponent final : public BaseComponent

@@ -16,7 +16,7 @@ anemoia::AnimSpriteComponent::AnimSpriteComponent(GameObject* const pParent, con
 	: BaseComponent(pParent, transform), m_ColourMod{ colour }
 {
 	//Reads: spritesheet path, frame count, nr of cols, nr of rows, frames per sec, animation name
-	const std::regex myRegex{ R"(^\"(.+)\",(\d+),(\d+),(\d+),(\d+(?:[.]\d+)?),\"(.+)\"$)" };
+	const std::regex myRegex{ R"(^\"(.+)\",(\d+),(\d+),(\d+),(\d+(?:[.]\d+)?),(\D+),\"(.+)\"$)" };
 
 	//Store matches in here
 	std::smatch matches;
@@ -33,8 +33,8 @@ anemoia::AnimSpriteComponent::AnimSpriteComponent(GameObject* const pParent, con
 			//Does it match the regex?
 			if (std::regex_search(line, matches, myRegex))
 			{
-				//Should have exactly 6 + 1 entire match
-				if (matches.size() == 7)
+				//Should have exactly 7 + 1 entire match
+				if (matches.size() == 8)
 				{
 					AnimSprite toCreate{};
 					toCreate.pTexture = anemoia::ResourceManager::GetInstance()->LoadTexture(matches[1]);
@@ -43,8 +43,10 @@ anemoia::AnimSpriteComponent::AnimSpriteComponent(GameObject* const pParent, con
 					toCreate.nrRows = std::stoi(matches[4]);
 					toCreate.framesPerSec = std::stof(matches[5]);
 					toCreate.totalTime = 0.f;
+					toCreate.isPong = matches[6].compare("true") == 0;
+					toCreate.isReverse = false;
 
-					m_Sprites[matches[6]] = toCreate;
+					m_Sprites[matches[7]] = toCreate;
 				}
 			}
 		}
@@ -60,8 +62,47 @@ void anemoia::AnimSpriteComponent::FixedUpdate(float timeStep)
 
 void anemoia::AnimSpriteComponent::Update(float elapsedSec)
 {
-	UNREFERENCED_PARAMETER(elapsedSec);
-	m_Sprites[m_ActiveSprite].totalTime += elapsedSec;
+	//Obtain current sprite playing
+	anemoia::AnimSprite &currentSprite = m_Sprites.at(m_ActiveSprite);
+
+	//If not pong, just run normally
+	if (!currentSprite.isPong)
+	{
+		currentSprite.totalTime += elapsedSec;
+	}
+	else
+	{
+		//Otherwise, determine whether we're playing in reverse or not
+		//Also determine if we should flip or not
+		if (currentSprite.isReverse)
+		{
+			//Don't reverse
+			if (currentSprite.totalTime * currentSprite.framesPerSec > 0.f)
+			{
+				currentSprite.totalTime -= elapsedSec;
+			}
+			//Reverse if next step would go over
+			else
+			{
+				currentSprite.isReverse = !currentSprite.isReverse;
+				currentSprite.totalTime += elapsedSec;
+			}
+		}
+		else
+		{
+			//Don't reverse
+			if (currentSprite.totalTime * currentSprite.framesPerSec < currentSprite.frameCount)
+			{
+				currentSprite.totalTime += elapsedSec;
+			}
+			//Reverse if next step would go over
+			else
+			{
+				currentSprite.isReverse = !currentSprite.isReverse;
+				currentSprite.totalTime -= elapsedSec;
+			}
+		}
+	}
 }
 
 void anemoia::AnimSpriteComponent::LateUpdate(float elapsedSec)
