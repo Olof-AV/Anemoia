@@ -10,6 +10,8 @@
 
 #pragma warning(push)
 #pragma warning (disable:4201)
+#pragma warning (disable:26495)
+#pragma warning (disable:26812)
 #include <glm/glm.hpp>
 #include <glm/vec2.hpp>
 #include <glm/vec3.hpp>

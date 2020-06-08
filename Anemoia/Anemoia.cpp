@@ -10,7 +10,11 @@
 #include "ResourceManager.h"
 #include "AIManager.h"
 
+#pragma warning(push)
+#pragma warning (disable:26812)
 #include <SDL.h>
+#pragma warning(pop)
+
 #include "TextComponent.h"
 #include "GameObject.h"
 
