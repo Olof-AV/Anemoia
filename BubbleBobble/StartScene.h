@@ -3,7 +3,7 @@
 
 namespace anemoia
 {
-	class TextureComponent;
+	class AnimSpriteComponent;
 	class Sound;
 }
 
@@ -35,7 +35,7 @@ private:
 	void StartGame();
 	bool m_Start = false;
 
-	anemoia::TextureComponent* m_pLogo = nullptr;
+	anemoia::AnimSpriteComponent* m_pLogo = nullptr;
 	anemoia::Sound* m_pSound_Intro = nullptr;
 	anemoia::Sound* m_pSound_Select = nullptr;
 };

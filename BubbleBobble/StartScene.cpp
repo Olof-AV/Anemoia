@@ -15,7 +15,7 @@
 #include "BaseGameScene.h"
 #include "SceneManager.h"
 
-#include "TextureComponent.h"
+#include "AnimSpriteComponent.h"
 #include "Texture2D.h"
 #include "Sound.h"
 
@@ -107,9 +107,9 @@ void StartScene::Initialise()
 		pRoot->AddComponent(pText3);
 
 		//Logo
-		anemoia::Texture2D* const pLogoTex = anemoia::ResourceManager::GetInstance()->LoadTexture("HUD/Logo.png");
 		m_pLogo =
-			new anemoia::TextureComponent(pRoot, anemoia::Transform(glm::vec3{ 0.f, -375.f, 0.f }, glm::vec2{ 0.5f, 0.5f }), pLogoTex, glm::vec4(255.f, 255.f, 255.f, 0.f));
+			new anemoia::AnimSpriteComponent(pRoot, anemoia::Transform(glm::vec3{ 0.f, -375.f, 0.f }, glm::vec2{ 0.5f, 0.5f }),
+				"Anims/Logo.txt", "Anim", glm::vec4(255.f, 255.f, 255.f, 0.f));
 		pRoot->AddComponent(m_pLogo);
 
 		//Move whole
