@@ -77,7 +77,7 @@ void anemoia::AnimSpriteComponent::Update(float elapsedSec)
 		if (currentSprite.isReverse)
 		{
 			//Don't reverse
-			if (currentSprite.totalTime * currentSprite.framesPerSec > 0.f)
+			if ((currentSprite.totalTime - elapsedSec) * currentSprite.framesPerSec > 0.f)
 			{
 				currentSprite.totalTime -= elapsedSec;
 			}
@@ -91,7 +91,7 @@ void anemoia::AnimSpriteComponent::Update(float elapsedSec)
 		else
 		{
 			//Don't reverse
-			if (currentSprite.totalTime * currentSprite.framesPerSec < currentSprite.frameCount)
+			if ((currentSprite.totalTime + elapsedSec) * currentSprite.framesPerSec < currentSprite.frameCount)
 			{
 				currentSprite.totalTime += elapsedSec;
 			}
