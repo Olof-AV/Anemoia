@@ -83,6 +83,7 @@ void anemoia::AnimSpriteComponent::Render() const
 	const glm::vec2 finalPos = glm::vec2(m_Transform.GetPosition() + GetParent()->GetPosition()) - pivotOffset;
 
 	//Obtain global blend mode and set that as texture blend mode
+#pragma warning(suppress:26812)
 	SDL_BlendMode blendMode;
 	SDL_GetRenderDrawBlendMode(Locator::GetRenderer(), &blendMode);
 	SDL_SetTextureBlendMode(pTex->GetSDLTexture(), blendMode);

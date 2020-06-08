@@ -1,13 +1,10 @@
 #include "AnemoiaPCH.h"
 #include "ResourceManager.h"
 
-#pragma warning(push)
-#pragma warning (disable:26812)
 #include <SDL.h>
 #include <SDL_image.h>
 #include <SDL_ttf.h>
 #include <SDL_mixer.h>
-#pragma warning(pop)
 
 #include "Renderer.h"
 #include "Texture2D.h"

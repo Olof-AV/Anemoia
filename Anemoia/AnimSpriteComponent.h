@@ -17,6 +17,7 @@ namespace anemoia
 		int nrRows;
 		float framesPerSec;
 		float totalTime;
+		bool isPong;
 	};
 
 	class AnimSpriteComponent final : public BaseComponent
