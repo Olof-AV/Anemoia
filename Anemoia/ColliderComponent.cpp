@@ -34,13 +34,15 @@ void anemoia::ColliderComponent::LateUpdate(float elapsedSec)
 
 void anemoia::ColliderComponent::Render() const
 {
+#if _DEBUG
 	//Get renderer
 	SDL_Renderer* const pRenderer = Locator::GetRenderer();
 
-	//Draw rect
+	//Draw rect representing hitbox
 	SDL_Rect rect = GetRect();
 	SDL_SetRenderDrawColor(pRenderer, 255, 255, 255, 255);
 	SDL_RenderDrawRect(pRenderer, &rect);
+#endif
 }
 
 SDL_Rect anemoia::ColliderComponent::GetRect() const

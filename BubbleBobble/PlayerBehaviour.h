@@ -5,7 +5,7 @@ namespace anemoia
 {
 	class Texture2D;
 	class RigidBodyComponent;
-	class TextureComponent;
+	class AnimSpriteComponent;
 	class GameObject;
 	class Command;
 	class Sound;
@@ -14,6 +14,7 @@ namespace anemoia
 enum class PlayerState
 {
 	idle,
+	run,
 	shoot
 };
 
@@ -21,7 +22,7 @@ class PlayerBehaviour final : public anemoia::BaseComponent
 {
 public:
 #pragma region Constructors
-	PlayerBehaviour(anemoia::GameObject* const pParent, anemoia::RigidBodyComponent* const pRigid, anemoia::TextureComponent* const pTexComp, bool isP2 = false);
+	PlayerBehaviour(anemoia::GameObject* const pParent, anemoia::RigidBodyComponent* const pRigid, anemoia::AnimSpriteComponent* const pAnimComp, bool isP2 = false);
 	virtual ~PlayerBehaviour();
 
 	PlayerBehaviour(const PlayerBehaviour& other) = delete;
@@ -57,11 +58,9 @@ public:
 private:
 	//Components
 	anemoia::RigidBodyComponent* m_pRigid;
-	anemoia::TextureComponent* m_pTexComp;
+	anemoia::AnimSpriteComponent* m_pAnimComp;
 
 	//State
-	anemoia::Texture2D* m_pTexIdle;
-	anemoia::Texture2D* m_pTexShoot;
 	PlayerState m_CurrentState;
 
 	//Movement

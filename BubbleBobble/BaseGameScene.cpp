@@ -489,8 +489,8 @@ void BaseGameScene::CreatePlayer(const glm::vec2& pos, bool isP1)
 
 	//Texture
 	anemoia::Transform transform = anemoia::Transform(glm::vec3(0.f, 0.f, 0.f), glm::vec2(0.5f, 1.f));
-	anemoia::TextureComponent* const pTexComp = new anemoia::TextureComponent(pPlayer, transform, nullptr);
-	pPlayer->AddComponent(pTexComp);
+	anemoia::AnimSpriteComponent* const pAnimComp = new anemoia::AnimSpriteComponent(pPlayer, transform, ((isP1) ? "Anims/P1.txt" : "Anims/P2.txt"), "Idle");
+	pPlayer->AddComponent(pAnimComp);
 
 	//Collision
 	anemoia::ColliderComponent* const pColl = new anemoia::ColliderComponent(pPlayer, transform, glm::vec2(48.f, 48.f), true, false);
@@ -502,7 +502,7 @@ void BaseGameScene::CreatePlayer(const glm::vec2& pos, bool isP1)
 	pPlayer->AddComponent(pRigid);
 
 	//Behaviour
-	PlayerBehaviour* const pBehaviour = new PlayerBehaviour(pPlayer, pRigid, pTexComp, !isP1);
+	PlayerBehaviour* const pBehaviour = new PlayerBehaviour(pPlayer, pRigid, pAnimComp, !isP1);
 	pPlayer->AddComponent(pBehaviour);
 
 	//Tag

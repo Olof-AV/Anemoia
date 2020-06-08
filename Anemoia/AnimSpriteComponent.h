@@ -51,6 +51,9 @@ namespace anemoia
 		void SetAlpha(float value);
 #pragma endregion GettersSetters
 
+		//Extra functions
+		void ResetCurrentAnim();
+
 	private:
 		glm::vec4 m_ColourMod;
 		std::string m_ActiveSprite;

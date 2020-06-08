@@ -6,7 +6,6 @@
 #include "GameObject.h"
 
 #include "RigidBodyComponent.h"
-#include "TextureComponent.h"
 #include "AnimSpriteComponent.h"
 #include "ColliderComponent.h"
 #include "BubbleBehaviour.h"
@@ -24,9 +23,9 @@
 
 #include "Sound.h"
 
-PlayerBehaviour::PlayerBehaviour(anemoia::GameObject* const pParent, anemoia::RigidBodyComponent* const pRigid, anemoia::TextureComponent* const pTexComp, bool isP2)
+PlayerBehaviour::PlayerBehaviour(anemoia::GameObject* const pParent, anemoia::RigidBodyComponent* const pRigid, anemoia::AnimSpriteComponent* const pAnimComp, bool isP2)
 	: BaseComponent(pParent, anemoia::Transform()),
-	m_pRigid{ pRigid }, m_pTexComp{ pTexComp },
+	m_pRigid{ pRigid }, m_pAnimComp{ pAnimComp },
 	m_IsDead{ false }, m_CurrentState{ PlayerState::idle },
 	m_IsP1{!isP2}
 {
@@ -53,11 +52,6 @@ PlayerBehaviour::PlayerBehaviour(anemoia::GameObject* const pParent, anemoia::Ri
 	pInput->RegisterCommand(m_pCommand_Shoot = new anemoia::Command("Shoot", pParent->GetParentScene(), controllerId,
 		XINPUT_GAMEPAD_X, ((isP2) ? VK_NUMPAD5 : 'X'), anemoia::ButtonState::Down, std::bind(&PlayerBehaviour::ShootBubble, this) ));
 
-	//Load textures
-	const std::string startPath = ((isP2) ? "Player/Bobby/" : "Player/Bubby/");
-	m_pTexIdle = anemoia::ResourceManager::GetInstance()->LoadTexture(startPath + "Idle.png");
-	m_pTexShoot = anemoia::ResourceManager::GetInstance()->LoadTexture(startPath + "Shoot.png");
-
 	//Set base state
 	SetState(PlayerState::idle);
 
@@ -72,7 +66,7 @@ PlayerBehaviour::PlayerBehaviour(anemoia::GameObject* const pParent, anemoia::Ri
 	m_InvincibilityTimerMax = 3.f;
 
 	m_ShootCoolTimer = 0.f;
-	m_ShootCoolTimerMax = 0.75f;
+	m_ShootCoolTimerMax = 0.55f;
 
 	//Load sounds
 	{
@@ -100,21 +94,32 @@ void PlayerBehaviour::Update(float elapsedSec)
 	switch (m_CurrentState)
 	{
 	case PlayerState::idle:
-		HandleMovement();
-		HandleInvincibilityTimer(elapsedSec);
+		if (m_InputDir.x > 0.1f || m_InputDir.x < -0.1f) //Switch to run anim
+		{
+			SetState(PlayerState::run);
+		}
+
+		break;
+
+	case PlayerState::run:
+		if (m_InputDir.x < 0.1f && m_InputDir.x > -0.1f) //Switch to idle anim
+		{
+			SetState(PlayerState::idle);
+		}
 
 		break;
 
 	case PlayerState::shoot:
-		HandleMovement();
-		HandleInvincibilityTimer(elapsedSec);
-		
 		//Cooldown eventually dissipates
 		m_ShootCoolTimer += elapsedSec;
 		if (m_ShootCoolTimer > m_ShootCoolTimerMax) { SetState(PlayerState::idle); }
 
 		break;
 	}
+
+	//Common to all states
+	HandleMovement();
+	HandleInvincibilityTimer(elapsedSec);
 }
 
 void PlayerBehaviour::LateUpdate(float elapsedSec)
@@ -189,16 +194,16 @@ void PlayerBehaviour::HandleMovement()
 	//Otherwise handle mov related transform stuff + movement
 	else
 	{
-		anemoia::Transform transform = m_pTexComp->GetTransform();
+		anemoia::Transform transform = m_pAnimComp->GetTransform();
 		if (m_InputDir.x > 0.1f)
 		{
 			transform.SetFlip(SDL_RendererFlip::SDL_FLIP_NONE);
-			m_pTexComp->SetTransform(transform);
+			m_pAnimComp->SetTransform(transform);
 		}
 		else if (m_InputDir.x < -0.1f)
 		{
 			transform.SetFlip(SDL_RendererFlip::SDL_FLIP_HORIZONTAL);
-			m_pTexComp->SetTransform(transform);
+			m_pAnimComp->SetTransform(transform);
 		}
 
 		//Set lateral mov speed
@@ -233,11 +238,11 @@ void PlayerBehaviour::HandleInvincibilityTimer(float elapsedSec)
 			m_pRigid->RemoveIgnoreTag("ZenChan");
 			m_pRigid->RemoveIgnoreTag("Maita");
 		}
-		m_pTexComp->SetAlpha(128.f);
+		m_pAnimComp->SetAlpha(128.f);
 	}
 	else
 	{
-		m_pTexComp->SetAlpha(255.f);
+		m_pAnimComp->SetAlpha(255.f);
 	}
 }
 
@@ -276,7 +281,7 @@ void PlayerBehaviour::ShootBubble()
 		//Spawn bubble
 		{
 			//Params
-			const bool isLookingLeft = (m_pTexComp->GetTransform().GetFlip() == SDL_FLIP_HORIZONTAL) ? true : false;
+			const bool isLookingLeft = (m_pAnimComp->GetTransform().GetFlip() == SDL_FLIP_HORIZONTAL) ? true : false;
 			anemoia::Scene* pScene = GetParent()->GetParentScene();
 
 			//Obj
@@ -330,12 +335,18 @@ void PlayerBehaviour::SetState(PlayerState newState)
 	switch (newState)
 	{
 	case PlayerState::idle:
-		m_pTexComp->SetTexture(m_pTexIdle);
+		m_pAnimComp->SetAnim("Idle");
+
+		break;
+
+	case PlayerState::run:
+		m_pAnimComp->SetAnim("Run");
 
 		break;
 
 	case PlayerState::shoot:
-		m_pTexComp->SetTexture(m_pTexShoot);
+		m_pAnimComp->SetAnim("Shoot");
+		m_pAnimComp->ResetCurrentAnim(); //Looks much smoother this way
 		m_ShootCoolTimer = 0.f;
 
 		break;

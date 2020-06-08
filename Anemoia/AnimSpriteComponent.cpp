@@ -110,12 +110,14 @@ const std::string &anemoia::AnimSpriteComponent::GetAnim() const
 
 void anemoia::AnimSpriteComponent::SetAnim(const std::string& name)
 {
+	//Does it even exist?
 	std::unordered_map<std::string,AnimSprite>::const_iterator cIt = m_Sprites.find(name);
 	if (cIt == m_Sprites.cend())
 	{
 		throw std::runtime_error(name + " is not a valid animation.");
 	}
-
+	
+	//Found
 	m_ActiveSprite = name;
 }
 
@@ -137,4 +139,9 @@ float anemoia::AnimSpriteComponent::GetAlpha() const
 void anemoia::AnimSpriteComponent::SetAlpha(float value)
 {
 	m_ColourMod.a = value;
+}
+
+void anemoia::AnimSpriteComponent::ResetCurrentAnim()
+{
+	m_Sprites[m_ActiveSprite].totalTime = 0.f;
 }
