@@ -41,6 +41,9 @@ MaitaBehaviour::MaitaBehaviour(anemoia::GameObject* const pParent, anemoia::Rigi
 	m_BoulderTimer = 0.f;
 	m_BoulderTimerMax = 5.f;
 
+	m_AttackCharge = 0.f;
+	m_AttackChargeMax = 0.4f;
+
 	//Players
 	m_Targets = pParent->GetParentScene()->GetObjectsWithTag("Player");
 
@@ -64,7 +67,7 @@ MaitaBehaviour::MaitaBehaviour(anemoia::GameObject* const pParent, anemoia::Rigi
 				m_InputDir.y += -1.f;
 			}));
 		pInput->RegisterCommand(m_pCommand_Shoot = new anemoia::Command("Shoot", pParent->GetParentScene(), 1,
-			XINPUT_GAMEPAD_X, VK_NUMPAD5, anemoia::ButtonState::Down, std::bind(&MaitaBehaviour::ShootBoulder, this)));
+			XINPUT_GAMEPAD_X, VK_NUMPAD5, anemoia::ButtonState::Down, std::bind(&MaitaBehaviour::PrepareBoulder, this)));
 	}
 	else
 	{
@@ -117,6 +120,18 @@ void MaitaBehaviour::Update(float elapsedSec)
 		else if (m_ShootRequested)
 		{
 			m_ShootRequested = false;
+			PrepareBoulder();
+		}
+
+		break;
+
+	case MaitaState::attack:
+		HandleMovement();
+		m_AttackCharge += elapsedSec;
+		if (m_AttackCharge > m_AttackChargeMax)
+		{
+			m_AttackCharge = 0.f;
+			SetState(MaitaState::run);
 			ShootBoulder();
 		}
 
@@ -126,7 +141,10 @@ void MaitaBehaviour::Update(float elapsedSec)
 		HandleBubbleMov();
 
 		m_BubbleBurstTimer += elapsedSec;
-		if (m_BubbleBurstTimer > m_BubbleBurstTimerMax) { SetState(MaitaState::run); }
+		if (m_BubbleBurstTimer > m_BubbleBurstTimerMax)
+		{
+			SetState(MaitaState::run);
+		}
 
 		break;
 	}
@@ -164,12 +182,21 @@ void MaitaBehaviour::SetState(MaitaState newState)
 	{
 	case MaitaState::run:
 		m_pAnimComp->SetAnim("Run");
+		m_AttackCharge = 0.f;
+
+		break;
+
+	case MaitaState::attack:
+		m_pAnimComp->SetAnim("Attack");
+		m_pAnimComp->ResetCurrentAnim();
+		m_AttackCharge = 0.f;
 
 		break;
 
 	case MaitaState::bubble:
 		m_pAnimComp->SetAnim("Bubble");
 		m_BubbleBurstTimer = 0.f;
+		m_AttackCharge = 0.f;
 
 		break;
 	}
@@ -239,6 +266,7 @@ void MaitaBehaviour::PlayerTouch(anemoia::GameObject* const pOther)
 				anemoia::RigidBodyComponent* const pRigid = new anemoia::RigidBodyComponent(pObj, pColl);
 				pObj->AddComponent(pRigid);
 				pRigid->AddIgnoreTag("ZenChan");
+				pRigid->AddIgnoreTag("Maita");
 				pRigid->AddIgnoreTag("Bubble");
 				pRigid->AddIgnoreTag("Treasure");
 
@@ -265,6 +293,15 @@ void MaitaBehaviour::PlayerTouch(anemoia::GameObject* const pOther)
 	}
 }
 
+void MaitaBehaviour::PrepareBoulder()
+{
+	//Only attack if allowed, also can't prepare again while preparing
+	if (m_CurrentState != MaitaState::bubble && m_CurrentState != MaitaState::attack && !m_BoulderCooldown)
+	{
+		SetState(MaitaState::attack);
+	}
+}
+
 void MaitaBehaviour::ShootBoulder()
 {
 	//Can't shoot if cooldown is in effect, or if bubbled up
@@ -279,7 +316,7 @@ void MaitaBehaviour::ShootBoulder()
 			//Obj
 			anemoia::GameObject* const pObj = new anemoia::GameObject(pScene);
 			glm::vec3 finalPos = GetParent()->GetPosition();
-			finalPos += ((isLookingLeft) ? glm::vec3(-60.f, -28.f, 0.f) : glm::vec3(60.f, -28.f, 0.f));
+			finalPos += ((isLookingLeft) ? glm::vec3(-30.f, -28.f, 0.f) : glm::vec3(30.f, -28.f, 0.f));
 			pObj->SetPosition(finalPos);
 
 			//Transform

@@ -13,6 +13,7 @@ namespace anemoia
 enum class MaitaState
 {
 	run,
+	attack,
 	bubble
 };
 
@@ -52,6 +53,7 @@ public:
 
 	void PlayerTouch(anemoia::GameObject* const pOther);
 
+	void PrepareBoulder();
 	void ShootBoulder();
 
 	void RunAI();
@@ -80,6 +82,9 @@ private:
 	bool m_BoulderCooldown;
 	float m_BoulderTimer;
 	float m_BoulderTimerMax;
+
+	float m_AttackCharge;
+	float m_AttackChargeMax;
 
 	bool m_ShootRequested = false;
 
