@@ -112,11 +112,13 @@ void MaitaBehaviour::Update(float elapsedSec)
 	case MaitaState::run:
 		HandleMovement();
 
+		//Can't shoot with cooldown
 		if (m_BoulderCooldown)
 		{
 			m_BoulderTimer += elapsedSec;
 			if (m_BoulderTimer > m_BoulderTimerMax) { m_BoulderCooldown = false; m_BoulderTimer = 0.f; }
 		}
+		//If no cooldown, shoot is allowed
 		else if (m_ShootRequested)
 		{
 			m_ShootRequested = false;
@@ -127,7 +129,8 @@ void MaitaBehaviour::Update(float elapsedSec)
 
 	case MaitaState::attack:
 		HandleMovement();
-		m_AttackCharge += elapsedSec;
+
+		m_AttackCharge += elapsedSec; //Attack takes a little while to charge, before it shoots
 		if (m_AttackCharge > m_AttackChargeMax)
 		{
 			m_AttackCharge = 0.f;
@@ -140,7 +143,7 @@ void MaitaBehaviour::Update(float elapsedSec)
 	case MaitaState::bubble:
 		HandleBubbleMov();
 
-		m_BubbleBurstTimer += elapsedSec;
+		m_BubbleBurstTimer += elapsedSec; //After a while, Maita bursts out of bubble
 		if (m_BubbleBurstTimer > m_BubbleBurstTimerMax)
 		{
 			SetState(MaitaState::run);
