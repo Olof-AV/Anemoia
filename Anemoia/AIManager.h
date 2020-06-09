@@ -2,6 +2,7 @@
 #include "Singleton.h"
 
 #include <functional>
+#include <mutex>
 
 namespace anemoia
 {
@@ -24,6 +25,7 @@ namespace anemoia
 
 		void Run();
 		void Stop();
+		void Pause(bool isPaused);
 
 	private:
 		friend class Singleton<AIManager>;
@@ -33,7 +35,9 @@ namespace anemoia
 
 		//Functionality
 		bool m_IsRunning = false;
+		bool m_IsPaused = false;
 		std::vector<BoundFunc> m_Functions;
+		std::mutex m_Mutex;
 	};
 }
 

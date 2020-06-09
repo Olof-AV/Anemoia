@@ -15,6 +15,9 @@ anemoia::AIManager::~AIManager()
 
 void anemoia::AIManager::RegisterFunction(const BoundFunc& func)
 {
+	//Lock -- thread might be running
+	const std::lock_guard<std::mutex> lock(m_Mutex);
+
 	//Is it already present in the vector?
 	const std::vector<BoundFunc>::const_iterator cIt = std::find(m_Functions.cbegin(), m_Functions.cend(), func);
 
@@ -32,6 +35,9 @@ void anemoia::AIManager::RegisterFunction(const BoundFunc& func)
 
 void anemoia::AIManager::UnRegisterFunction(const BoundFunc &func)
 {
+	//Lock -- thread might be running
+	const std::lock_guard<std::mutex> lock(m_Mutex);
+
 	//Is it already present in the vector?
 	const std::vector<BoundFunc>::const_iterator cIt = std::remove(m_Functions.begin(), m_Functions.end(), func);
 
@@ -49,17 +55,22 @@ void anemoia::AIManager::Run()
 	//Runs in a thread until told to stop
 	while(m_IsRunning)
 	{
-		//Get scene manager, only active scenes will have their AI running
-		SceneManager* const pMan = SceneManager::GetInstance();
-
-		//Go through registered AI functions
-		for (size_t i{}; i < m_Functions.size(); ++i)
+		if (!m_IsPaused)
 		{
-			if (!m_IsRunning) { return; } //Quit?
+			//Get scene manager, only active scenes will have their AI running
+			SceneManager* const pMan = SceneManager::GetInstance();
 
-			if (pMan->IsSceneActive(m_Functions[i].pScene) && m_Functions[i].func)
+			//Go through registered AI functions
+			const size_t max = m_Functions.size();
+			for (size_t i{}; i < max; ++i)
 			{
-				m_Functions[i].func();
+				if (!m_IsRunning) { return; } //Quit?
+				if (m_IsPaused) { break; } //Pause?
+
+				if (pMan->IsSceneActive(m_Functions[i].pScene) && m_Functions[i].func)
+				{
+					m_Functions[i].func();
+				}
 			}
 		}
 	}
@@ -68,6 +79,11 @@ void anemoia::AIManager::Run()
 void anemoia::AIManager::Stop()
 {
 	m_IsRunning = false;
+}
+
+void anemoia::AIManager::Pause(bool isPaused)
+{
+	m_IsPaused = isPaused;
 }
 
 bool anemoia::operator==(const anemoia::BoundFunc& a, const anemoia::BoundFunc& b)

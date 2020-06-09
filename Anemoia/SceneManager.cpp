@@ -4,6 +4,8 @@
 
 #include <algorithm>
 
+#include "AIManager.h"
+
 void anemoia::SceneManager::FixedUpdate(float timeStep)
 {
 	if (m_pActiveScene)
@@ -44,6 +46,10 @@ void anemoia::SceneManager::AddScene(Scene* const pScene)
 	//Only add if it's not already in there
 	if (cIt == m_Scenes.cend())
 	{
+		//Pause -- new AI might be added
+		anemoia::AIManager::GetInstance()->Pause(true);
+
+		//Add to known scenes
 		m_Scenes.emplace_back(pScene);
 
 		//Initialise?
@@ -51,6 +57,9 @@ void anemoia::SceneManager::AddScene(Scene* const pScene)
 		{
 			pScene->Initialise();
 		}
+
+		//When finished, go on
+		anemoia::AIManager::GetInstance()->Pause(false);
 	}
 	else
 	{
