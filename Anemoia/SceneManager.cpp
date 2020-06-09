@@ -66,7 +66,14 @@ void anemoia::SceneManager::SetActiveScene(Scene* const pScene)
 	//Only set as active if found
 	if (cIt != m_Scenes.cend())
 	{
-		m_pActiveScene = pScene;
+		//Call back
+		if (m_pActiveScene) { m_pActiveScene->OnSceneDeactivated(); }
+
+		//Change active scene
+		m_pActiveScene = *cIt;
+
+		//Callback
+		if (m_pActiveScene) { m_pActiveScene->OnSceneActivated(); }
 	}
 	else
 	{

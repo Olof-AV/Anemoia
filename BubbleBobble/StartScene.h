@@ -32,11 +32,17 @@ public:
 	virtual void OnSceneDeactivated() override;
 
 private:
+	void PlayStartEffects();
 	void StartGame();
 	bool m_Start = false;
 
 	anemoia::AnimSpriteComponent* m_pLogo = nullptr;
 	anemoia::Sound* m_pSound_Intro = nullptr;
 	anemoia::Sound* m_pSound_Select = nullptr;
+
+	//Transition
+	float m_TransitionAlpha;
+	float m_TransitionAlphaTarget;
+	float m_TransitionSpeed;
 };
 

@@ -68,6 +68,7 @@ void anemoia::Renderer::RenderTexture(anemoia::Texture2D* const pTexture, const 
 	SDL_RenderCopy(m_pRenderer, pTexture->GetSDLTexture(), nullptr, &dst);
 }
 
+#pragma warning(suppress:26812)
 void anemoia::Renderer::RenderTexture(anemoia::Texture2D* const pTexture,
 	float x, float y, float width, float height,
 	float angle, const glm::vec2 &pivotCenter, SDL_RendererFlip flip,

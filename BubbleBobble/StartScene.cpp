@@ -26,20 +26,25 @@ StartScene::StartScene()
 	anemoia::InputManager::GetInstance()->RegisterCommand(new anemoia::Command("sp", this, 0, XINPUT_GAMEPAD_DPAD_LEFT, VK_LEFT, anemoia::ButtonState::Down, [this]()
 	{
 		static_cast<BubbleBobbleGame*>(anemoia::Locator::GetEngine())->SetGamemode(Gamemode::singleplayer);
-		m_Start = true;
+		PlayStartEffects();
 	}));
 
 	anemoia::InputManager::GetInstance()->RegisterCommand(new anemoia::Command("mp", this, 0, XINPUT_GAMEPAD_DPAD_UP, VK_UP, anemoia::ButtonState::Down, [this]()
 	{
 		static_cast<BubbleBobbleGame*>(anemoia::Locator::GetEngine())->SetGamemode(Gamemode::multiplayer);
-		m_Start = true;
+		PlayStartEffects();
 	}));
 
 	anemoia::InputManager::GetInstance()->RegisterCommand(new anemoia::Command("vs", this, 0, XINPUT_GAMEPAD_DPAD_RIGHT, VK_RIGHT, anemoia::ButtonState::Down, [this]()
 	{
 		static_cast<BubbleBobbleGame*>(anemoia::Locator::GetEngine())->SetGamemode(Gamemode::versus);
-		m_Start = true;
+		PlayStartEffects();
 	}));
+
+	//Transition opacity
+	m_TransitionAlpha = 1.f;
+	m_TransitionAlphaTarget = 1.f;
+	m_TransitionSpeed = 8.f;
 }
 
 StartScene::~StartScene()
@@ -64,6 +69,9 @@ void StartScene::Update(float elapsedSec)
 	{
 		StartGame();
 	}
+
+	//Update transition opacity by lerping to target
+	m_TransitionAlpha = m_TransitionAlpha + (m_TransitionAlphaTarget - m_TransitionAlpha) * elapsedSec * m_TransitionSpeed;
 }
 
 void StartScene::LateUpdate(float elapsedSec)
@@ -76,6 +84,17 @@ void StartScene::Render() const
 {
 	//Call root
 	Scene::Render();
+
+	//Draw transition block, window size needed
+	int x, y;
+	SDL_GetWindowSize(anemoia::Locator::GetWindow(), &x, &y);
+	{
+		SDL_Rect winRect;
+		winRect.x = 0; winRect.y = 0;
+		winRect.w = x; winRect.h = y;
+		SDL_SetRenderDrawColor(anemoia::Locator::GetRenderer(), 0, 0, 0, Uint8(255.f * m_TransitionAlpha));
+		SDL_RenderFillRect(anemoia::Locator::GetRenderer(), &winRect);
+	}
 }
 
 void StartScene::Initialise()
@@ -130,6 +149,10 @@ void StartScene::OnSceneActivated()
 {
 	//Call root
 	Scene::OnSceneActivated();
+
+	//Scene comes into view
+	m_TransitionAlphaTarget = 0.f;
+	m_TransitionAlpha = 1.f;
 }
 
 void StartScene::OnSceneDeactivated()
@@ -138,13 +161,26 @@ void StartScene::OnSceneDeactivated()
 	Scene::OnSceneDeactivated();
 }
 
+void StartScene::PlayStartEffects()
+{
+	if (!m_Start)
+	{
+		//Select
+		m_pSound_Select->Play(0);
+		m_pSound_Intro->Stop();
+
+		//Transition
+		m_TransitionAlphaTarget = 1.f;
+
+		//Start has been requested
+		m_Start = true;
+	}
+}
+
 void StartScene::StartGame()
 {
-	//Select
-	m_pSound_Select->Play(0);
-	m_pSound_Intro->Stop();
-
 	//Add scenes
+	if(m_TransitionAlpha > 0.99f)
 	{
 		//Game intro scene
 		anemoia::Scene* const pIntro = new IntroScene();
@@ -162,11 +198,11 @@ void StartScene::StartGame()
 		//Level 3 scene
 		anemoia::Scene* const pLevel3 = new BaseGameScene(3, true);
 		anemoia::SceneManager::GetInstance()->AddScene(pLevel3);
+
+		//Go to intro
+		anemoia::SceneManager::GetInstance()->SetActiveScene("IntroScene");
+
+		//Start music
+		static_cast<BubbleBobbleGame*>(anemoia::Locator::GetEngine())->PlayMusic(true);
 	}
-
-	//Go to intro
-	anemoia::SceneManager::GetInstance()->SetActiveScene("IntroScene");
-
-	//Start music
-	static_cast<BubbleBobbleGame*>(anemoia::Locator::GetEngine())->PlayMusic(true);
 }
