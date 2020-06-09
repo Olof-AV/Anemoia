@@ -33,6 +33,11 @@ BaseGameScene::BaseGameScene(UINT levelNum, bool isFinalLevel)
 	m_EndTimerActive = false;
 	m_EndTimer = 0.f;
 	m_EndTimerMax = 5.f;
+
+	//Transition opacity
+	m_TransitionAlpha = 1.f;
+	m_TransitionAlphaTarget = 1.f;
+	m_TransitionSpeed = 8.f;
 }
 
 void BaseGameScene::FixedUpdate(float timeStep)
@@ -52,16 +57,26 @@ void BaseGameScene::Update(float elapsedSec)
 		m_EndTimer += elapsedSec;
 		if (m_EndTimer > m_EndTimerMax)
 		{
-			if (m_IsFinalLevel)
+			//Scene fades out
+			m_TransitionAlphaTarget = 1.f;
+			
+			//If transition complete, switch
+			if (m_TransitionAlpha > 0.99f)
 			{
-				anemoia::SceneManager::GetInstance()->SetActiveScene("EndScene");
-			}
-			else
-			{
-				anemoia::SceneManager::GetInstance()->SetActiveScene("Stage" + std::to_string(m_LevelNum + 1));
+				if (m_IsFinalLevel)
+				{
+					anemoia::SceneManager::GetInstance()->SetActiveScene("EndScene");
+				}
+				else
+				{
+					anemoia::SceneManager::GetInstance()->SetActiveScene("Stage" + std::to_string(m_LevelNum + 1));
+				}
 			}
 		}
 	}
+
+	//Update transition opacity by lerping to target
+	m_TransitionAlpha = m_TransitionAlpha + (m_TransitionAlphaTarget - m_TransitionAlpha) * elapsedSec * m_TransitionSpeed;
 }
 
 void BaseGameScene::LateUpdate(float elapsedSec)
@@ -74,6 +89,17 @@ void BaseGameScene::Render() const
 {
 	//Call root
 	Scene::Render();
+
+	//Draw transition block, window size needed
+	int x, y;
+	SDL_GetWindowSize(anemoia::Locator::GetWindow(), &x, &y);
+	{
+		SDL_Rect winRect;
+		winRect.x = 0; winRect.y = 0;
+		winRect.w = x; winRect.h = y;
+		SDL_SetRenderDrawColor(anemoia::Locator::GetRenderer(), 0, 0, 0, Uint8(255.f * m_TransitionAlpha));
+		SDL_RenderFillRect(anemoia::Locator::GetRenderer(), &winRect);
+	}
 }
 
 void BaseGameScene::Initialise()
@@ -115,6 +141,10 @@ void BaseGameScene::OnSceneActivated()
 
 	//Update HUD
 	m_pHUD->GetComponent<HUDComponent>()->UpdateScores();
+
+	//Scene comes into view
+	m_TransitionAlphaTarget = 0.f;
+	m_TransitionAlpha = 1.f;
 }
 
 void BaseGameScene::OnSceneDeactivated()

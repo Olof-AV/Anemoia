@@ -24,4 +24,10 @@ public:
 	virtual void Initialise() override;
 	virtual void OnSceneActivated() override;
 	virtual void OnSceneDeactivated() override;
+
+private:
+	//Transition
+	float m_TransitionAlpha;
+	float m_TransitionAlphaTarget;
+	float m_TransitionSpeed;
 };

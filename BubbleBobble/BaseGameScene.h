@@ -39,6 +39,7 @@ public:
 	void NotifyEnemyDeath(anemoia::GameObject* const pObj);
 
 protected:
+	//Some functions related to creating the level out of data files
 	void ReadLevelData();
 
 	bool CheckDataForFakeTile(const std::string& input);
@@ -60,9 +61,16 @@ protected:
 
 	std::vector<anemoia::GameObject*> m_Enemies;
 
+	//When level is finished, this kicks in to eventually switch levels
 	bool m_EndTimerActive;
 	float m_EndTimer;
 	float m_EndTimerMax;
 
+	//If final level, quit to end scene
 	bool m_IsFinalLevel;
+
+	//Transition
+	float m_TransitionAlpha;
+	float m_TransitionAlphaTarget;
+	float m_TransitionSpeed;
 };

@@ -25,6 +25,11 @@ EndScene::EndScene()
 	{
 		static_cast<BubbleBobbleGame*>(anemoia::Locator::GetEngine())->Exit();
 	}));
+
+	//Transition opacity
+	m_TransitionAlpha = 1.f;
+	m_TransitionAlphaTarget = 1.f;
+	m_TransitionSpeed = 8.f;
 }
 
 EndScene::~EndScene()
@@ -41,6 +46,9 @@ void EndScene::Update(float elapsedSec)
 {
 	//Call root
 	Scene::Update(elapsedSec);
+	
+	//Update transition opacity by lerping to target
+	m_TransitionAlpha = m_TransitionAlpha + (m_TransitionAlphaTarget - m_TransitionAlpha) * elapsedSec * m_TransitionSpeed;
 }
 
 void EndScene::LateUpdate(float elapsedSec)
@@ -53,6 +61,17 @@ void EndScene::Render() const
 {
 	//Call root
 	Scene::Render();
+
+	//Draw transition block, window size needed
+	int x, y;
+	SDL_GetWindowSize(anemoia::Locator::GetWindow(), &x, &y);
+	{
+		SDL_Rect winRect;
+		winRect.x = 0; winRect.y = 0;
+		winRect.w = x; winRect.h = y;
+		SDL_SetRenderDrawColor(anemoia::Locator::GetRenderer(), 0, 0, 0, Uint8(255.f * m_TransitionAlpha));
+		SDL_RenderFillRect(anemoia::Locator::GetRenderer(), &winRect);
+	}
 }
 
 void EndScene::Initialise()
@@ -101,6 +120,10 @@ void EndScene::OnSceneActivated()
 {
 	//Call root
 	Scene::OnSceneActivated();
+
+	//Scene comes into view
+	m_TransitionAlphaTarget = 0.f;
+	m_TransitionAlpha = 1.f;
 }
 
 void EndScene::OnSceneDeactivated()
