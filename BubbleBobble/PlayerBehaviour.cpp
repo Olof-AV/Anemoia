@@ -298,7 +298,8 @@ void PlayerBehaviour::ShootBubble()
 			pObj->AddComponent(pColl);
 
 			//Animation
-			anemoia::AnimSpriteComponent* const pAnimSprite = new anemoia::AnimSpriteComponent(pObj, transform, "Anims/Bubble.txt", "Bubble");
+			anemoia::AnimSpriteComponent* const pAnimSprite =
+				new anemoia::AnimSpriteComponent(pObj, transform, "Anims/Bubble.txt", ((m_IsP1) ? "Bubble" : "Bubble_Alt"));
 			pObj->AddComponent(pAnimSprite);
 
 			//Rigid
