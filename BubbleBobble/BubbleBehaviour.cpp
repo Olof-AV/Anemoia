@@ -12,9 +12,9 @@
 #include "ZenBehaviour.h"
 #include "MaitaBehaviour.h"
 
-BubbleBehaviour::BubbleBehaviour(anemoia::GameObject* const pParent, anemoia::RigidBodyComponent* const pRigid, bool movesLeft)
+BubbleBehaviour::BubbleBehaviour(anemoia::GameObject* const pParent, anemoia::RigidBodyComponent* const pRigid, bool movesLeft, bool isP1)
 	: anemoia::BaseComponent(pParent, anemoia::Transform()), m_pRigid{ pRigid },
-	m_MovesLeft{movesLeft}
+	m_MovesLeft{ movesLeft }, m_IsP1{ isP1 }
 {
 	//Params
 	m_Movement = glm::vec2();
@@ -97,15 +97,20 @@ void BubbleBehaviour::OnCollide(anemoia::GameObject* const pOther)
 	else if (pOther->HasTag("ZenChan"))
 	{
 		m_pParent->GetParentScene()->RemoveChild(m_pParent);
-		pOther->GetComponent<ZenBehaviour>()->SetState(ZenState::bubble);
+		pOther->GetComponent<ZenBehaviour>()->GetBubbled(m_IsP1);
 	}
 	else if (pOther->HasTag("Maita"))
 	{
 		m_pParent->GetParentScene()->RemoveChild(m_pParent);
-		pOther->GetComponent<MaitaBehaviour>()->SetState(MaitaState::bubble);
+		pOther->GetComponent<MaitaBehaviour>()->GetBubbled(m_IsP1);
 	}
 	else
 	{
 		m_pParent->GetParentScene()->RemoveChild(m_pParent);
 	}
+}
+
+bool BubbleBehaviour::IsP1() const
+{
+	return m_IsP1;
 }

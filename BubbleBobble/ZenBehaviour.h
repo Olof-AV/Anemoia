@@ -53,6 +53,8 @@ public:
 
 	void RunAI();
 
+	void GetBubbled(bool isP1);
+
 #pragma region Delete
 
 private:

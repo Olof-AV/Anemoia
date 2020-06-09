@@ -12,7 +12,7 @@ class BubbleBehaviour final : public anemoia::BaseComponent
 {
 public:
 #pragma region Constructors
-	BubbleBehaviour(anemoia::GameObject* const pParent, anemoia::RigidBodyComponent* const pRigid, bool movesLeft);
+	BubbleBehaviour(anemoia::GameObject* const pParent, anemoia::RigidBodyComponent* const pRigid, bool movesLeft, bool isP1);
 	virtual ~BubbleBehaviour() = default;
 
 	BubbleBehaviour(const BubbleBehaviour& other) = delete;
@@ -35,6 +35,9 @@ public:
 	void SetTransform(const anemoia::Transform& newTransform) = delete;
 #pragma endregion Delete
 
+	//Specific
+	bool IsP1() const;
+
 private:
 	float m_BurstTimer;
 	float m_BurstTimerMax;
@@ -49,6 +52,6 @@ private:
 
 	anemoia::RigidBodyComponent* m_pRigid;
 
-	anemoia::Texture2D* m_pTexBubble;
+	bool m_IsP1;
 };
 

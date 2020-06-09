@@ -21,6 +21,8 @@
 #include "AIManager.h"
 #include <algorithm>
 
+#include "BubbleBehaviour.h"
+
 MaitaBehaviour::MaitaBehaviour(anemoia::GameObject* const pParent, anemoia::RigidBodyComponent* const pRigid, anemoia::AnimSpriteComponent* const pAnimComp, bool isPlayer)
 	: anemoia::BaseComponent(pParent, anemoia::Transform()), m_pRigid{ pRigid }, m_pAnimComp{ pAnimComp },
 	m_IsDead{ false }, m_CurrentState{ MaitaState::run }, m_IsPlayer(isPlayer)
@@ -168,7 +170,7 @@ void MaitaBehaviour::OnCollide(anemoia::GameObject* const pOther)
 	else if (pOther->HasTag("Bubble"))
 	{
 		m_pParent->GetParentScene()->RemoveChild(pOther);
-		SetState(MaitaState::bubble);
+		GetBubbled(pOther->GetComponent<BubbleBehaviour>()->IsP1());
 	}
 }
 
@@ -196,7 +198,6 @@ void MaitaBehaviour::SetState(MaitaState newState)
 		break;
 
 	case MaitaState::bubble:
-		m_pAnimComp->SetAnim("Bubble");
 		m_BubbleBurstTimer = 0.f;
 		m_AttackCharge = 0.f;
 
@@ -441,4 +442,10 @@ void MaitaBehaviour::RunAI()
 	{
 		m_InputDir = glm::vec2();
 	}
+}
+
+void MaitaBehaviour::GetBubbled(bool isP1)
+{
+	m_pAnimComp->SetAnim(((isP1) ? "Bubble" : "Bubble_Alt"));
+	SetState(MaitaState::bubble);
 }

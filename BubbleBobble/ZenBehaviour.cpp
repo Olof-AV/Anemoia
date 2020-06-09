@@ -18,6 +18,8 @@
 
 #include <algorithm>
 
+#include "BubbleBehaviour.h"
+
 ZenBehaviour::ZenBehaviour(anemoia::GameObject* const pParent, anemoia::RigidBodyComponent* const pRigid, anemoia::AnimSpriteComponent* const pAnimComp)
 	: anemoia::BaseComponent(pParent, anemoia::Transform()), m_pRigid{ pRigid }, m_pAnimComp{ pAnimComp },
 	m_IsDead{ false }, m_CurrentState{ ZenState::run }
@@ -97,7 +99,7 @@ void ZenBehaviour::OnCollide(anemoia::GameObject* const pOther)
 	else if (pOther->HasTag("Bubble"))
 	{
 		m_pParent->GetParentScene()->RemoveChild(pOther);
-		SetState(ZenState::bubble);
+		GetBubbled(pOther->GetComponent<BubbleBehaviour>()->IsP1());
 	}
 }
 
@@ -117,7 +119,6 @@ void ZenBehaviour::SetState(ZenState newState)
 		break;
 
 	case ZenState::bubble:
-		m_pAnimComp->SetAnim("Bubble");
 		m_BubbleBurstTimer = 0.f;
 
 		break;
@@ -293,4 +294,10 @@ void ZenBehaviour::RunAI()
 	{
 		m_InputDir = glm::vec2();
 	}
+}
+
+void ZenBehaviour::GetBubbled(bool isP1)
+{
+	m_pAnimComp->SetAnim(((isP1) ? "Bubble" : "Bubble_Alt"));
+	SetState(ZenState::bubble);
 }
