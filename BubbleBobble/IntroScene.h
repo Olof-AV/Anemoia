@@ -38,7 +38,12 @@ private:
 	anemoia::GameObject* m_pP1 = nullptr;
 	anemoia::GameObject* m_pP2 = nullptr;
 
-	const float m_MaxTime = 7.f;
+	const float m_MaxTime = 6.f;
 	float m_CurrentTime = 0.f;
 	anemoia::Sound* m_pSound = nullptr;
+
+	//Transition
+	float m_TransitionAlpha;
+	float m_TransitionAlphaTarget;
+	float m_TransitionSpeed;
 };

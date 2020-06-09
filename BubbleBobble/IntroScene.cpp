@@ -14,6 +14,10 @@
 IntroScene::IntroScene()
 	: Scene{ "IntroScene" }
 {
+	//Transition opacity
+	m_TransitionAlpha = 1.f;
+	m_TransitionAlphaTarget = 1.f;
+	m_TransitionSpeed = 8.f;
 }
 
 IntroScene::~IntroScene()
@@ -35,13 +39,20 @@ void IntroScene::Update(float elapsedSec)
 	m_CurrentTime += elapsedSec;
 	if (m_MaxTime < m_CurrentTime)
 	{
-		anemoia::SceneManager::GetInstance()->SetActiveScene("Stage1");
+		m_TransitionAlphaTarget = 1.f;
+		if (m_TransitionAlpha > 0.99f)
+		{
+			anemoia::SceneManager::GetInstance()->SetActiveScene("Stage1");
+		}
 	}
 
 	//Move characters
 	const float mult = 5.f;
 	m_pP1->SetPosition(m_pP1->GetPosition() + glm::vec3(std::cosf(m_CurrentTime * mult), std::sinf(m_CurrentTime * mult), 0.f));
 	m_pP2->SetPosition(m_pP2->GetPosition() - glm::vec3(std::cosf(m_CurrentTime * mult), std::sinf(m_CurrentTime * mult), 0.f));
+
+	//Update transition opacity by lerping to target
+	m_TransitionAlpha = m_TransitionAlpha + (m_TransitionAlphaTarget - m_TransitionAlpha) * elapsedSec * m_TransitionSpeed;
 }
 
 void IntroScene::LateUpdate(float elapsedSec)
@@ -54,6 +65,17 @@ void IntroScene::Render() const
 {
 	//Call root render
 	Scene::Render();
+
+	//Draw transition block, window size needed
+	int x, y;
+	SDL_GetWindowSize(anemoia::Locator::GetWindow(), &x, &y);
+	{
+		SDL_Rect winRect;
+		winRect.x = 0; winRect.y = 0;
+		winRect.w = x; winRect.h = y;
+		SDL_SetRenderDrawColor(anemoia::Locator::GetRenderer(), 0, 0, 0, Uint8(255.f * m_TransitionAlpha));
+		SDL_RenderFillRect(anemoia::Locator::GetRenderer(), &winRect);
+	}
 }
 
 void IntroScene::Initialise()
@@ -131,6 +153,9 @@ void IntroScene::Initialise()
 
 void IntroScene::OnSceneActivated()
 {
+	//Scene comes into view
+	m_TransitionAlphaTarget = 0.f;
+	m_TransitionAlpha = 1.f;
 }
 
 void IntroScene::OnSceneDeactivated()
