@@ -46,5 +46,9 @@ private:
 	anemoia::Events m_AttachedEvent;
 
 	bool m_HasHitFloor;
+
+	float m_Timer; //Timer that determines when this object will disappear
+	float m_TimerMax; //How long does it take for this object to disappear in total, seconds
+	float m_TimerDanger; //Between this value and timer max, object will blink rapidly
 };
 

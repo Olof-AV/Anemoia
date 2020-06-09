@@ -13,6 +13,10 @@ ItemBehaviour::ItemBehaviour(anemoia::GameObject* const pParent, anemoia::RigidB
 {
 	m_HasHitFloor = false;
 	pRigid->AddIgnoreTag("Player");
+
+	m_Timer = 0.f;
+	m_TimerMax = 7.f;
+	m_TimerDanger = 5.f;
 }
 
 void ItemBehaviour::FixedUpdate(float timeStep)
@@ -22,13 +26,24 @@ void ItemBehaviour::FixedUpdate(float timeStep)
 
 void ItemBehaviour::Update(float elapsedSec)
 {
-	UNREFERENCED_PARAMETER(elapsedSec);
-
+	//If has hit floor, appear clearer + update timers
 	if (m_HasHitFloor)
 	{
-		m_pTexComp->SetAlpha(255.f);
+		m_Timer += elapsedSec;
+		if (m_Timer > m_TimerMax) //Above timer max -> object should disappear
+		{
+			GetParent()->GetParentScene()->RemoveChild(GetParent());
+		}
+		else if (m_Timer > m_TimerDanger) //Above danger time -> object should blink
+		{
+			m_pTexComp->SetAlpha(255.f * floorf(fmodf(m_Timer * 10.f, 2.f)));
+		}
+		else //Nothing special
+		{
+			m_pTexComp->SetAlpha(255.f);
+		}
 	}
-	else
+	else //Hasn't hit the ground yet, not tangible
 	{
 		m_pTexComp->SetAlpha(128.f);
 	}
