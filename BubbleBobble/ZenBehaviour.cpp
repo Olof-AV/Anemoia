@@ -74,6 +74,8 @@ void ZenBehaviour::Update(float elapsedSec)
 
 		m_BubbleBurstTimer += elapsedSec;
 		if (m_BubbleBurstTimer > m_BubbleBurstTimerMax) { SetState(ZenState::run); }
+		else if (m_BubbleBurstTimer > m_BubbleBurstTimerMax * 0.75f) { m_pAnimComp->SetAnim("Bubble3"); }
+		else if (m_BubbleBurstTimer > m_BubbleBurstTimerMax * 0.5f) { m_pAnimComp->SetAnim("Bubble2"); }
 
 		break;
 	}
