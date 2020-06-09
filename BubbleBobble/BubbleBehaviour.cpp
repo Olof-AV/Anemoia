@@ -61,7 +61,7 @@ void BubbleBehaviour::FixedUpdate(float timeStep)
 void BubbleBehaviour::Update(float elapsedSec)
 {
 	//If slow enough, will float up
-	if (abs(m_Movement).x < m_HorThreshold && GetParent()->GetPosition().y > m_UpperLimit)
+	if (abs(m_Movement).x < m_HorThreshold && GetParent()->GetPosition().y > m_UpperLimit && !m_Bursting)
 	{
 		m_Movement.y = m_FloatRate;
 	}
@@ -91,6 +91,8 @@ void BubbleBehaviour::Update(float elapsedSec)
 			m_pRigid->AddIgnoreTag("ZenChan");
 			m_pRigid->AddIgnoreTag("Player");
 			m_pRigid->AddIgnoreTag("Boulder");
+			m_Bursting = true;
+			m_Movement = glm::vec2();
 		}
 	}
 }
@@ -106,7 +108,11 @@ void BubbleBehaviour::OnCollide(anemoia::GameObject* const pOther)
 
 	if (pOther->HasTag("Player"))
 	{
-		m_pParent->GetParentScene()->RemoveChild(m_pParent);
+		//Bursts ASAP
+		if (!m_Bursting)
+		{
+			m_BurstTimer = m_BurstTimerMax * 0.99f;
+		}
 	}
 	else if (pOther->HasTag("ZenChan"))
 	{
@@ -120,7 +126,11 @@ void BubbleBehaviour::OnCollide(anemoia::GameObject* const pOther)
 	}
 	else
 	{
-		m_pParent->GetParentScene()->RemoveChild(m_pParent);
+		//Bursts ASAP
+		if (!m_Bursting)
+		{
+			m_BurstTimer = m_BurstTimerMax * 0.99f;
+		}
 	}
 }
 

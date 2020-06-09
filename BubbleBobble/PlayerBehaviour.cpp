@@ -164,10 +164,6 @@ void PlayerBehaviour::OnCollide(anemoia::GameObject* const pOther)
 			//Bounces on top of bubble
 			m_pSound_JumpBubble->Play(0);
 		}
-		else
-		{
-			m_pParent->GetParentScene()->RemoveChild(pOther);
-		}
 	}
 	else if (pOther->HasTag("Boulder"))
 	{
