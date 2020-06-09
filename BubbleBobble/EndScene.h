@@ -26,6 +26,9 @@ public:
 	virtual void OnSceneDeactivated() override;
 
 private:
+	bool m_Pressed = false;
+	bool m_QuitRequested = false;
+
 	//Transition
 	float m_TransitionAlpha;
 	float m_TransitionAlphaTarget;

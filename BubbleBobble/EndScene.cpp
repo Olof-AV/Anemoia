@@ -18,12 +18,16 @@ EndScene::EndScene()
 	//Inputs for starting the game
 	anemoia::InputManager::GetInstance()->RegisterCommand(new anemoia::Command("sp", this, 0, XINPUT_GAMEPAD_DPAD_LEFT, VK_LEFT, anemoia::ButtonState::Down, [this]()
 	{
-		static_cast<BubbleBobbleGame*>(anemoia::Locator::GetEngine())->Restart();
+		m_Pressed = true;
+		m_QuitRequested = false;
+		m_TransitionAlphaTarget = 1.f;
 	}));
 
 	anemoia::InputManager::GetInstance()->RegisterCommand(new anemoia::Command("vs", this, 0, XINPUT_GAMEPAD_DPAD_RIGHT, VK_RIGHT, anemoia::ButtonState::Down, [this]()
 	{
-		static_cast<BubbleBobbleGame*>(anemoia::Locator::GetEngine())->Exit();
+		m_Pressed = true;
+		m_QuitRequested = true;
+		m_TransitionAlphaTarget = 1.f;
 	}));
 
 	//Transition opacity
@@ -49,6 +53,18 @@ void EndScene::Update(float elapsedSec)
 	
 	//Update transition opacity by lerping to target
 	m_TransitionAlpha = m_TransitionAlpha + (m_TransitionAlphaTarget - m_TransitionAlpha) * elapsedSec * m_TransitionSpeed;
+
+	if (m_Pressed && m_TransitionAlpha > 0.99f)
+	{
+		if (m_QuitRequested)
+		{
+			static_cast<BubbleBobbleGame*>(anemoia::Locator::GetEngine())->Exit();
+		}
+		else
+		{
+			static_cast<BubbleBobbleGame*>(anemoia::Locator::GetEngine())->Restart();
+		}
+	}
 }
 
 void EndScene::LateUpdate(float elapsedSec)
