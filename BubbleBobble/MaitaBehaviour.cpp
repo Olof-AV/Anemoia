@@ -144,10 +144,9 @@ void MaitaBehaviour::Update(float elapsedSec)
 		HandleBubbleMov();
 
 		m_BubbleBurstTimer += elapsedSec; //After a while, Maita bursts out of bubble
-		if (m_BubbleBurstTimer > m_BubbleBurstTimerMax)
-		{
-			SetState(MaitaState::run);
-		}
+		if (m_BubbleBurstTimer > m_BubbleBurstTimerMax) { SetState(MaitaState::run); }
+		else if (m_BubbleBurstTimer > m_BubbleBurstTimerMax * 0.75f) { m_pAnimComp->SetAnim("Bubble3"); }
+		else if (m_BubbleBurstTimer > m_BubbleBurstTimerMax * 0.5f) { m_pAnimComp->SetAnim("Bubble2"); }
 
 		break;
 	}
