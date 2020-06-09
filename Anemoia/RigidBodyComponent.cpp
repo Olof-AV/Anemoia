@@ -42,6 +42,7 @@ void anemoia::RigidBodyComponent::LateUpdate(float elapsedSec)
 
 void anemoia::RigidBodyComponent::Render() const
 {
+#if _DEBUG
 	//Get renderer + collision box
 	SDL_Renderer* const pRenderer = Locator::GetRenderer();
 	SDL_Rect rect = m_pLinkedCollider->GetRect();
@@ -53,6 +54,7 @@ void anemoia::RigidBodyComponent::Render() const
 	SDL_RenderDrawLine(pRenderer, (int)midPoint.x, int(rect.y + rect.h * 0.9f), int(rect.x + rect.w * 0.5f), int(rect.y + rect.h)); //BOTTOM
 	SDL_RenderDrawLine(pRenderer, (int)midPoint.x, (int)midPoint.y, int(rect.x), int(rect.y + rect.h * 0.5f)); //LEFT
 	SDL_RenderDrawLine(pRenderer, (int)midPoint.x, (int)midPoint.y, int(rect.x + rect.w), int(rect.y + rect.h * 0.5f)); //RIGHT
+#endif
 }
 
 void anemoia::RigidBodyComponent::Move(const glm::vec2& newPos)
