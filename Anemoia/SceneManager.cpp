@@ -44,7 +44,7 @@ void anemoia::SceneManager::AddScene(Scene* const pScene)
 	//Only add if it's not already in there
 	if (cIt == m_Scenes.cend())
 	{
-		m_Scenes.push_back(pScene);
+		m_Scenes.emplace_back(pScene);
 
 		//Initialise?
 		if (!pScene->IsInitialised())
@@ -109,7 +109,11 @@ void anemoia::SceneManager::SetActiveScene(const std::string& name)
 
 bool anemoia::SceneManager::IsSceneActive(Scene* const pScene)
 {
-	return pScene == m_pActiveScene;
+	if (m_pActiveScene)
+	{
+		return pScene == m_pActiveScene;
+	}
+	return false;
 }
 
 anemoia::SceneManager::~SceneManager()

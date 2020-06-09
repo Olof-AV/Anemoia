@@ -200,7 +200,7 @@ void StartScene::StartGame()
 		anemoia::SceneManager::GetInstance()->AddScene(pLevel3);
 
 		//Go to intro
-		anemoia::SceneManager::GetInstance()->SetActiveScene("IntroScene");
+		anemoia::SceneManager::GetInstance()->SetActiveScene(pIntro);
 
 		//Start music
 		static_cast<BubbleBobbleGame*>(anemoia::Locator::GetEngine())->PlayMusic(true);
