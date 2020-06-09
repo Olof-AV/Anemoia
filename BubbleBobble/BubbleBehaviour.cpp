@@ -12,9 +12,12 @@
 #include "ZenBehaviour.h"
 #include "MaitaBehaviour.h"
 
-BubbleBehaviour::BubbleBehaviour(anemoia::GameObject* const pParent, anemoia::RigidBodyComponent* const pRigid, bool movesLeft, bool isP1)
+#include "AnimSpriteComponent.h"
+
+BubbleBehaviour::BubbleBehaviour(anemoia::GameObject* const pParent, anemoia::RigidBodyComponent* const pRigid,
+	anemoia::AnimSpriteComponent* const pAnimComp, bool movesLeft, bool isP1)
 	: anemoia::BaseComponent(pParent, anemoia::Transform()), m_pRigid{ pRigid },
-	m_MovesLeft{ movesLeft }, m_IsP1{ isP1 }
+	m_MovesLeft{ movesLeft }, m_IsP1{ isP1 }, m_pAnimComp(pAnimComp)
 {
 	//Params
 	m_Movement = glm::vec2();
@@ -25,6 +28,7 @@ BubbleBehaviour::BubbleBehaviour(anemoia::GameObject* const pParent, anemoia::Ri
 	m_HorThreshold = 10.f;
 	m_FloatRate = -50.f;
 	m_UpperLimit = 192.f;
+	m_Bursting = false;
 }
 
 void BubbleBehaviour::FixedUpdate(float timeStep)
@@ -71,13 +75,23 @@ void BubbleBehaviour::Update(float elapsedSec)
 	m_pRigid->SetVelocity(m_Movement);
 	
 	//Bubble bursts after a given amount of time
-	if (m_BurstTimer < m_BurstTimerMax)
+	if (m_BurstTimer > m_BurstTimerMax)
 	{
-		m_BurstTimer += elapsedSec;
+		m_pParent->GetParentScene()->RemoveChild(m_pParent);
 	}
 	else
 	{
-		m_pParent->GetParentScene()->RemoveChild(m_pParent);
+		m_BurstTimer += elapsedSec;
+
+		//If about to burst, switch anim and ignore all relevant collisions
+		if (m_BurstTimer > m_BurstTimerMax * 0.99f && !m_Bursting)
+		{
+			m_pAnimComp->SetAnim("Poof");
+			m_pRigid->AddIgnoreTag("Maita");
+			m_pRigid->AddIgnoreTag("ZenChan");
+			m_pRigid->AddIgnoreTag("Player");
+			m_pRigid->AddIgnoreTag("Boulder");
+		}
 	}
 }
 

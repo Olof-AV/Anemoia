@@ -310,7 +310,7 @@ void PlayerBehaviour::ShootBubble()
 			pRigid->AddIgnoreTag("Boulder");
 
 			//Bubble behaviour
-			BubbleBehaviour* const pBehaviour = new BubbleBehaviour(pObj, pRigid, isLookingLeft, m_IsP1);
+			BubbleBehaviour* const pBehaviour = new BubbleBehaviour(pObj, pRigid, pAnimSprite, isLookingLeft, m_IsP1);
 			pObj->AddComponent(pBehaviour);
 
 			//Tag
