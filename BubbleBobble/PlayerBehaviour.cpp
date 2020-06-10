@@ -9,6 +9,7 @@
 #include "AnimSpriteComponent.h"
 #include "ColliderComponent.h"
 #include "BubbleBehaviour.h"
+#include "BoulderBehaviour.h"
 
 #include "ResourceManager.h"
 
@@ -167,7 +168,7 @@ void PlayerBehaviour::OnCollide(anemoia::GameObject* const pOther)
 	}
 	else if (pOther->HasTag("Boulder"))
 	{
-		m_pParent->GetParentScene()->RemoveChild(pOther);
+		pOther->GetComponent<BoulderBehaviour>()->Burst();
 		Die();
 	}
 	else if (pOther->HasTag("Treasure"))

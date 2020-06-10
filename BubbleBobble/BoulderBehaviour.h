@@ -36,11 +36,18 @@ public:
 	void SetTransform(const anemoia::Transform& newTransform) = delete;
 #pragma endregion Delete
 
+	//Functions
+	void Burst();
+
 private:
 	glm::vec2 m_Movement;
 	bool m_MovesLeft;
 
 	anemoia::RigidBodyComponent* m_pRigid;
 	anemoia::AnimSpriteComponent* m_pAnimComp;
+
+	bool m_Bursting;
+	float m_BurstTimer;
+	float m_BurstTimerMax;
 };
 
