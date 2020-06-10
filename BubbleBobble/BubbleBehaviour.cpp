@@ -84,15 +84,26 @@ void BubbleBehaviour::Update(float elapsedSec)
 		m_BurstTimer += elapsedSec;
 
 		//If about to burst, switch anim and ignore all relevant collisions
-		if (m_BurstTimer > m_BurstTimerMax * 0.99f && !m_Bursting)
+		if (m_BurstTimer > m_BurstTimerMax * 0.99f)
 		{
-			m_pAnimComp->SetAnim("Poof");
-			m_pRigid->AddIgnoreTag("Maita");
-			m_pRigid->AddIgnoreTag("ZenChan");
-			m_pRigid->AddIgnoreTag("Player");
-			m_pRigid->AddIgnoreTag("Boulder");
-			m_Bursting = true;
-			m_Movement = glm::vec2();
+			if (!m_Bursting)
+			{
+				m_pAnimComp->SetAnim("Poof");
+				m_pRigid->AddIgnoreTag("Maita");
+				m_pRigid->AddIgnoreTag("ZenChan");
+				m_pRigid->AddIgnoreTag("Player");
+				m_pRigid->AddIgnoreTag("Boulder");
+				m_Bursting = true;
+				m_Movement = glm::vec2();
+			}
+		}
+		else if (m_BurstTimer > m_BurstTimerMax * 0.75f)
+		{
+			m_pAnimComp->SetAnim("Bubble3");
+		}
+		else if (m_BurstTimer > m_BurstTimerMax * 0.5f)
+		{
+			m_pAnimComp->SetAnim("Bubble2");
 		}
 	}
 }
