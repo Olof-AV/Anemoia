@@ -14,7 +14,8 @@ enum class MaitaState
 {
 	run,
 	attack,
-	bubble
+	bubble,
+	dying
 };
 
 class MaitaBehaviour final : public anemoia::BaseComponent
@@ -63,6 +64,8 @@ public:
 #pragma region Delete
 
 private:
+	void SpawnItem();
+
 	anemoia::RigidBodyComponent* m_pRigid;
 	anemoia::AnimSpriteComponent* m_pAnimComp;
 
@@ -89,8 +92,6 @@ private:
 	float m_AttackChargeMax;
 
 	bool m_ShootRequested = false;
-
-	bool m_IsDead;
 
 	bool m_IsPlayer;
 
