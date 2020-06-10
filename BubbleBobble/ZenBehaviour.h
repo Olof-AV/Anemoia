@@ -12,7 +12,8 @@ namespace anemoia
 enum class ZenState
 {
 	run,
-	bubble
+	bubble,
+	dying
 };
 
 class ZenBehaviour final : public anemoia::BaseComponent
@@ -58,6 +59,8 @@ public:
 #pragma region Delete
 
 private:
+	void SpawnItem();
+
 	anemoia::RigidBodyComponent* m_pRigid;
 	anemoia::AnimSpriteComponent* m_pAnimComp;
 
@@ -75,7 +78,5 @@ private:
 	float m_FloatRate;
 	float m_BubbleBurstTimer;
 	float m_BubbleBurstTimerMax;
-
-	bool m_IsDead;
 };
 

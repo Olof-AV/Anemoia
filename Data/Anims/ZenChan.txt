@@ -4,3 +4,4 @@
 "Enemies/ZenChan/Bubble_Anim_Alt.png",3,3,1,8,true,"Bubble_Alt"
 "Enemies/ZenChan/Bubble_Anim2.png",3,3,1,8,true,"Bubble2"
 "Enemies/ZenChan/Bubble_Anim3.png",3,3,1,8,true,"Bubble3"
+"Enemies/ZenChan/Death_Anim.png",4,4,1,8,false,"Death"
