@@ -7,6 +7,7 @@ namespace anemoia
 	class RigidBodyComponent;
 	class AnimSpriteComponent;
 	class GameObject;
+	class Sound;
 }
 
 enum class ZenState
@@ -78,5 +79,8 @@ private:
 	float m_FloatRate;
 	float m_BubbleBurstTimer;
 	float m_BubbleBurstTimerMax;
+
+	//Sounds
+	anemoia::Sound* m_pSound_Death = nullptr;
 };
 

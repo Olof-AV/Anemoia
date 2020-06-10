@@ -23,6 +23,8 @@
 
 #include "BubbleBehaviour.h"
 
+#include "Sound.h"
+
 MaitaBehaviour::MaitaBehaviour(anemoia::GameObject* const pParent, anemoia::RigidBodyComponent* const pRigid, anemoia::AnimSpriteComponent* const pAnimComp, bool isPlayer)
 	: anemoia::BaseComponent(pParent, anemoia::Transform()), m_pRigid{ pRigid }, m_pAnimComp{ pAnimComp },
 	m_CurrentState{ MaitaState::run }, m_IsPlayer(isPlayer)
@@ -48,6 +50,9 @@ MaitaBehaviour::MaitaBehaviour(anemoia::GameObject* const pParent, anemoia::Rigi
 
 	//Players
 	m_Targets = pParent->GetParentScene()->GetObjectsWithTag("Player");
+
+	//Sounds
+	m_pSound_Death = anemoia::ResourceManager::GetInstance()->LoadSound("Enemies/Death.wav");
 
 	//Add controls?
 	if (isPlayer)
@@ -218,6 +223,7 @@ void MaitaBehaviour::SetState(MaitaState newState)
 		m_pRigid->AddIgnoreTag("Player");
 		m_pRigid->AddIgnoreTag("Bubble");
 		m_pAnimComp->SetAnim("Death");
+		m_pSound_Death->Play(0);
 
 		break;
 	}

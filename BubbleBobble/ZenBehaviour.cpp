@@ -20,6 +20,8 @@
 
 #include "BubbleBehaviour.h"
 
+#include "Sound.h"
+
 ZenBehaviour::ZenBehaviour(anemoia::GameObject* const pParent, anemoia::RigidBodyComponent* const pRigid, anemoia::AnimSpriteComponent* const pAnimComp)
 	: anemoia::BaseComponent(pParent, anemoia::Transform()), m_pRigid{ pRigid }, m_pAnimComp{ pAnimComp },
 	m_CurrentState{ ZenState::run }
@@ -38,6 +40,9 @@ ZenBehaviour::ZenBehaviour(anemoia::GameObject* const pParent, anemoia::RigidBod
 
 	//Players
 	m_Targets = pParent->GetParentScene()->GetObjectsWithTag("Player");
+
+	//Sounds
+	m_pSound_Death = anemoia::ResourceManager::GetInstance()->LoadSound("Enemies/Death.wav");
 
 	//AI
 	anemoia::BoundFunc func;
@@ -140,6 +145,7 @@ void ZenBehaviour::SetState(ZenState newState)
 		m_pRigid->AddIgnoreTag("Player");
 		m_pRigid->AddIgnoreTag("Bubble");
 		m_pAnimComp->SetAnim("Death");
+		m_pSound_Death->Play(0);
 
 		break;
 	}

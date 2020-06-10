@@ -8,6 +8,7 @@ namespace anemoia
 	class AnimSpriteComponent;
 	class GameObject;
 	class Command;
+	class Sound;
 }
 
 enum class MaitaState
@@ -94,6 +95,9 @@ private:
 	bool m_ShootRequested = false;
 
 	bool m_IsPlayer;
+
+	//Sounds
+	anemoia::Sound* m_pSound_Death = nullptr;
 
 	//Commands
 	anemoia::Command* m_pCommand_Left = nullptr;
