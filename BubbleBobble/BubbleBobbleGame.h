@@ -51,10 +51,6 @@ private:
 	int m_ScoreP1 = 0;
 	int m_ScoreP2 = 0;
 
-	bool m_HiScoreChanged = false;
-	bool m_ScoreP1Changed = false;
-	bool m_ScoreP2Changed = false;
-
 	int m_LivesP1 = 4;
 	int m_LivesP2 = 4;
 	bool m_DeadP1 = false;
