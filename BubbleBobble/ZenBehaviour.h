@@ -56,6 +56,7 @@ public:
 	void RunAI();
 
 	void GetBubbled(bool isP1);
+	void CalmDown();
 
 #pragma region Delete
 
@@ -72,6 +73,8 @@ private:
 	glm::vec2 m_InputDir;
 
 	float m_MovSpeed;
+	float m_MovSpeedAngry;
+
 	float m_JumpForce;
 	float m_HorThreshold;
 	float m_VerThreshold;
@@ -79,6 +82,8 @@ private:
 	float m_FloatRate;
 	float m_BubbleBurstTimer;
 	float m_BubbleBurstTimerMax;
+
+	bool m_IsAngry;
 
 	//Sounds
 	anemoia::Sound* m_pSound_Death = nullptr;

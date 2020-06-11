@@ -67,6 +67,11 @@ void anemoia::SceneManager::AddScene(Scene* const pScene)
 	}
 }
 
+anemoia::Scene* const anemoia::SceneManager::GetActiveScene() const
+{
+	return m_pActiveScene;
+}
+
 void anemoia::SceneManager::SetActiveScene(Scene* const pScene)
 {
 	//Try to find scene being asked to put active

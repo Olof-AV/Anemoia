@@ -29,6 +29,8 @@ ZenBehaviour::ZenBehaviour(anemoia::GameObject* const pParent, anemoia::RigidBod
 
 	//Params
 	m_MovSpeed = 100.f;
+	m_MovSpeedAngry = 200.f;
+
 	m_JumpForce = 600.f;
 	m_HorThreshold = 65.f;
 	m_VerThreshold = 30.f;
@@ -36,6 +38,8 @@ ZenBehaviour::ZenBehaviour(anemoia::GameObject* const pParent, anemoia::RigidBod
 
 	m_BubbleBurstTimer = 0.f;
 	m_BubbleBurstTimerMax = 7.f;
+
+	m_IsAngry = false;
 
 	//Players
 	m_Targets = pParent->GetParentScene()->GetObjectsWithTag("Player");
@@ -79,7 +83,12 @@ void ZenBehaviour::Update(float elapsedSec)
 		HandleBubbleMov();
 
 		m_BubbleBurstTimer += elapsedSec;
-		if (m_BubbleBurstTimer > m_BubbleBurstTimerMax) { SetState(ZenState::run); m_pRigid->RemoveIgnoreTag("Bubble"); }
+		if (m_BubbleBurstTimer > m_BubbleBurstTimerMax)
+		{
+			m_IsAngry = true;
+			m_pRigid->RemoveIgnoreTag("Bubble");
+			SetState(ZenState::run);
+		}
 		else if (m_BubbleBurstTimer > m_BubbleBurstTimerMax * 0.75f) { m_pAnimComp->SetAnim("Bubble3"); }
 		else if (m_BubbleBurstTimer > m_BubbleBurstTimerMax * 0.5f) { m_pAnimComp->SetAnim("Bubble2"); }
 
@@ -129,7 +138,7 @@ void ZenBehaviour::SetState(ZenState newState)
 	switch (newState)
 	{
 	case ZenState::run:
-		m_pAnimComp->SetAnim("Run");
+		m_pAnimComp->SetAnim((m_IsAngry) ? "RunAngry" : "Run");
 
 		break;
 
@@ -162,7 +171,7 @@ void ZenBehaviour::HandleMovement()
 		m_pRigid->AddVelocity(glm::vec2(0.f, m_InputDir.y * m_JumpForce));
 	}
 	vel = m_pRigid->GetVelocity();
-	m_pRigid->SetVelocity(glm::vec2(m_InputDir.x * m_MovSpeed, vel.y));
+	m_pRigid->SetVelocity(glm::vec2(m_InputDir.x * ((m_IsAngry) ? m_MovSpeedAngry : m_MovSpeed), vel.y));
 
 	//Flip sprite based on direction
 	anemoia::Transform transform = m_pAnimComp->GetTransform();
@@ -290,6 +299,15 @@ void ZenBehaviour::GetBubbled(bool isP1)
 	m_pRigid->AddIgnoreTag("Bubble");
 
 	SetState(ZenState::bubble);
+}
+
+void ZenBehaviour::CalmDown()
+{
+	m_IsAngry = false;
+	if (m_CurrentState == ZenState::run)
+	{
+		m_pAnimComp->SetAnim("Run");
+	}
 }
 
 void ZenBehaviour::SpawnItem()

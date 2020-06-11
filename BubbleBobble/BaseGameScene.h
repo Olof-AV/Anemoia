@@ -37,6 +37,7 @@ public:
 
 	//Specific functions
 	void NotifyEnemyDeath(anemoia::GameObject* const pObj);
+	void NotifyPlayerDeath();
 
 protected:
 	//Some functions related to creating the level out of data files

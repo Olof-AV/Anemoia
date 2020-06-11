@@ -3,6 +3,9 @@
 #include "BubbleBobbleGame.h"
 #include "Locator.h"
 
+#include "SceneManager.h"
+#include "BaseGameScene.h"
+
 PlayerObserver::PlayerObserver(bool isP1)
 	: m_IsP1{isP1}
 {
@@ -16,6 +19,7 @@ void PlayerObserver::Notify(anemoia::Events event)
 	case anemoia::Events::PLAYER_DEATH:
 
 		m_pGame->NotifyPlayerDeath(m_IsP1);
+		static_cast<BaseGameScene*>(anemoia::SceneManager::GetInstance()->GetActiveScene())->NotifyPlayerDeath();
 		break;
 
 	case anemoia::Events::PLAYER_OBTAIN_WATERMELON:

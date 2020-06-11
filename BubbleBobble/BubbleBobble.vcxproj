@@ -212,6 +212,7 @@ xcopy "$(SolutionDir)3rdParty\SDL2_mixer\lib\x64\*.dll" "$(OutputPath)" /R /Y</C
     <ClCompile Include="PlayerObserver.cpp" />
     <ClCompile Include="StartScene.cpp" />
     <ClCompile Include="ZenBehaviour.cpp" />
+    <ClCompile Include="ZenObserver.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="BaseGameScene.h" />
@@ -229,6 +230,7 @@ xcopy "$(SolutionDir)3rdParty\SDL2_mixer\lib\x64\*.dll" "$(OutputPath)" /R /Y</C
     <ClInclude Include="PlayerObserver.h" />
     <ClInclude Include="StartScene.h" />
     <ClInclude Include="ZenBehaviour.h" />
+    <ClInclude Include="ZenObserver.h" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Anemoia\Anemoia.vcxproj">

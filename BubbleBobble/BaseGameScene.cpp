@@ -16,6 +16,7 @@
 #include "MaitaBehaviour.h"
 
 #include "PlayerObserver.h"
+#include "ZenObserver.h"
 
 #include <regex>
 #include <fstream>
@@ -172,6 +173,17 @@ void BaseGameScene::NotifyEnemyDeath(anemoia::GameObject* const pObj)
 				m_EndTimerActive = true;
 			}
 		}
+	}
+}
+
+void BaseGameScene::NotifyPlayerDeath()
+{
+	if (m_Enemies.size() > 0)
+	{
+		std::for_each(m_Enemies.cbegin(), m_Enemies.cend(), [](anemoia::GameObject* const pObject)
+		{
+			pObject->Notify(anemoia::Events::PLAYER_DEATH);
+		});
 	}
 }
 
@@ -466,6 +478,9 @@ void BaseGameScene::CreateZenChan(const glm::vec2& pos)
 
 	//Tag
 	pZen->AddTag("ZenChan");
+
+	//Observer
+	pZen->AddObserver(new ZenObserver(pBehaviour));
 
 	//Add to scene
 	AddChild(pZen);

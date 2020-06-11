@@ -428,6 +428,11 @@ void MaitaBehaviour::GetBubbled(bool isP1)
 	SetState(MaitaState::bubble);
 }
 
+void MaitaBehaviour::CalmDown()
+{
+	
+}
+
 void MaitaBehaviour::SpawnItem()
 {
 	//Spawn fries

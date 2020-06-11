@@ -18,6 +18,7 @@ namespace anemoia
 		//Scene stuff
 		void AddScene(Scene* const pScene);
 
+		Scene* const GetActiveScene() const;
 		void SetActiveScene(Scene* const pScene);
 		void SetActiveScene(const std::string &name);
 
