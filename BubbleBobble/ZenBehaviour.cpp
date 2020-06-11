@@ -303,10 +303,13 @@ void ZenBehaviour::GetBubbled(bool isP1)
 
 void ZenBehaviour::CalmDown()
 {
-	m_IsAngry = false;
-	if (m_CurrentState == ZenState::run)
+	if (m_IsAngry)
 	{
-		m_pAnimComp->SetAnim("Run");
+		m_IsAngry = false;
+		if (m_CurrentState == ZenState::run)
+		{
+			m_pAnimComp->SetAnim("Run");
+		}
 	}
 }
 

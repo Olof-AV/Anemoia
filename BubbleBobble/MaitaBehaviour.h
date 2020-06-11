@@ -78,6 +78,8 @@ private:
 	glm::vec2 m_InputDir;
 
 	float m_MovSpeed;
+	float m_MovSpeedAngry;
+
 	float m_JumpForce;
 	float m_HorThreshold;
 	float m_VerThreshold;
@@ -91,6 +93,8 @@ private:
 	float m_BoulderTimerMax;
 
 	bool m_ShootRequested = false;
+
+	bool m_IsAngry;
 
 	bool m_IsPlayer;
 

@@ -17,6 +17,7 @@
 
 #include "PlayerObserver.h"
 #include "ZenObserver.h"
+#include "MaitaObserver.h"
 
 #include <regex>
 #include <fstream>
@@ -518,6 +519,9 @@ void BaseGameScene::CreateMaita(const glm::vec2& pos, bool isPlayer)
 
 	//Tag
 	pMaita->AddTag("Maita");
+
+	//Observer
+	pMaita->AddObserver(new MaitaObserver(pBehaviour));
 
 	//Add to scene
 	AddChild(pMaita);

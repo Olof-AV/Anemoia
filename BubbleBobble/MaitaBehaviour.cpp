@@ -32,6 +32,8 @@ MaitaBehaviour::MaitaBehaviour(anemoia::GameObject* const pParent, anemoia::Rigi
 
 	//Params
 	m_MovSpeed = 100.f;
+	m_MovSpeedAngry = 200.f;
+
 	m_JumpForce = 600.f;
 	m_HorThreshold = 65.f;
 	m_VerThreshold = 30.f;
@@ -44,6 +46,8 @@ MaitaBehaviour::MaitaBehaviour(anemoia::GameObject* const pParent, anemoia::Rigi
 	m_BoulderTimer = 0.f;
 	m_BoulderTimerMax = 5.f;
 
+	m_IsAngry = false;
+
 	//Players
 	m_Targets = pParent->GetParentScene()->GetObjectsWithTag("Player");
 
@@ -52,6 +56,7 @@ MaitaBehaviour::MaitaBehaviour(anemoia::GameObject* const pParent, anemoia::Rigi
 
 	//Bind attack end to shooting the boulder
 	m_pAnimComp->SetBoundFunction([this]() { ShootBoulder(); }, "Attack");
+	m_pAnimComp->SetBoundFunction([this]() { ShootBoulder(); }, "AttackAngry");
 
 	//Add controls?
 	if (isPlayer)
@@ -142,7 +147,12 @@ void MaitaBehaviour::Update(float elapsedSec)
 		HandleBubbleMov();
 
 		m_BubbleBurstTimer += elapsedSec; //After a while, Maita bursts out of bubble
-		if (m_BubbleBurstTimer > m_BubbleBurstTimerMax) { SetState(MaitaState::run); m_pRigid->RemoveIgnoreTag("Bubble"); }
+		if (m_BubbleBurstTimer > m_BubbleBurstTimerMax)
+		{
+			m_IsAngry = true;
+			m_pRigid->RemoveIgnoreTag("Bubble");
+			SetState(MaitaState::run);
+		}
 		else if (m_BubbleBurstTimer > m_BubbleBurstTimerMax * 0.75f) { m_pAnimComp->SetAnim("Bubble3"); }
 		else if (m_BubbleBurstTimer > m_BubbleBurstTimerMax * 0.5f) { m_pAnimComp->SetAnim("Bubble2"); }
 
@@ -190,12 +200,12 @@ void MaitaBehaviour::SetState(MaitaState newState)
 	switch (newState)
 	{
 	case MaitaState::run:
-		m_pAnimComp->SetAnim("Run");
+		m_pAnimComp->SetAnim(((m_IsAngry) ? "RunAngry" : "Run"));
 
 		break;
 
 	case MaitaState::attack:
-		m_pAnimComp->SetAnim("Attack");
+		m_pAnimComp->SetAnim(((m_IsAngry) ? "AttackAngry" : "Attack"));
 		m_pAnimComp->ResetCurrentAnim();
 
 		break;
@@ -229,7 +239,7 @@ void MaitaBehaviour::HandleMovement()
 		m_pRigid->AddVelocity(glm::vec2(0.f, m_InputDir.y * m_JumpForce));
 	}
 	vel = m_pRigid->GetVelocity();
-	m_pRigid->SetVelocity(glm::vec2(m_InputDir.x * m_MovSpeed, vel.y));
+	m_pRigid->SetVelocity(glm::vec2(m_InputDir.x * ((m_IsAngry) ? m_MovSpeedAngry : m_MovSpeed), vel.y));
 
 	//Flip sprite based on direction
 	anemoia::Transform transform = m_pAnimComp->GetTransform();
@@ -430,7 +440,14 @@ void MaitaBehaviour::GetBubbled(bool isP1)
 
 void MaitaBehaviour::CalmDown()
 {
-	
+	if (m_IsAngry)
+	{
+		m_IsAngry = false;
+		if (m_CurrentState == MaitaState::run)
+		{
+			m_pAnimComp->SetAnim("Run");
+		}
+	}
 }
 
 void MaitaBehaviour::SpawnItem()
