@@ -20,6 +20,7 @@ ItemBehaviour::ItemBehaviour(anemoia::GameObject* const pParent, anemoia::RigidB
 
 	m_Collected = false;
 
+	//As the collection animation ends, this object is promptly deleted
 	m_pAnimComp->SetBoundFunction([this]() { m_pParent->SetEnabled(false); m_pParent->GetParentScene()->RemoveChild(m_pParent); }, "Collect");
 }
 

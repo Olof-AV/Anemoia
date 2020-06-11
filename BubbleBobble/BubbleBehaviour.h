@@ -40,6 +40,8 @@ public:
 	bool IsP1() const;
 
 private:
+	void Burst();
+
 	float m_BurstTimer;
 	float m_BurstTimerMax;
 

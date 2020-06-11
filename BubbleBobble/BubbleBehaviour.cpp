@@ -29,6 +29,9 @@ BubbleBehaviour::BubbleBehaviour(anemoia::GameObject* const pParent, anemoia::Ri
 	m_FloatRate = -50.f;
 	m_UpperLimit = 192.f;
 	m_Bursting = false;
+
+	//Callback to destroy the bubble when finished bursting
+	m_pAnimComp->SetBoundFunction([this]() { m_pParent->SetEnabled(false); m_pParent->GetParentScene()->RemoveChild(m_pParent); }, "Poof");
 }
 
 void BubbleBehaviour::FixedUpdate(float timeStep)
@@ -71,40 +74,24 @@ void BubbleBehaviour::Update(float elapsedSec)
 		m_Movement.y = 0.f;
 	}
 	
-	//Update
+	//Update velocity
 	m_pRigid->SetVelocity(m_Movement);
 	
-	//Bubble bursts after a given amount of time
+	//Update burst timer -> switches animations and bursts at the end
+	m_BurstTimer += elapsedSec;
+
+	//If bursting, switch anim and ignore all relevant collisions
 	if (m_BurstTimer > m_BurstTimerMax)
 	{
-		m_pParent->GetParentScene()->RemoveChild(m_pParent);
+		Burst();
 	}
-	else
+	else if (m_BurstTimer > m_BurstTimerMax * 0.75f)
 	{
-		m_BurstTimer += elapsedSec;
-
-		//If about to burst, switch anim and ignore all relevant collisions
-		if (m_BurstTimer > m_BurstTimerMax * 0.99f)
-		{
-			if (!m_Bursting)
-			{
-				m_pAnimComp->SetAnim("Poof");
-				m_pRigid->AddIgnoreTag("Maita");
-				m_pRigid->AddIgnoreTag("ZenChan");
-				m_pRigid->AddIgnoreTag("Player");
-				m_pRigid->AddIgnoreTag("Boulder");
-				m_Bursting = true;
-				m_Movement = glm::vec2();
-			}
-		}
-		else if (m_BurstTimer > m_BurstTimerMax * 0.75f)
-		{
-			m_pAnimComp->SetAnim("Bubble3");
-		}
-		else if (m_BurstTimer > m_BurstTimerMax * 0.5f)
-		{
-			m_pAnimComp->SetAnim("Bubble2");
-		}
+		m_pAnimComp->SetAnim("Bubble3");
+	}
+	else if (m_BurstTimer > m_BurstTimerMax * 0.5f)
+	{
+		m_pAnimComp->SetAnim("Bubble2");
 	}
 }
 
@@ -115,15 +102,10 @@ void BubbleBehaviour::LateUpdate(float elapsedSec)
 
 void BubbleBehaviour::OnCollide(anemoia::GameObject* const pOther)
 {
-	UNREFERENCED_PARAMETER(pOther);
-
 	if (pOther->HasTag("Player"))
 	{
 		//Bursts ASAP
-		if (!m_Bursting)
-		{
-			m_BurstTimer = m_BurstTimerMax * 0.99f;
-		}
+		Burst();
 	}
 	else if (pOther->HasTag("ZenChan"))
 	{
@@ -138,14 +120,25 @@ void BubbleBehaviour::OnCollide(anemoia::GameObject* const pOther)
 	else
 	{
 		//Bursts ASAP
-		if (!m_Bursting)
-		{
-			m_BurstTimer = m_BurstTimerMax * 0.99f;
-		}
+		Burst();
 	}
 }
 
 bool BubbleBehaviour::IsP1() const
 {
 	return m_IsP1;
+}
+
+void BubbleBehaviour::Burst()
+{
+	if (!m_Bursting)
+	{
+		m_pAnimComp->SetAnim("Poof");
+		m_pRigid->AddIgnoreTag("Maita");
+		m_pRigid->AddIgnoreTag("ZenChan");
+		m_pRigid->AddIgnoreTag("Player");
+		m_pRigid->AddIgnoreTag("Boulder");
+		m_Bursting = true;
+		m_Movement = glm::vec2();
+	}
 }
