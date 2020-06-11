@@ -19,8 +19,8 @@ ItemBehaviour::ItemBehaviour(anemoia::GameObject* const pParent, anemoia::RigidB
 	m_TimerDanger = 5.f;
 
 	m_Collected = false;
-	m_CollectedTimer = 0.f;
-	m_CollectedTimerMax = 0.125f;
+
+	m_pAnimComp->SetBoundFunction([this]() { m_pParent->SetEnabled(false); m_pParent->GetParentScene()->RemoveChild(m_pParent); }, "Collect");
 }
 
 void ItemBehaviour::FixedUpdate(float timeStep)
@@ -33,19 +33,26 @@ void ItemBehaviour::Update(float elapsedSec)
 	//If has hit floor, appear clearer + update timers
 	if (m_HasHitFloor)
 	{
-		m_Timer += elapsedSec;
-		if (m_Timer > m_TimerMax) //Above timer max -> object should disappear
+		if (!m_Collected)
 		{
-			//Visuals are the same, just don't give points to the player
-			m_Collected = true;
-			m_pAnimComp->SetAnim("Collect");
-			m_pRigid->AddIgnoreTag("Player");
+			m_Timer += elapsedSec;
+			if (m_Timer > m_TimerMax) //Above timer max -> object should disappear
+			{
+				//Visuals are the same, just don't give points to the player
+				m_Collected = true;
+				m_pAnimComp->SetAnim("Collect");
+				m_pRigid->AddIgnoreTag("Player");
+			}
+			else if (m_Timer > m_TimerDanger) //Above danger time -> object should blink
+			{
+				m_pAnimComp->SetAlpha(255.f * floorf(fmodf(m_Timer * 10.f, 2.f)));
+			}
+			else //Nothing special
+			{
+				m_pAnimComp->SetAlpha(255.f);
+			}
 		}
-		else if (m_Timer > m_TimerDanger) //Above danger time -> object should blink
-		{
-			m_pAnimComp->SetAlpha(255.f * floorf(fmodf(m_Timer * 10.f, 2.f)));
-		}
-		else //Nothing special
+		else
 		{
 			m_pAnimComp->SetAlpha(255.f);
 		}
@@ -53,16 +60,6 @@ void ItemBehaviour::Update(float elapsedSec)
 	else //Hasn't hit the ground yet, not tangible
 	{
 		m_pAnimComp->SetAlpha(128.f);
-	}
-
-	//If collected, plays anim and disappears
-	if (m_Collected)
-	{
-		m_CollectedTimer += elapsedSec;
-		if (m_CollectedTimer > m_CollectedTimerMax)
-		{
-			m_pParent->GetParentScene()->RemoveChild(m_pParent);
-		}
 	}
 }
 

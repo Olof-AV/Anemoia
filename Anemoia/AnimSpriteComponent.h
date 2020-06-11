@@ -2,6 +2,7 @@
 #include "BaseComponent.h"
 
 #include <unordered_map>
+#include <functional>
 
 namespace anemoia
 {
@@ -19,6 +20,8 @@ namespace anemoia
 		float totalTime;
 		bool isPong;
 		bool isReverse; //If pong is used, determines when it's going backwards or not
+
+		std::function<void(void)> boundFunc; //Callback when animation ends
 	};
 
 	class AnimSpriteComponent final : public BaseComponent
@@ -55,6 +58,7 @@ namespace anemoia
 
 		//Extra functions
 		void ResetCurrentAnim();
+		void SetBoundFunction(const std::function<void(void)>& func, const std::string& animName);
 
 	private:
 		glm::vec4 m_ColourMod;

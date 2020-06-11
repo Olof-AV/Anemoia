@@ -45,6 +45,7 @@ anemoia::AnimSpriteComponent::AnimSpriteComponent(GameObject* const pParent, con
 					toCreate.totalTime = 0.f;
 					toCreate.isPong = matches[6].compare("true") == 0;
 					toCreate.isReverse = false;
+					toCreate.boundFunc = nullptr;
 
 					m_Sprites[matches[7]] = toCreate;
 				}
@@ -64,6 +65,16 @@ void anemoia::AnimSpriteComponent::Update(float elapsedSec)
 {
 	//Obtain current sprite playing
 	anemoia::AnimSprite &currentSprite = m_Sprites.at(m_ActiveSprite);
+
+	//If there's a callback present, check if next update would trigger it
+	//If it does, call it
+	if (currentSprite.boundFunc)
+	{
+		if ((currentSprite.totalTime + elapsedSec) * currentSprite.framesPerSec > currentSprite.frameCount)
+		{
+			currentSprite.boundFunc();
+		}
+	}
 
 	//If not pong, just run normally
 	if (!currentSprite.isPong)
@@ -186,4 +197,10 @@ void anemoia::AnimSpriteComponent::SetAlpha(float value)
 void anemoia::AnimSpriteComponent::ResetCurrentAnim()
 {
 	m_Sprites[m_ActiveSprite].totalTime = 0.f;
+}
+
+void anemoia::AnimSpriteComponent::SetBoundFunction(const std::function<void(void)>& func, const std::string& animName)
+{
+	//If invalid anim name, throws an exception
+	m_Sprites.at(animName).boundFunc = func;
 }

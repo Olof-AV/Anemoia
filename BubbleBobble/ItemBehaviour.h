@@ -52,7 +52,5 @@ private:
 	float m_TimerDanger; //Between this value and timer max, object will blink rapidly
 
 	bool m_Collected;
-	float m_CollectedTimer; //When collected, play a quick animation
-	float m_CollectedTimerMax; //When to destroy the item
 };
 
