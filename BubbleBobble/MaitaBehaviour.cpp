@@ -3,7 +3,6 @@
 
 #include "GameObject.h"
 #include "RigidBodyComponent.h"
-#include "TextureComponent.h"
 #include "AnimSpriteComponent.h"
 #include "ColliderComponent.h"
 #include "ItemBehaviour.h"
@@ -440,16 +439,15 @@ void MaitaBehaviour::GetBubbled(bool isP1)
 
 void MaitaBehaviour::SpawnItem()
 {
-	//Spawn watermelon
+	//Spawn fries
 	{
 		//Obj
 		anemoia::GameObject* const pObj = new anemoia::GameObject(m_pParent->GetParentScene());
 		pObj->SetPosition(m_pParent->GetPosition());
 
 		//Texture
-		anemoia::Texture2D* const pTex = anemoia::ResourceManager::GetInstance()->LoadTexture("Items/Fries.png");
-		anemoia::TextureComponent* const pTexComp = new anemoia::TextureComponent(pObj, m_pAnimComp->GetTransform(), pTex);
-		pObj->AddComponent(pTexComp);
+		anemoia::AnimSpriteComponent* const pAnimComp = new anemoia::AnimSpriteComponent(pObj, m_pAnimComp->GetTransform(), "Anims/Items.txt", "Fries");
+		pObj->AddComponent(pAnimComp);
 
 		//Collider
 		anemoia::ColliderComponent* const pColl = new anemoia::ColliderComponent(pObj, m_pAnimComp->GetTransform(), glm::vec2(48.f, 48.f), true, false);
@@ -464,7 +462,7 @@ void MaitaBehaviour::SpawnItem()
 		pRigid->AddIgnoreTag("Treasure");
 
 		//Behaviour
-		ItemBehaviour* const pBehaviour = new ItemBehaviour(pObj, pRigid, pTexComp, anemoia::Events::PLAYER_OBTAIN_FRIES);
+		ItemBehaviour* const pBehaviour = new ItemBehaviour(pObj, pRigid, pAnimComp, anemoia::Events::PLAYER_OBTAIN_FRIES);
 		pObj->AddComponent(pBehaviour);
 
 		//Tag

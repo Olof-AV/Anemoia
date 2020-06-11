@@ -3,13 +3,13 @@
 
 #include "GameObject.h"
 #include "RigidBodyComponent.h"
-#include "TextureComponent.h"
+#include "AnimSpriteComponent.h"
 #include "Scene.h"
 
 #include "HUDComponent.h"
 
-ItemBehaviour::ItemBehaviour(anemoia::GameObject* const pParent, anemoia::RigidBodyComponent* const pRigid, anemoia::TextureComponent* const pTexComp, anemoia::Events attachedEvent)
-	: anemoia::BaseComponent(pParent, anemoia::Transform()), m_pRigid{ pRigid }, m_pTexComp{ pTexComp }, m_AttachedEvent{ attachedEvent }
+ItemBehaviour::ItemBehaviour(anemoia::GameObject* const pParent, anemoia::RigidBodyComponent* const pRigid, anemoia::AnimSpriteComponent* const pAnimComp, anemoia::Events attachedEvent)
+	: anemoia::BaseComponent(pParent, anemoia::Transform()), m_pRigid{ pRigid }, m_pAnimComp{ pAnimComp }, m_AttachedEvent{ attachedEvent }
 {
 	m_HasHitFloor = false;
 	pRigid->AddIgnoreTag("Player");
@@ -17,6 +17,10 @@ ItemBehaviour::ItemBehaviour(anemoia::GameObject* const pParent, anemoia::RigidB
 	m_Timer = 0.f;
 	m_TimerMax = 7.f;
 	m_TimerDanger = 5.f;
+
+	m_Collected = false;
+	m_CollectedTimer = 0.f;
+	m_CollectedTimerMax = 0.125f;
 }
 
 void ItemBehaviour::FixedUpdate(float timeStep)
@@ -32,20 +36,33 @@ void ItemBehaviour::Update(float elapsedSec)
 		m_Timer += elapsedSec;
 		if (m_Timer > m_TimerMax) //Above timer max -> object should disappear
 		{
-			GetParent()->GetParentScene()->RemoveChild(GetParent());
+			//Visuals are the same, just don't give points to the player
+			m_Collected = true;
+			m_pAnimComp->SetAnim("Collect");
+			m_pRigid->AddIgnoreTag("Player");
 		}
 		else if (m_Timer > m_TimerDanger) //Above danger time -> object should blink
 		{
-			m_pTexComp->SetAlpha(255.f * floorf(fmodf(m_Timer * 10.f, 2.f)));
+			m_pAnimComp->SetAlpha(255.f * floorf(fmodf(m_Timer * 10.f, 2.f)));
 		}
 		else //Nothing special
 		{
-			m_pTexComp->SetAlpha(255.f);
+			m_pAnimComp->SetAlpha(255.f);
 		}
 	}
 	else //Hasn't hit the ground yet, not tangible
 	{
-		m_pTexComp->SetAlpha(128.f);
+		m_pAnimComp->SetAlpha(128.f);
+	}
+
+	//If collected, plays anim and disappears
+	if (m_Collected)
+	{
+		m_CollectedTimer += elapsedSec;
+		if (m_CollectedTimer > m_CollectedTimerMax)
+		{
+			m_pParent->GetParentScene()->RemoveChild(m_pParent);
+		}
 	}
 }
 
@@ -76,10 +93,15 @@ void ItemBehaviour::OnCollide(anemoia::GameObject* const pOther)
 
 void ItemBehaviour::Collect(anemoia::GameObject* const pOther)
 {
-	if (!m_pParent->GetMarkForDelete())
+	if (!m_Collected)
 	{
-		m_pParent->GetParentScene()->RemoveChild(m_pParent);
+		m_Collected = true;
+
 		pOther->Notify(m_AttachedEvent);
 		m_pParent->GetParentScene()->GetObjectWithTag("HUD")->GetComponent<HUDComponent>()->UpdateScores();
+
+		m_pRigid->AddIgnoreTag("Player");
+
+		m_pAnimComp->SetAnim("Collect");
 	}
 }

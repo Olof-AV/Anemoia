@@ -5,7 +5,7 @@
 namespace anemoia
 {
 	class RigidBodyComponent;
-	class TextureComponent;
+	class AnimSpriteComponent;
 	class GameObject;
 }
 
@@ -13,7 +13,7 @@ class ItemBehaviour final : public anemoia::BaseComponent
 {
 public:
 #pragma region Constructors
-	ItemBehaviour(anemoia::GameObject* const pParent, anemoia::RigidBodyComponent* const pRigid, anemoia::TextureComponent* const pTexComp, anemoia::Events attachedEvent);
+	ItemBehaviour(anemoia::GameObject* const pParent, anemoia::RigidBodyComponent* const pRigid, anemoia::AnimSpriteComponent* const pAnimComp, anemoia::Events attachedEvent);
 	virtual ~ItemBehaviour() = default;
 
 	ItemBehaviour(const ItemBehaviour& other) = delete;
@@ -41,7 +41,7 @@ public:
 
 private:
 	anemoia::RigidBodyComponent* m_pRigid;
-	anemoia::TextureComponent* m_pTexComp;
+	anemoia::AnimSpriteComponent* m_pAnimComp;
 
 	anemoia::Events m_AttachedEvent;
 
@@ -50,5 +50,9 @@ private:
 	float m_Timer; //Timer that determines when this object will disappear
 	float m_TimerMax; //How long does it take for this object to disappear in total, seconds
 	float m_TimerDanger; //Between this value and timer max, object will blink rapidly
+
+	bool m_Collected;
+	float m_CollectedTimer; //When collected, play a quick animation
+	float m_CollectedTimerMax; //When to destroy the item
 };
 
