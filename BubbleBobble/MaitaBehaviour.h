@@ -89,9 +89,6 @@ private:
 	float m_BoulderTimer;
 	float m_BoulderTimerMax;
 
-	float m_AttackCharge;
-	float m_AttackChargeMax;
-
 	bool m_ShootRequested = false;
 
 	bool m_IsPlayer;

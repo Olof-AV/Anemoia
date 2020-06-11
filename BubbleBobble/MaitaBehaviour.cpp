@@ -44,14 +44,14 @@ MaitaBehaviour::MaitaBehaviour(anemoia::GameObject* const pParent, anemoia::Rigi
 	m_BoulderTimer = 0.f;
 	m_BoulderTimerMax = 5.f;
 
-	m_AttackCharge = 0.f;
-	m_AttackChargeMax = 0.4f;
-
 	//Players
 	m_Targets = pParent->GetParentScene()->GetObjectsWithTag("Player");
 
 	//Sounds
 	m_pSound_Death = anemoia::ResourceManager::GetInstance()->LoadSound("Enemies/Death.wav");
+
+	//Bind attack end to shooting the boulder
+	m_pAnimComp->SetBoundFunction([this]() { ShootBoulder(); }, "Attack");
 
 	//Add controls?
 	if (isPlayer)
@@ -136,14 +136,6 @@ void MaitaBehaviour::Update(float elapsedSec)
 	case MaitaState::attack:
 		HandleMovement();
 
-		m_AttackCharge += elapsedSec; //Attack takes a little while to charge, before it shoots
-		if (m_AttackCharge > m_AttackChargeMax)
-		{
-			m_AttackCharge = 0.f;
-			SetState(MaitaState::run);
-			ShootBoulder();
-		}
-
 		break;
 
 	case MaitaState::bubble:
@@ -199,20 +191,17 @@ void MaitaBehaviour::SetState(MaitaState newState)
 	{
 	case MaitaState::run:
 		m_pAnimComp->SetAnim("Run");
-		m_AttackCharge = 0.f;
 
 		break;
 
 	case MaitaState::attack:
 		m_pAnimComp->SetAnim("Attack");
 		m_pAnimComp->ResetCurrentAnim();
-		m_AttackCharge = 0.f;
 
 		break;
 
 	case MaitaState::bubble:
 		m_BubbleBurstTimer = 0.f;
-		m_AttackCharge = 0.f;
 
 		break;
 
@@ -338,7 +327,9 @@ void MaitaBehaviour::ShootBoulder()
 			pScene->AddChild(pObj);
 		}
 
+		//Activate cooldown and switch back to normal state
 		m_BoulderCooldown = true;
+		SetState(MaitaState::run);
 	}
 }
 

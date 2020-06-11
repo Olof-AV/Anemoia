@@ -77,21 +77,24 @@ void BubbleBehaviour::Update(float elapsedSec)
 	//Update velocity
 	m_pRigid->SetVelocity(m_Movement);
 	
-	//Update burst timer -> switches animations and bursts at the end
-	m_BurstTimer += elapsedSec;
-
-	//If bursting, switch anim and ignore all relevant collisions
-	if (m_BurstTimer > m_BurstTimerMax)
+	//Update "state"
+	if (!m_Bursting)
 	{
-		Burst();
-	}
-	else if (m_BurstTimer > m_BurstTimerMax * 0.75f)
-	{
-		m_pAnimComp->SetAnim("Bubble3");
-	}
-	else if (m_BurstTimer > m_BurstTimerMax * 0.5f)
-	{
-		m_pAnimComp->SetAnim("Bubble2");
+		//Update burst timer -> switches animations and bursts at the end
+		//If bursting, switch anim and ignore all relevant collisions
+		m_BurstTimer += elapsedSec;
+		if (m_BurstTimer > m_BurstTimerMax)
+		{
+			Burst();
+		}
+		else if (m_BurstTimer > m_BurstTimerMax * 0.75f)
+		{
+			m_pAnimComp->SetAnim("Bubble3");
+		}
+		else if (m_BurstTimer > m_BurstTimerMax * 0.5f)
+		{
+			m_pAnimComp->SetAnim("Bubble2");
+		}
 	}
 }
 
