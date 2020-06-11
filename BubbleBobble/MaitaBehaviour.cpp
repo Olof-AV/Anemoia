@@ -33,7 +33,7 @@ MaitaBehaviour::MaitaBehaviour(anemoia::GameObject* const pParent, anemoia::Rigi
 	//Params
 	m_MovSpeed = 100.f;
 	m_JumpForce = 600.f;
-	m_HorThreshold = 50.f;
+	m_HorThreshold = 65.f;
 	m_VerThreshold = 30.f;
 	m_FloatRate = -75.f;
 
