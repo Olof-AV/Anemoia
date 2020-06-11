@@ -24,8 +24,9 @@ BoulderBehaviour::BoulderBehaviour(anemoia::GameObject* const pParent, anemoia::
 	m_pRigid->SetVelocity(m_Movement);
 
 	m_Bursting = false;
-	m_BurstTimer = 0.f;
-	m_BurstTimerMax = 0.125f;
+
+	//Callback for burst animation
+	m_pAnimComp->SetBoundFunction([this]() { m_pParent->SetEnabled(false); m_pParent->GetParentScene()->RemoveChild(m_pParent); }, "Burst");
 }
 
 void BoulderBehaviour::FixedUpdate(float timeStep)
@@ -35,14 +36,7 @@ void BoulderBehaviour::FixedUpdate(float timeStep)
 
 void BoulderBehaviour::Update(float elapsedSec)
 {
-	if (m_Bursting)
-	{
-		m_BurstTimer += elapsedSec;
-		if (m_BurstTimer > m_BurstTimerMax)
-		{
-			m_pParent->GetParentScene()->RemoveChild(m_pParent);
-		}
-	}
+	UNREFERENCED_PARAMETER(elapsedSec);
 }
 
 void BoulderBehaviour::LateUpdate(float elapsedSec)
@@ -67,8 +61,11 @@ void BoulderBehaviour::OnCollide(anemoia::GameObject* const pOther)
 
 void BoulderBehaviour::Burst()
 {
-	m_Bursting = true;
-	m_pRigid->AddIgnoreTag("Player");
-	m_pAnimComp->SetAnim("Burst");
-	m_pRigid->SetVelocity(glm::vec2{});
+	if (!m_Bursting)
+	{
+		m_Bursting = true;
+		m_pRigid->AddIgnoreTag("Player");
+		m_pAnimComp->SetAnim("Burst");
+		m_pRigid->SetVelocity(glm::vec2{});
+	}
 }

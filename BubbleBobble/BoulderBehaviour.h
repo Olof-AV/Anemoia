@@ -47,7 +47,5 @@ private:
 	anemoia::AnimSpriteComponent* m_pAnimComp;
 
 	bool m_Bursting;
-	float m_BurstTimer;
-	float m_BurstTimerMax;
 };
 
