@@ -168,7 +168,7 @@ void BaseGameScene::NotifyEnemyDeath(anemoia::GameObject* const pObj)
 	if (m_Enemies.size() > 0)
 	{
 		//Try to remove the given enemy
-		const std::vector<anemoia::GameObject*>::const_iterator cIt = std::find(m_Enemies.cbegin(), m_Enemies.cend(), pObj);
+		const std::vector<anemoia::GameObject*>::const_iterator cIt = std::remove(m_Enemies.begin(), m_Enemies.end(), pObj);
 
 		//If found, erase it
 		if (cIt != m_Enemies.cend())

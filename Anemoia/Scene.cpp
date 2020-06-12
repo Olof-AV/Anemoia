@@ -142,8 +142,8 @@ void anemoia::Scene::AddCollider(ColliderComponent* const pColl)
 
 void anemoia::Scene::RemoveCollider(ColliderComponent* const pColl)
 {
-	//Find
-	const std::vector<ColliderComponent*>::const_iterator cIt = std::find(m_Collision.cbegin(), m_Collision.cend(), pColl);
+	//Remove-erase
+	const std::vector<ColliderComponent*>::const_iterator cIt = std::remove(m_Collision.begin(), m_Collision.end(), pColl);
 
 	//If found, erase
 	if (cIt != m_Collision.cend())
