@@ -176,7 +176,7 @@ void BaseGameScene::NotifyEnemyDeath(anemoia::GameObject* const pObj)
 			m_Enemies.erase(cIt);
 
 			//If no enemies left, start the end timer (which will switch to next stage)
-			if (m_Enemies.size() == 0)
+			if (m_Enemies.empty())
 			{
 				m_EndTimerActive = true;
 			}
