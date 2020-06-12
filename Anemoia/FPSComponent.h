@@ -7,7 +7,7 @@ namespace anemoia
 	{
 	public:
 #pragma region Constructors
-		FPSComponent(GameObject* const pParent);
+		explicit FPSComponent(GameObject* const pParent);
 		virtual ~FPSComponent() = default;
 
 		FPSComponent(const FPSComponent& other) = delete;

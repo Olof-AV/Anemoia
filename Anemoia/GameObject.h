@@ -12,7 +12,7 @@ namespace anemoia
 	{
 	public:
 #pragma region Constructors
-		GameObject(Scene* const pParentScene = nullptr);
+		explicit GameObject(Scene* const pParentScene = nullptr);
 		virtual ~GameObject();
 
 		GameObject(const GameObject& other) = delete;
