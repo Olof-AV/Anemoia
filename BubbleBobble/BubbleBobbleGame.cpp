@@ -88,7 +88,7 @@ void BubbleBobbleGame::PlayMusic(bool value)
 	}
 	else
 	{
-		m_pSound_Music->Stop();
+		m_pSound_Music->FadeOut(2000);
 	}
 }
 
