@@ -36,7 +36,7 @@ public:
 	void SetLives(bool isP1, int value);
 
 	//Notify
-	void NotifyPlayerDeath(bool isP1);
+	bool NotifyPlayerDeath(bool isP1);
 
 private:
 	//Mode

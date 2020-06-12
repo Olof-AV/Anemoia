@@ -40,6 +40,9 @@ BaseGameScene::BaseGameScene(UINT levelNum, bool isFinalLevel)
 	m_TransitionAlpha = 1.f;
 	m_TransitionAlphaTarget = 1.f;
 	m_TransitionSpeed = 8.f;
+
+	//Lost?
+	m_PlayerLost = false;
 }
 
 void BaseGameScene::FixedUpdate(float timeStep)
@@ -65,7 +68,11 @@ void BaseGameScene::Update(float elapsedSec)
 			//If transition complete, switch
 			if (m_TransitionAlpha > 0.99f)
 			{
-				if (m_IsFinalLevel)
+				if (m_PlayerLost)
+				{
+					static_cast<BubbleBobbleGame*>(anemoia::Locator::GetEngine())->Restart();
+				}
+				else if (m_IsFinalLevel)
 				{
 					anemoia::SceneManager::GetInstance()->SetActiveScene("EndScene");
 				}
@@ -177,7 +184,7 @@ void BaseGameScene::NotifyEnemyDeath(anemoia::GameObject* const pObj)
 	}
 }
 
-void BaseGameScene::NotifyPlayerDeath()
+void BaseGameScene::NotifyPlayerDeath(bool shouldGameEnd)
 {
 	if (m_Enemies.size() > 0)
 	{
@@ -185,6 +192,15 @@ void BaseGameScene::NotifyPlayerDeath()
 		{
 			pObject->Notify(anemoia::Events::PLAYER_DEATH);
 		});
+	}
+
+	//If game has to end, turn off music and fade away asap
+	if (shouldGameEnd)
+	{
+		m_PlayerLost = true;
+		m_EndTimerActive = true;
+		static_cast<BubbleBobbleGame*>(anemoia::Locator::GetEngine())->PlayMusic(false);
+		m_EndTimerMax = 3.f;
 	}
 }
 

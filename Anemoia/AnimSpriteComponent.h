@@ -10,16 +10,16 @@ namespace anemoia
 
 	struct AnimSprite
 	{
-		Texture2D* pTexture;
+		Texture2D* pTexture = nullptr;
 
 		//Anim sprite
-		int frameCount;
-		int nrCols;
-		int nrRows;
-		float framesPerSec;
-		float totalTime;
-		bool isPong;
-		bool isReverse; //If pong is used, determines when it's going backwards or not
+		int frameCount = -1;
+		int nrCols = -1;
+		int nrRows = -1;
+		float framesPerSec = -1.f;
+		float totalTime = -1.f;
+		bool isPong = false;
+		bool isReverse = false; //If pong is used, determines when it's going backwards or not
 
 		std::function<void(void)> boundFunc; //Callback when animation ends
 	};

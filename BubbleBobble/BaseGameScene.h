@@ -37,7 +37,7 @@ public:
 
 	//Specific functions
 	void NotifyEnemyDeath(anemoia::GameObject* const pObj);
-	void NotifyPlayerDeath();
+	void NotifyPlayerDeath(bool shouldGameEnd);
 
 protected:
 	//Some functions related to creating the level out of data files
@@ -74,4 +74,7 @@ protected:
 	float m_TransitionAlpha;
 	float m_TransitionAlphaTarget;
 	float m_TransitionSpeed;
+
+	//Player failed
+	bool m_PlayerLost;
 };

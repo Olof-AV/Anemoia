@@ -19,27 +19,31 @@ void PlayerObserver::Notify(anemoia::Events event)
 	switch (event)
 	{
 	case anemoia::Events::PLAYER_DEATH:
-
-		m_pGame->NotifyPlayerDeath(m_IsP1);
-		static_cast<BaseGameScene*>(anemoia::SceneManager::GetInstance()->GetActiveScene())->NotifyPlayerDeath();
+	{
+		const bool shouldGameEnd = m_pGame->NotifyPlayerDeath(m_IsP1);
+		static_cast<BaseGameScene*>(anemoia::SceneManager::GetInstance()->GetActiveScene())->NotifyPlayerDeath(shouldGameEnd);
+	}
 		break;
 
 	case anemoia::Events::PLAYER_OBTAIN_WATERMELON:
-
+	{
 		m_pGame->AddScore(100, m_IsP1);
+	}
 		break;
 
 	case anemoia::Events::PLAYER_OBTAIN_FRIES:
-
+	{
 		m_pGame->AddScore(200, m_IsP1);
+	}
 		break;
 
 	case anemoia::Events::DAMAGE_TAKEN:
-
+	{
 		if (m_pBehaviour->GetState() != PlayerState::death)
 		{
 			m_pBehaviour->SetState(PlayerState::death);
 		}
+	}
 		break;
 
 	default:

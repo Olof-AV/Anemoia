@@ -125,19 +125,20 @@ void BubbleBobbleGame::SetLives(bool isP1, int value)
 	(isP1) ? m_LivesP1 = value : m_LivesP2 = value;
 }
 
-void BubbleBobbleGame::NotifyPlayerDeath(bool isP1)
+bool BubbleBobbleGame::NotifyPlayerDeath(bool isP1)
 {
 	const int amountLives = ((isP1) ? m_LivesP1 : m_LivesP2);
 	if (amountLives > 0)
 	{
 		SetLives(isP1, amountLives - 1);
+		return false;
 	}
 	else
 	{
 		switch (m_CurrentMode)
 		{
 		case Gamemode::singleplayer:
-			Restart();
+			return true;
 
 			break;
 
@@ -146,7 +147,7 @@ void BubbleBobbleGame::NotifyPlayerDeath(bool isP1)
 
 			if (m_DeadP1 && m_DeadP2)
 			{
-				Restart();
+				return true;
 			}
 
 			break;
@@ -156,10 +157,12 @@ void BubbleBobbleGame::NotifyPlayerDeath(bool isP1)
 
 			if (m_DeadP1)
 			{
-				Restart();
+				return true;
 			}
 
 			break;
 		}
 	}
+
+	return false;
 }
