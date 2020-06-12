@@ -41,5 +41,8 @@ void PlayerObserver::Notify(anemoia::Events event)
 			m_pBehaviour->SetState(PlayerState::death);
 		}
 		break;
+
+	default:
+		break;
 	}
 }
