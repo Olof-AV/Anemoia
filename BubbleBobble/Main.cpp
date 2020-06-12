@@ -10,7 +10,14 @@
 
 //#define CATCH_CONFIG_RUNNER    // Designates this as implementation file
 #define CATCH_CONFIG_MAIN      // Designates this as implementation file and defines main()
+
+#pragma warning(push)
+#pragma warning (disable:26812)
+#pragma warning (disable:26495)
+#pragma warning (disable:26439)
+#pragma warning (disable:26451)
 #include "catch.hpp"
+#pragma warning(pop)
 
 /*int main(int argc, char* argv[])
 {

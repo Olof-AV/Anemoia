@@ -2,6 +2,8 @@
 #include "Subject.h"
 #include "Observer.h"
 
+#include <algorithm>
+
 anemoia::Subject::~Subject()
 {
 	//Delete the observers

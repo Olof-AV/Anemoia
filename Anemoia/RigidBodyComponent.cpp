@@ -6,6 +6,8 @@
 #include "GameObject.h"
 #include "Scene.h"
 
+#include <algorithm>
+
 anemoia::RigidBodyComponent::RigidBodyComponent(GameObject* const pParent, ColliderComponent* const pColl, float gravity)
 	: BaseComponent(pParent, Transform()), m_pLinkedCollider{ pColl }, m_Gravity{gravity}
 {

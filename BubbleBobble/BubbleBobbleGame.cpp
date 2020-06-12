@@ -37,7 +37,9 @@ void BubbleBobbleGame::LoadGame()
 	SDL_SetWindowTitle(m_pWindow, "Bubble Bobble - 2DAE01 - AVIRON-VIOLET Olof");
 	//SDL_SetWindowFullscreen(m_pWindow, 1);
 	const int scale = 3;
-	SDL_SetWindowSize(m_pWindow, 256 * scale, 224 * scale);
+	const int width = 256;
+	const int height = 224;
+	SDL_SetWindowSize(m_pWindow, width * scale, height * scale);
 
 	//Test
 	/*anemoia::Scene* const pScene = new FrameCounterScene();
@@ -51,23 +53,6 @@ void BubbleBobbleGame::LoadGame()
 
 	anemoia::Scene* const pEnd = new EndScene();
 	anemoia::SceneManager::GetInstance()->AddScene(pEnd);
-
-	/*//Game intro scene
-	anemoia::Scene* const pIntro = new IntroScene();
-	anemoia::SceneManager::GetInstance()->AddScene(pIntro);
-	//anemoia::SceneManager::GetInstance()->SetActiveScene(pIntro);
-
-	//Level 1 scene
-	anemoia::Scene* const pLevel1 = new BaseGameScene(1);
-	anemoia::SceneManager::GetInstance()->AddScene(pLevel1);
-
-	//Level 2 scene
-	anemoia::Scene* const pLevel2 = new BaseGameScene(2);
-	anemoia::SceneManager::GetInstance()->AddScene(pLevel2);
-
-	//Level 3 scene
-	anemoia::Scene* const pLevel3 = new BaseGameScene(3);
-	anemoia::SceneManager::GetInstance()->AddScene(pLevel3);*/
 }
 
 Gamemode BubbleBobbleGame::GetGamemode() const

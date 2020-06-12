@@ -1,6 +1,7 @@
 #include "AnemoiaPCH.h"
 #include "Transform.h"
 
+#pragma warning(suppress:26812)
 anemoia::Transform::Transform(const glm::vec3& pos,
 	const glm::vec2& pivot,
 	const glm::vec2& scale,

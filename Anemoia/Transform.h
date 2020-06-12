@@ -7,6 +7,7 @@ namespace anemoia
 	class Transform final
 	{
 	public:
+#pragma warning(suppress:26812)
 		Transform(const glm::vec3& pos = glm::vec3(0.f, 0.f, 0.f),
 			const glm::vec2& pivot = glm::vec2(0.f, 0.f),
 			const glm::vec2& scale = glm::vec2(1.f, 1.f),
