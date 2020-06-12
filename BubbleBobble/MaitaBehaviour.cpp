@@ -175,13 +175,8 @@ void MaitaBehaviour::LateUpdate(float elapsedSec)
 
 void MaitaBehaviour::OnCollide(anemoia::GameObject* const pOther)
 {
-	//Extra safety check to ensure player actually dies
-	if (pOther->HasTag("Player"))
-	{
-		PlayerTouch(pOther);
-	}
 	//Get bubbled
-	else if (pOther->HasTag("Bubble"))
+	if (pOther->HasTag("Bubble"))
 	{
 		m_pParent->GetParentScene()->RemoveChild(pOther);
 		GetBubbled(pOther->GetComponent<BubbleBehaviour>()->IsP1());

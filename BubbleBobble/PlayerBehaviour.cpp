@@ -142,7 +142,7 @@ void PlayerBehaviour::OnCollide(anemoia::GameObject* const pOther)
 	if (pOther->HasTag("ZenChan"))
 	{
 		ZenBehaviour* const pBehaviour = pOther->GetComponent<ZenBehaviour>();
-		if (pBehaviour->GetState() == ZenState::bubble && m_InputDir.y < 0.f)
+		if (pBehaviour->GetState() == ZenState::bubble && m_InputDir.y < 0.f && m_pRigid->IsTouchingFloor())
 		{
 			//Bounces on top of bubble
 			m_pSound_JumpBubble->Play(0);
@@ -155,7 +155,7 @@ void PlayerBehaviour::OnCollide(anemoia::GameObject* const pOther)
 	if (pOther->HasTag("Maita"))
 	{
 		MaitaBehaviour* const pBehaviour = pOther->GetComponent<MaitaBehaviour>();
-		if (pBehaviour->GetState() == MaitaState::bubble && m_InputDir.y < 0.f)
+		if (pBehaviour->GetState() == MaitaState::bubble && m_InputDir.y < 0.f && m_pRigid->IsTouchingFloor())
 		{
 			//Bounces on top of bubble
 			m_pSound_JumpBubble->Play(0);
@@ -171,6 +171,10 @@ void PlayerBehaviour::OnCollide(anemoia::GameObject* const pOther)
 		{
 			//Bounces on top of bubble
 			m_pSound_JumpBubble->Play(0);
+		}
+		else
+		{
+			pOther->GetComponent<BubbleBehaviour>()->Burst();
 		}
 	}
 	/*else if (pOther->HasTag("Boulder"))
@@ -374,4 +378,9 @@ void PlayerBehaviour::SetState(PlayerState newState)
 
 	//Don't forget to change state
 	m_CurrentState = newState;
+}
+
+bool PlayerBehaviour::IsHoldingJump() const
+{
+	return m_InputDir.y > 0.f;
 }

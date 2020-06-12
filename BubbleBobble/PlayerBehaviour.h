@@ -56,6 +56,8 @@ public:
 	PlayerState GetState() const;
 	void SetState(PlayerState newState);
 
+	bool IsHoldingJump() const;
+
 private:
 	//Components
 	anemoia::RigidBodyComponent* m_pRigid;

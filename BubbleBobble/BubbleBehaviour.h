@@ -38,10 +38,9 @@ public:
 
 	//Specific
 	bool IsP1() const;
-
-private:
 	void Burst();
 
+private:
 	float m_BurstTimer;
 	float m_BurstTimerMax;
 

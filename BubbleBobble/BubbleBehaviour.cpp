@@ -105,12 +105,7 @@ void BubbleBehaviour::LateUpdate(float elapsedSec)
 
 void BubbleBehaviour::OnCollide(anemoia::GameObject* const pOther)
 {
-	if (pOther->HasTag("Player"))
-	{
-		//Bursts ASAP
-		Burst();
-	}
-	else if (pOther->HasTag("ZenChan"))
+	if (pOther->HasTag("ZenChan"))
 	{
 		m_pParent->GetParentScene()->RemoveChild(m_pParent);
 		pOther->GetComponent<ZenBehaviour>()->GetBubbled(m_IsP1);
@@ -120,7 +115,7 @@ void BubbleBehaviour::OnCollide(anemoia::GameObject* const pOther)
 		m_pParent->GetParentScene()->RemoveChild(m_pParent);
 		pOther->GetComponent<MaitaBehaviour>()->GetBubbled(m_IsP1);
 	}
-	else
+	else if(!pOther->HasTag("Player"))
 	{
 		//Bursts ASAP
 		Burst();
