@@ -19,8 +19,6 @@
 #include "AIManager.h"
 #include <algorithm>
 
-#include "BubbleBehaviour.h"
-
 #include "Sound.h"
 
 MaitaBehaviour::MaitaBehaviour(anemoia::GameObject* const pParent, anemoia::RigidBodyComponent* const pRigid, anemoia::AnimSpriteComponent* const pAnimComp, bool isPlayer)
@@ -175,12 +173,7 @@ void MaitaBehaviour::LateUpdate(float elapsedSec)
 
 void MaitaBehaviour::OnCollide(anemoia::GameObject* const pOther)
 {
-	//Get bubbled
-	if (pOther->HasTag("Bubble"))
-	{
-		m_pParent->GetParentScene()->RemoveChild(pOther);
-		GetBubbled(pOther->GetComponent<BubbleBehaviour>()->IsP1());
-	}
+	UNREFERENCED_PARAMETER(pOther);
 }
 
 MaitaState MaitaBehaviour::GetState() const

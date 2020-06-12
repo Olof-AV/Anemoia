@@ -15,8 +15,6 @@
 
 #include <algorithm>
 
-#include "BubbleBehaviour.h"
-
 #include "Sound.h"
 
 ZenBehaviour::ZenBehaviour(anemoia::GameObject* const pParent, anemoia::RigidBodyComponent* const pRigid, anemoia::AnimSpriteComponent* const pAnimComp)
@@ -112,12 +110,7 @@ void ZenBehaviour::LateUpdate(float elapsedSec)
 
 void ZenBehaviour::OnCollide(anemoia::GameObject* const pOther)
 {
-	//Get bubbled
-	if (pOther->HasTag("Bubble"))
-	{
-		m_pParent->GetParentScene()->RemoveChild(pOther);
-		GetBubbled(pOther->GetComponent<BubbleBehaviour>()->IsP1());
-	}
+	UNREFERENCED_PARAMETER(pOther);
 }
 
 ZenState ZenBehaviour::GetState() const
