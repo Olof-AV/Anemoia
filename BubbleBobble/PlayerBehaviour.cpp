@@ -184,7 +184,6 @@ void PlayerBehaviour::OnCollide(anemoia::GameObject* const pOther)
 	}*/
 	else if (pOther->HasTag("Treasure"))
 	{
-		pOther->GetComponent<ItemBehaviour>()->Collect(m_pParent);
 		m_pRigid->SetTouchingFloor(false); //This prevents players from jumping on top of collectibles
 	}
 }
@@ -247,6 +246,7 @@ void PlayerBehaviour::HandleInvincibilityTimer(float elapsedSec)
 			m_InvincibilityTimer = 0.f;
 			m_IsInvincible = false;
 
+			m_pRigid->RemoveIgnoreTag("Boulder");
 			m_pRigid->RemoveIgnoreTag("ZenChan");
 			m_pRigid->RemoveIgnoreTag("Maita");
 		}
@@ -273,6 +273,7 @@ void PlayerBehaviour::Die()
 		{
 			std::cout << "Die here\n";
 
+			m_pRigid->AddIgnoreTag("Boulder");
 			m_pRigid->AddIgnoreTag("ZenChan");
 			m_pRigid->AddIgnoreTag("Maita");
 		}
