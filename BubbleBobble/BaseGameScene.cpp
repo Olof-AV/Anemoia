@@ -558,7 +558,7 @@ void BaseGameScene::CreatePlayer(const glm::vec2& pos, bool isP1)
 	pPlayer->AddTag("Player");
 
 	//Observer
-	pPlayer->AddObserver(new PlayerObserver(isP1));
+	pPlayer->AddObserver(new PlayerObserver(pBehaviour, isP1));
 
 	//Add to scene
 	AddChild(pPlayer);

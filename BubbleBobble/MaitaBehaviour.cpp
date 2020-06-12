@@ -11,7 +11,6 @@
 #include "BaseGameScene.h"
 #include "ResourceManager.h"
 
-#include "PlayerBehaviour.h"
 #include "BoulderBehaviour.h"
 
 #include "InputManager.h"
@@ -276,7 +275,7 @@ void MaitaBehaviour::PlayerTouch(anemoia::GameObject* const pOther)
 	//Otherwise, the player dies
 	else if(m_CurrentState != MaitaState::dying)
 	{
-		pOther->GetComponent<PlayerBehaviour>()->Die();
+		pOther->Notify(anemoia::Events::DAMAGE_TAKEN);
 	}
 }
 

@@ -10,7 +10,6 @@
 #include "Scene.h"
 
 #include "ZenBehaviour.h"
-#include "PlayerBehaviour.h"
 
 #include "AnimSpriteComponent.h"
 
@@ -46,17 +45,8 @@ void BoulderBehaviour::LateUpdate(float elapsedSec)
 
 void BoulderBehaviour::OnCollide(anemoia::GameObject* const pOther)
 {
-	UNREFERENCED_PARAMETER(pOther);
-
-	if (pOther->HasTag("Player"))
-	{
-		pOther->GetComponent<PlayerBehaviour>()->Die();
-		Burst();
-	}
-	else
-	{
-		Burst();
-	}
+	pOther->Notify(anemoia::Events::DAMAGE_TAKEN);
+	Burst();
 }
 
 void BoulderBehaviour::Burst()

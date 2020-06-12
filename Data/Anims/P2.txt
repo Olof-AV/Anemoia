@@ -2,3 +2,4 @@
 "Player/Bobby/Idle_Anim.png",2,2,1,8,false,"Idle"
 "Player/Bobby/Run_Anim.png",4,4,1,16,false,"Run"
 "Player/Bobby/Shoot_Anim.png",4,4,1,8,false,"Shoot"
+"Player/Bobby/Death_Anim.png",11,11,1,16,false,"Death"

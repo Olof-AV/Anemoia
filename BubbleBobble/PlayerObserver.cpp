@@ -6,8 +6,10 @@
 #include "SceneManager.h"
 #include "BaseGameScene.h"
 
-PlayerObserver::PlayerObserver(bool isP1)
-	: m_IsP1{isP1}
+#include "PlayerBehaviour.h"
+
+PlayerObserver::PlayerObserver(PlayerBehaviour* const pBehaviour, bool isP1)
+	: m_IsP1{ isP1 }, m_pBehaviour{ pBehaviour }
 {
 	m_pGame = static_cast<BubbleBobbleGame*>(anemoia::Locator::GetEngine());
 }
@@ -30,6 +32,14 @@ void PlayerObserver::Notify(anemoia::Events event)
 	case anemoia::Events::PLAYER_OBTAIN_FRIES:
 
 		m_pGame->AddScore(200, m_IsP1);
+		break;
+
+	case anemoia::Events::DAMAGE_TAKEN:
+
+		if (m_pBehaviour->GetState() != PlayerState::death)
+		{
+			m_pBehaviour->SetState(PlayerState::death);
+		}
 		break;
 	}
 }

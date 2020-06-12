@@ -175,7 +175,7 @@ void anemoia::RigidBodyComponent::CheckCollision()
 			{
 				//Notify
 				m_IsTouchingFloor = true;
-				colliders[i]->OnCollide(GetParent());
+				colliders[i]->GetParent()->OnCollide(GetParent());
 				GetParent()->OnCollide(colliders[i]->GetParent());
 
 				//Adjust

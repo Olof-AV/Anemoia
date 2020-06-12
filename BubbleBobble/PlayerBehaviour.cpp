@@ -69,6 +69,9 @@ PlayerBehaviour::PlayerBehaviour(anemoia::GameObject* const pParent, anemoia::Ri
 	m_ShootCoolTimer = 0.f;
 	m_ShootCoolTimerMax = 0.55f;
 
+	//Bind death to end of death anim
+	m_pAnimComp->SetBoundFunction([this]() { Die(); }, "Death");
+
 	//Load sounds
 	{
 		m_pSound_Jump = anemoia::ResourceManager::GetInstance()->LoadSound("Player/Jump.wav");
@@ -114,6 +117,10 @@ void PlayerBehaviour::Update(float elapsedSec)
 		//Cooldown eventually dissipates
 		m_ShootCoolTimer += elapsedSec;
 		if (m_ShootCoolTimer > m_ShootCoolTimerMax) { SetState(PlayerState::idle); }
+
+		break;
+
+	case PlayerState::death:
 
 		break;
 	}
@@ -166,11 +173,11 @@ void PlayerBehaviour::OnCollide(anemoia::GameObject* const pOther)
 			m_pSound_JumpBubble->Play(0);
 		}
 	}
-	else if (pOther->HasTag("Boulder"))
+	/*else if (pOther->HasTag("Boulder"))
 	{
 		pOther->GetComponent<BoulderBehaviour>()->Burst();
-		Die();
-	}
+		m_pParent->Notify(anemoia::Events::DAMAGE_TAKEN);
+	}*/
 	else if (pOther->HasTag("Treasure"))
 	{
 		pOther->GetComponent<ItemBehaviour>()->Collect(m_pParent);
@@ -189,7 +196,7 @@ void PlayerBehaviour::HandleMovement()
 		m_pRigid->SetVelocity(glm::vec2(0.f, 0.f));
 	}
 	//Otherwise handle mov related transform stuff + movement
-	else
+	else if(m_CurrentState != PlayerState::death)
 	{
 		anemoia::Transform transform = m_pAnimComp->GetTransform();
 		if (m_InputDir.x > 0.1f)
@@ -214,6 +221,10 @@ void PlayerBehaviour::HandleMovement()
 		}
 
 		//Reset
+		m_InputDir = glm::vec2{};
+	}
+	else
+	{
 		m_InputDir = glm::vec2{};
 	}
 }
@@ -264,6 +275,8 @@ void PlayerBehaviour::Die()
 
 		m_IsDead = true;
 		m_pParent->Notify(anemoia::Events::PLAYER_DEATH);
+
+		SetState(PlayerState::idle);
 	}
 }
 
@@ -346,6 +359,15 @@ void PlayerBehaviour::SetState(PlayerState newState)
 		m_pAnimComp->SetAnim("Shoot");
 		m_pAnimComp->ResetCurrentAnim(); //Looks much smoother this way
 		m_ShootCoolTimer = 0.f;
+
+		break;
+
+	case PlayerState::death:
+		m_pAnimComp->SetAnim("Death");
+		m_pAnimComp->ResetCurrentAnim();
+
+		const glm::vec2 &vel = m_pRigid->GetVelocity();
+		m_pRigid->SetVelocity(glm::vec2{0.f, vel.y});
 
 		break;
 	}

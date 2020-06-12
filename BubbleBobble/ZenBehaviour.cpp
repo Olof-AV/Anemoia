@@ -11,8 +11,6 @@
 #include "BaseGameScene.h"
 #include "ResourceManager.h"
 
-#include "PlayerBehaviour.h"
-
 #include "AIManager.h"
 
 #include <algorithm>
@@ -205,7 +203,7 @@ void ZenBehaviour::PlayerTouch(anemoia::GameObject* const pOther)
 	//Otherwise, the player dies
 	else if(m_CurrentState != ZenState::dying)
 	{
-		pOther->GetComponent<PlayerBehaviour>()->Die();
+		pOther->Notify(anemoia::Events::DAMAGE_TAKEN);
 	}
 }
 

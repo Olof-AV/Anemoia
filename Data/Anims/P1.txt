@@ -2,3 +2,4 @@
 "Player/Bubby/Idle_Anim.png",2,2,1,8,false,"Idle"
 "Player/Bubby/Run_Anim.png",4,4,1,16,false,"Run"
 "Player/Bubby/Shoot_Anim.png",4,4,1,8,false,"Shoot"
+"Player/Bubby/Death_Anim.png",11,11,1,16,false,"Death"

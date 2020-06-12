@@ -15,7 +15,8 @@ enum class PlayerState
 {
 	idle,
 	run,
-	shoot
+	shoot,
+	death
 };
 
 class PlayerBehaviour final : public anemoia::BaseComponent
