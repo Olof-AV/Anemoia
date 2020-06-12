@@ -288,7 +288,7 @@ void PlayerBehaviour::Die()
 void PlayerBehaviour::ShootBubble()
 {
 	//Can't shoot if cooldown is in effect, or if invincibility is in effect
-	if (m_CurrentState != PlayerState::shoot && !m_IsInvincible)
+	if (m_CurrentState != PlayerState::shoot && m_CurrentState != PlayerState::death && !m_IsInvincible)
 	{
 		//State
 		SetState(PlayerState::shoot);
