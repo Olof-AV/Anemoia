@@ -52,36 +52,19 @@ HUDComponent::~HUDComponent()
 	delete m_pTextScoreP2;
 }
 
-void HUDComponent::FixedUpdate(float timeStep)
+void HUDComponent::FixedUpdate(float /*timeStep*/)
 {
-	UNREFERENCED_PARAMETER(timeStep);
 
-	//Update texts if needed
-	switch (m_pGameInstance->GetGamemode())
-	{
-	case Gamemode::singleplayer:
-		
-
-		break;
-
-	case Gamemode::multiplayer:
-
-		break;
-
-	case Gamemode::versus:
-
-		break;
-	}
 }
 
-void HUDComponent::Update(float elapsedSec)
+void HUDComponent::Update(float /*elapsedSec*/)
 {
-	UNREFERENCED_PARAMETER(elapsedSec);
+
 }
 
-void HUDComponent::LateUpdate(float elapsedSec)
+void HUDComponent::LateUpdate(float /*elapsedSec*/)
 {
-	UNREFERENCED_PARAMETER(elapsedSec);
+
 }
 
 void HUDComponent::Render() const

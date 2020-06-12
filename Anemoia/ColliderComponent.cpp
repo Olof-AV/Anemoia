@@ -17,19 +17,19 @@ anemoia::ColliderComponent::~ColliderComponent()
 	m_pParent->GetParentScene()->RemoveCollider(this);
 }
 
-void anemoia::ColliderComponent::FixedUpdate(float timeStep)
+void anemoia::ColliderComponent::FixedUpdate(float /*timeStep*/)
 {
-	UNREFERENCED_PARAMETER(timeStep);
+
 }
 
-void anemoia::ColliderComponent::Update(float elapsedSec)
+void anemoia::ColliderComponent::Update(float /*elapsedSec*/)
 {
-	UNREFERENCED_PARAMETER(elapsedSec);
+
 }
 
-void anemoia::ColliderComponent::LateUpdate(float elapsedSec)
+void anemoia::ColliderComponent::LateUpdate(float /*elapsedSec*/)
 {
-	UNREFERENCED_PARAMETER(elapsedSec);
+
 }
 
 void anemoia::ColliderComponent::Render() const

@@ -28,19 +28,19 @@ BoulderBehaviour::BoulderBehaviour(anemoia::GameObject* const pParent, anemoia::
 	m_pAnimComp->SetBoundFunction([this]() { m_pParent->SetEnabled(false); m_pParent->GetParentScene()->RemoveChild(m_pParent); }, "Burst");
 }
 
-void BoulderBehaviour::FixedUpdate(float timeStep)
+void BoulderBehaviour::FixedUpdate(float /*timeStep*/)
 {
-	UNREFERENCED_PARAMETER(timeStep);
+
 }
 
-void BoulderBehaviour::Update(float elapsedSec)
+void BoulderBehaviour::Update(float /*elapsedSec*/)
 {
-	UNREFERENCED_PARAMETER(elapsedSec);
+
 }
 
-void BoulderBehaviour::LateUpdate(float elapsedSec)
+void BoulderBehaviour::LateUpdate(float /*elapsedSec*/)
 {
-	UNREFERENCED_PARAMETER(elapsedSec);
+
 }
 
 void BoulderBehaviour::OnCollide(anemoia::GameObject* const pOther)

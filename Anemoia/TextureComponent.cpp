@@ -13,19 +13,19 @@ anemoia::TextureComponent::TextureComponent(GameObject* const pParent, const Tra
 {
 }
 
-void anemoia::TextureComponent::FixedUpdate(float timeStep)
+void anemoia::TextureComponent::FixedUpdate(float /*timeStep*/)
 {
-	UNREFERENCED_PARAMETER(timeStep);
+
 }
 
-void anemoia::TextureComponent::Update(float elapsedSec)
+void anemoia::TextureComponent::Update(float /*elapsedSec*/)
 {
-	UNREFERENCED_PARAMETER(elapsedSec);
+
 }
 
-void anemoia::TextureComponent::LateUpdate(float elapsedSec)
+void anemoia::TextureComponent::LateUpdate(float /*elapsedSec*/)
 {
-	UNREFERENCED_PARAMETER(elapsedSec);
+
 }
 
 void anemoia::TextureComponent::Render() const

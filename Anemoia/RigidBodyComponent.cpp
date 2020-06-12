@@ -30,14 +30,14 @@ void anemoia::RigidBodyComponent::FixedUpdate(float timeStep)
 	CheckOutOfBounds();
 }
 
-void anemoia::RigidBodyComponent::Update(float elapsedSec)
+void anemoia::RigidBodyComponent::Update(float /*elapsedSec*/)
 {
-	UNREFERENCED_PARAMETER(elapsedSec);
+
 }
 
-void anemoia::RigidBodyComponent::LateUpdate(float elapsedSec)
+void anemoia::RigidBodyComponent::LateUpdate(float /*elapsedSec*/)
 {
-	UNREFERENCED_PARAMETER(elapsedSec);
+
 }
 
 void anemoia::RigidBodyComponent::Render() const

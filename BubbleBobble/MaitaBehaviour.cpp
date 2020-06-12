@@ -108,9 +108,9 @@ MaitaBehaviour::~MaitaBehaviour()
 	}
 }
 
-void MaitaBehaviour::FixedUpdate(float timeStep)
+void MaitaBehaviour::FixedUpdate(float /*timeStep*/)
 {
-	UNREFERENCED_PARAMETER(timeStep);
+
 }
 
 void MaitaBehaviour::Update(float elapsedSec)
@@ -166,14 +166,14 @@ void MaitaBehaviour::Update(float elapsedSec)
 	}
 }
 
-void MaitaBehaviour::LateUpdate(float elapsedSec)
+void MaitaBehaviour::LateUpdate(float /*elapsedSec*/)
 {
-	UNREFERENCED_PARAMETER(elapsedSec);
+
 }
 
-void MaitaBehaviour::OnCollide(anemoia::GameObject* const pOther)
+void MaitaBehaviour::OnCollide(anemoia::GameObject* const /*pOther*/)
 {
-	UNREFERENCED_PARAMETER(pOther);
+
 }
 
 MaitaState MaitaBehaviour::GetState() const

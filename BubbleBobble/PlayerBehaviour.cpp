@@ -88,9 +88,9 @@ PlayerBehaviour::~PlayerBehaviour()
 	delete anemoia::InputManager::GetInstance()->UnregisterCommand(m_pCommand_Shoot);
 }
 
-void PlayerBehaviour::FixedUpdate(float timeStep)
+void PlayerBehaviour::FixedUpdate(float /*timeStep*/)
 {
-	UNREFERENCED_PARAMETER(timeStep);
+
 }
 
 void PlayerBehaviour::Update(float elapsedSec)
@@ -130,9 +130,9 @@ void PlayerBehaviour::Update(float elapsedSec)
 	HandleInvincibilityTimer(elapsedSec);
 }
 
-void PlayerBehaviour::LateUpdate(float elapsedSec)
+void PlayerBehaviour::LateUpdate(float /*elapsedSec*/)
 {
-	UNREFERENCED_PARAMETER(elapsedSec);
+
 }
 
 void PlayerBehaviour::OnCollide(anemoia::GameObject* const pOther)

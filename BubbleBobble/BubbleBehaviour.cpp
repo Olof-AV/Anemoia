@@ -98,9 +98,9 @@ void BubbleBehaviour::Update(float elapsedSec)
 	}
 }
 
-void BubbleBehaviour::LateUpdate(float elapsedSec)
+void BubbleBehaviour::LateUpdate(float /*elapsedSec*/)
 {
-	UNREFERENCED_PARAMETER(elapsedSec);
+
 }
 
 void BubbleBehaviour::OnCollide(anemoia::GameObject* const pOther)

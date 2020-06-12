@@ -24,9 +24,9 @@ ItemBehaviour::ItemBehaviour(anemoia::GameObject* const pParent, anemoia::RigidB
 	m_pAnimComp->SetBoundFunction([this]() { m_pParent->SetEnabled(false); m_pParent->GetParentScene()->RemoveChild(m_pParent); }, "Collect");
 }
 
-void ItemBehaviour::FixedUpdate(float timeStep)
+void ItemBehaviour::FixedUpdate(float /*timeStep*/)
 {
-	UNREFERENCED_PARAMETER(timeStep);
+
 }
 
 void ItemBehaviour::Update(float elapsedSec)
@@ -64,9 +64,9 @@ void ItemBehaviour::Update(float elapsedSec)
 	}
 }
 
-void ItemBehaviour::LateUpdate(float elapsedSec)
+void ItemBehaviour::LateUpdate(float /*elapsedSec*/)
 {
-	UNREFERENCED_PARAMETER(elapsedSec);
+
 }
 
 void ItemBehaviour::OnCollide(anemoia::GameObject* const pOther)

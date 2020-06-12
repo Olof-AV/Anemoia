@@ -56,9 +56,9 @@ anemoia::AnimSpriteComponent::AnimSpriteComponent(GameObject* const pParent, con
 	SetAnim(defaultAnim);
 }
 
-void anemoia::AnimSpriteComponent::FixedUpdate(float timeStep)
+void anemoia::AnimSpriteComponent::FixedUpdate(float /*timeStep*/)
 {
-	UNREFERENCED_PARAMETER(timeStep);
+
 }
 
 void anemoia::AnimSpriteComponent::Update(float elapsedSec)
@@ -116,9 +116,9 @@ void anemoia::AnimSpriteComponent::Update(float elapsedSec)
 	}
 }
 
-void anemoia::AnimSpriteComponent::LateUpdate(float elapsedSec)
+void anemoia::AnimSpriteComponent::LateUpdate(float /*elapsedSec*/)
 {
-	UNREFERENCED_PARAMETER(elapsedSec);
+
 }
 
 void anemoia::AnimSpriteComponent::Render() const

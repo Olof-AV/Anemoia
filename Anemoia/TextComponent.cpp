@@ -26,11 +26,8 @@ anemoia::TextComponent::~TextComponent()
 	delete m_pTexture;
 }
 
-void anemoia::TextComponent::FixedUpdate(float timeStep)
+void anemoia::TextComponent::FixedUpdate(float /*timeStep*/)
 {
-	//Mark as unreferenced for now
-	UNREFERENCED_PARAMETER(timeStep);
-
 	//If needs update, create new texture
 	if (m_NeedsUpdate)
 	{
@@ -59,14 +56,14 @@ void anemoia::TextComponent::FixedUpdate(float timeStep)
 	}
 }
 
-void anemoia::TextComponent::Update(float elapsedSec)
+void anemoia::TextComponent::Update(float /*elapsedSec*/)
 {
-	UNREFERENCED_PARAMETER(elapsedSec);
+
 }
 
-void anemoia::TextComponent::LateUpdate(float elapsedSec)
+void anemoia::TextComponent::LateUpdate(float /*elapsedSec*/)
 {
-	UNREFERENCED_PARAMETER(elapsedSec);
+
 }
 
 void anemoia::TextComponent::Render() const

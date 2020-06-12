@@ -61,9 +61,9 @@ ZenBehaviour::~ZenBehaviour()
 	anemoia::AIManager::GetInstance()->UnRegisterFunction(func);
 }
 
-void ZenBehaviour::FixedUpdate(float timeStep)
+void ZenBehaviour::FixedUpdate(float /*timeStep*/)
 {
-	UNREFERENCED_PARAMETER(timeStep);
+
 }
 
 void ZenBehaviour::Update(float elapsedSec)
@@ -103,14 +103,14 @@ void ZenBehaviour::Update(float elapsedSec)
 	}
 }
 
-void ZenBehaviour::LateUpdate(float elapsedSec)
+void ZenBehaviour::LateUpdate(float /*elapsedSec*/)
 {
-	UNREFERENCED_PARAMETER(elapsedSec);
+
 }
 
-void ZenBehaviour::OnCollide(anemoia::GameObject* const pOther)
+void ZenBehaviour::OnCollide(anemoia::GameObject* const /*pOther*/)
 {
-	UNREFERENCED_PARAMETER(pOther);
+
 }
 
 ZenState ZenBehaviour::GetState() const
