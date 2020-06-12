@@ -9,9 +9,6 @@
 #include "Scene.h"
 #include "BaseGameScene.h"
 
-#include "ZenBehaviour.h"
-#include "MaitaBehaviour.h"
-
 #include "AnimSpriteComponent.h"
 
 BubbleBehaviour::BubbleBehaviour(anemoia::GameObject* const pParent, anemoia::RigidBodyComponent* const pRigid,

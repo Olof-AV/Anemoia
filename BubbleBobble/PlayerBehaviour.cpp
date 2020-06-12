@@ -167,7 +167,7 @@ void PlayerBehaviour::OnCollide(anemoia::GameObject* const pOther)
 	}
 	else if (pOther->HasTag("Bubble"))
 	{
-		if (m_InputDir.y < 0.f)
+		if (m_InputDir.y < 0.f && m_pRigid->IsTouchingFloor())
 		{
 			//Bounces on top of bubble
 			m_pSound_JumpBubble->Play(0);
@@ -306,8 +306,10 @@ void PlayerBehaviour::ShootBubble()
 
 			//Obj
 			anemoia::GameObject* const pObj = new anemoia::GameObject(pScene);
+
+			const glm::vec2 offset{ 60.f, -28.f };
 			glm::vec3 finalPos = GetParent()->GetPosition();
-			finalPos += ((isLookingLeft) ? glm::vec3(-60.f, -28.f, 0.f) : glm::vec3(60.f, -28.f, 0.f));
+			finalPos += ((isLookingLeft) ? glm::vec3(-offset.x, offset.y, 0.f) : glm::vec3(offset.x, offset.y, 0.f));
 			pObj->SetPosition(finalPos);
 
 			//Transform

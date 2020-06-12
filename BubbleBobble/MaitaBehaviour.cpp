@@ -289,8 +289,10 @@ void MaitaBehaviour::ShootBoulder()
 
 			//Obj
 			anemoia::GameObject* const pObj = new anemoia::GameObject(pScene);
+
+			const glm::vec2 offset{ 30.f, -28.f };
 			glm::vec3 finalPos = GetParent()->GetPosition();
-			finalPos += ((isLookingLeft) ? glm::vec3(-30.f, -28.f, 0.f) : glm::vec3(30.f, -28.f, 0.f));
+			finalPos += ((isLookingLeft) ? glm::vec3(offset.x, offset.y, 0.f) : glm::vec3(offset.x, offset.y, 0.f));
 			pObj->SetPosition(finalPos);
 
 			//Transform
