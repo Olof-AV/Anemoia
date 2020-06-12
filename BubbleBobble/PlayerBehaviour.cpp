@@ -266,12 +266,17 @@ void PlayerBehaviour::Die()
 
 		if (lives == 0)
 		{
-			std::cout << "100% dead\n";
+#if _DEBUG
+			std::cout << "Player is fully dead, disable...\n";
+#endif
+
 			m_pParent->SetEnabled(false);
 		}
 		else
 		{
-			std::cout << "Die here\n";
+#if _DEBUG
+			std::cout << "Player respawning...\n";
+#endif
 
 			m_pRigid->AddIgnoreTag("Boulder");
 			m_pRigid->AddIgnoreTag("ZenChan");
