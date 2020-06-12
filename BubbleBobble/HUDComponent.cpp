@@ -146,6 +146,7 @@ void HUDComponent::DrawHealth(bool isP1) const
 	anemoia::Texture2D* const pTex = (isP1) ? m_pTexHealthP1 : m_pTexHealthP2;
 
 	//Obtain global blend mode and set that as texture blend mode
+#pragma warning(suppress:26812)
 	SDL_BlendMode blendMode;
 	SDL_GetRenderDrawBlendMode(anemoia::Locator::GetRenderer(), &blendMode);
 	SDL_SetTextureBlendMode(pTex->GetSDLTexture(), blendMode);
@@ -182,6 +183,7 @@ void HUDComponent::DrawTextUI(anemoia::Texture2D* pText, const glm::vec2& pos) c
 	const glm::vec2 windowSize{ x * m_Transform.GetScale().x, y * m_Transform.GetScale().y };
 
 	//Obtain global blend mode and set that as texture blend mode
+#pragma warning(suppress:26812)
 	SDL_BlendMode blendMode;
 	SDL_GetRenderDrawBlendMode(anemoia::Locator::GetRenderer(), &blendMode);
 	SDL_SetTextureBlendMode(pText->GetSDLTexture(), blendMode);
