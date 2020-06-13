@@ -123,28 +123,31 @@ bool BubbleBobbleGame::NotifyPlayerDeath(bool isP1)
 		switch (m_CurrentMode)
 		{
 		case Gamemode::singleplayer:
+		{
 			return true;
-
+		}
 			break;
 
 		case Gamemode::multiplayer:
+		{
 			((isP1) ? m_DeadP1 : m_DeadP2) = true;
 
 			if (m_DeadP1 && m_DeadP2)
 			{
 				return true;
 			}
-
+		}
 			break;
 
 		case Gamemode::versus:
+		{
 			((isP1) ? m_DeadP1 : m_DeadP2) = true;
 
 			if (m_DeadP1)
 			{
 				return true;
 			}
-
+		}
 			break;
 		}
 	}

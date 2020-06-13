@@ -29,7 +29,7 @@ void anemoia::AIManager::RegisterFunction(const BoundFunc& func)
 	//Otherwise, error
 	else
 	{
-		throw std::runtime_error("Failed to add function: already present in AIManager!");
+		throw std::runtime_error("Failed to add function: parent object already has a registered function in AIManager!");
 	}
 }
 
