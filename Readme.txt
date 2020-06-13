@@ -1,4 +1,5 @@
 GitHub link: https://github.com/Olof-AV/Anemoia
+Build link: https://github.com/Olof-AV/Anemoia/releases/download/v1.0/Anemoia_Builds.zip
 
 -Main engine:
 	-Game loop:
