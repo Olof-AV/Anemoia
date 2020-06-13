@@ -145,12 +145,12 @@ XINPUT_STATE anemoia::InputManager::GetControllerState(DWORD userIndex)
 	return m_PadInputState[userIndex];
 }
 
-void anemoia::InputManager::SetControllerState(DWORD userIndex, WORD leftMotor, WORD rightMotor)
+void anemoia::InputManager::SetControllerState(DWORD userIndex, float leftMotor, float rightMotor)
 {
 	//Create vibration state according to input data
 	XINPUT_VIBRATION vibration{};
-	vibration.wLeftMotorSpeed = leftMotor;
-	vibration.wRightMotorSpeed = rightMotor;
+	vibration.wLeftMotorSpeed = WORD(std::max(0.f, std::min(leftMotor, 1.f)) * 65535);
+	vibration.wRightMotorSpeed = WORD(std::max(0.f, std::min(rightMotor, 1.f)) * 65535);
 
 	//Set vibration
 	XInputSetState(userIndex, &vibration);

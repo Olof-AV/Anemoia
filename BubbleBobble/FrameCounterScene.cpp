@@ -141,7 +141,7 @@ void FrameCounterScene::ChangeTextToRed()
 
 	//Controller vibration test
 	anemoia::InputManager* const pInput = anemoia::Locator::GetInputManager();
-	if (pInput) { pInput->SetControllerState(0, 65535, 65535); }
+	if (pInput) { pInput->SetControllerState(0, 1.f, 1.f); }
 
 	//Sound test
 	m_pSound->Play(0);
@@ -153,5 +153,5 @@ void FrameCounterScene::ChangeTextToBlue()
 
 	//Controller vibration test
 	anemoia::InputManager* const pInput = anemoia::Locator::GetInputManager();
-	if (pInput) { pInput->SetControllerState(0, 0, 0); }
+	if (pInput) { pInput->SetControllerState(0, 0.f, 0.f); }
 }

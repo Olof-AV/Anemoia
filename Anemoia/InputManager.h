@@ -16,7 +16,7 @@ namespace anemoia
 
 		//State
 		XINPUT_STATE GetControllerState(DWORD userIndex);
-		void SetControllerState(DWORD userIndex, WORD leftMotor, WORD rightMotor);
+		void SetControllerState(DWORD userIndex, float leftMotor, float rightMotor);
 
 		//Axes
 		float GetTriggerAxis(DWORD userIndex, bool rightTrigger) const;

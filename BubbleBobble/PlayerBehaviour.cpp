@@ -289,6 +289,9 @@ void PlayerBehaviour::Die()
 		m_IsDead = true;
 		m_pParent->Notify(anemoia::Events::PLAYER_DEATH);
 
+		//Reset vibration
+		anemoia::Locator::GetInputManager()->SetControllerState(((m_IsP1) ? 0 : 1), 0.f, 0.f);
+
 		SetState(PlayerState::idle);
 	}
 }
@@ -383,6 +386,9 @@ void PlayerBehaviour::SetState(PlayerState newState)
 
 		const glm::vec2 &vel = m_pRigid->GetVelocity();
 		m_pRigid->SetVelocity(glm::vec2{0.f, vel.y});
+
+		//Vibration
+		anemoia::Locator::GetInputManager()->SetControllerState(((m_IsP1) ? 0 : 1), 1.f, 1.f);
 
 		break;
 	}
