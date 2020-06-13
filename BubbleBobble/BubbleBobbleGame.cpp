@@ -8,6 +8,7 @@
 #include "BaseGameScene.h"
 #include "StartScene.h"
 #include "EndScene.h"
+#include "FailScene.h"
 
 #include <SDL.h>
 #include <SDL_video.h>
@@ -53,6 +54,9 @@ void BubbleBobbleGame::LoadGame()
 
 	anemoia::Scene* const pEnd = new EndScene();
 	anemoia::SceneManager::GetInstance()->AddScene(pEnd);
+
+	anemoia::Scene* const pFail = new FailScene();
+	anemoia::SceneManager::GetInstance()->AddScene(pFail);
 }
 
 Gamemode BubbleBobbleGame::GetGamemode() const

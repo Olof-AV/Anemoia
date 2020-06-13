@@ -70,7 +70,7 @@ void BaseGameScene::Update(float elapsedSec)
 			{
 				if (m_PlayerLost)
 				{
-					static_cast<BubbleBobbleGame*>(anemoia::Locator::GetEngine())->Restart();
+					anemoia::SceneManager::GetInstance()->SetActiveScene("FailScene");
 				}
 				else if (m_IsFinalLevel)
 				{

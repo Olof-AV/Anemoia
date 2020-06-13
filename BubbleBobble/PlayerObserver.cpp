@@ -8,6 +8,8 @@
 
 #include "PlayerBehaviour.h"
 
+#include "GameObject.h"
+
 PlayerObserver::PlayerObserver(PlayerBehaviour* const pBehaviour, bool isP1)
 	: m_IsP1{ isP1 }, m_pBehaviour{ pBehaviour }
 {
@@ -39,7 +41,7 @@ void PlayerObserver::Notify(anemoia::Events event)
 
 	case anemoia::Events::DAMAGE_TAKEN:
 	{
-		if (m_pBehaviour->GetState() != PlayerState::death)
+		if (m_pBehaviour->GetState() != PlayerState::death && m_pBehaviour->GetParent()->IsEnabled())
 		{
 			m_pBehaviour->SetState(PlayerState::death);
 		}

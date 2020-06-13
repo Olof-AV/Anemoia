@@ -265,14 +265,15 @@ void PlayerBehaviour::Die()
 {
 	if (!m_IsDead && !m_IsInvincible)
 	{
-		const int lives = static_cast<BubbleBobbleGame*>(anemoia::Locator::GetEngine())->GetLives(m_IsP1);
+		//Reset vibration
+		anemoia::Locator::GetInputManager()->SetControllerState(((m_IsP1) ? 0 : 1), 0.f, 0.f);
 
+		const int lives = static_cast<BubbleBobbleGame*>(anemoia::Locator::GetEngine())->GetLives(m_IsP1);
 		if (lives == 0)
 		{
 #if _DEBUG
 			std::cout << "Player is fully dead, disable...\n";
 #endif
-
 			m_pParent->SetEnabled(false);
 		}
 		else
@@ -280,7 +281,6 @@ void PlayerBehaviour::Die()
 #if _DEBUG
 			std::cout << "Player respawning...\n";
 #endif
-
 			m_pRigid->AddIgnoreTag("Boulder");
 			m_pRigid->AddIgnoreTag("ZenChan");
 			m_pRigid->AddIgnoreTag("Maita");
@@ -288,9 +288,6 @@ void PlayerBehaviour::Die()
 
 		m_IsDead = true;
 		m_pParent->Notify(anemoia::Events::PLAYER_DEATH);
-
-		//Reset vibration
-		anemoia::Locator::GetInputManager()->SetControllerState(((m_IsP1) ? 0 : 1), 0.f, 0.f);
 
 		SetState(PlayerState::idle);
 	}
