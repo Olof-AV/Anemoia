@@ -32,7 +32,7 @@ public:
 	virtual void OnSceneDeactivated() override;
 
 private:
-	void PrintFormattedText(const std::string& text, int spacing);
+	void PrintFormattedText(const std::string& text, size_t spacing);
 
 	void PlayStartEffects();
 	void StartGame();

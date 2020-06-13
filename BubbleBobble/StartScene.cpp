@@ -171,9 +171,10 @@ void StartScene::OnSceneDeactivated()
 	Scene::OnSceneDeactivated();
 }
 
-void StartScene::PrintFormattedText(const std::string& text, int spacing)
+void StartScene::PrintFormattedText(const std::string& text, size_t spacing)
 {
-	std::cout << std::setfill(' ') << std::setw(spacing + text.size()) << text << std::endl;
+	const size_t totalSize = spacing + text.size();
+	std::cout << std::setfill(' ') << std::setw(totalSize) << text << std::endl;
 }
 
 void StartScene::PlayStartEffects()
