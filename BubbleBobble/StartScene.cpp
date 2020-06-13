@@ -19,6 +19,8 @@
 #include "Texture2D.h"
 #include "Sound.h"
 
+#include <iomanip>
+
 StartScene::StartScene()
 	: Scene("StartScene")
 {
@@ -153,12 +155,25 @@ void StartScene::OnSceneActivated()
 	//Scene comes into view
 	m_TransitionAlphaTarget = 0.f;
 	m_TransitionAlpha = 1.f;
+
+	//Tell controls
+	PrintFormattedText("--- Controls ---", 0);
+	PrintFormattedText("Gamepad:", 5);
+	PrintFormattedText("D-PAD for movement, A to jump, X to attack", 10);
+	PrintFormattedText("Keyboard:", 5);
+	PrintFormattedText("Player 1: Arrows key for movement, Z to jump, X to attack", 10);
+	PrintFormattedText("Player 2: NUMPAD4-6 for movement, NUMPAD8 to jump, NUMPAD5 to attack\n", 10);
 }
 
 void StartScene::OnSceneDeactivated()
 {
 	//Call root
 	Scene::OnSceneDeactivated();
+}
+
+void StartScene::PrintFormattedText(const std::string& text, int spacing)
+{
+	std::cout << std::setfill(' ') << std::setw(spacing + text.size()) << text << std::endl;
 }
 
 void StartScene::PlayStartEffects()
