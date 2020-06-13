@@ -51,7 +51,10 @@ PlayerBehaviour::PlayerBehaviour(anemoia::GameObject* const pParent, anemoia::Ri
 		m_InputDir.y += -1.f;
 	}));
 	pInput->RegisterCommand(m_pCommand_Shoot = new anemoia::Command("Shoot", pParent->GetParentScene(), controllerId,
-		XINPUT_GAMEPAD_X, ((isP2) ? VK_NUMPAD5 : 'X'), anemoia::ButtonState::Down, std::bind(&PlayerBehaviour::ShootBubble, this) ));
+		XINPUT_GAMEPAD_X, ((isP2) ? VK_NUMPAD5 : 'X'), anemoia::ButtonState::Down, [this]()
+	{
+		m_pParent->Notify(anemoia::Events::ABILITY_USE);
+	}));
 
 	//Set base state
 	SetState(PlayerState::idle);

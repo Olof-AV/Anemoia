@@ -75,7 +75,10 @@ MaitaBehaviour::MaitaBehaviour(anemoia::GameObject* const pParent, anemoia::Rigi
 				m_InputDir.y += -1.f;
 			}));
 		pInput->RegisterCommand(m_pCommand_Shoot = new anemoia::Command("Shoot", pParent->GetParentScene(), 1,
-			XINPUT_GAMEPAD_X, VK_NUMPAD5, anemoia::ButtonState::Down, std::bind(&MaitaBehaviour::PrepareBoulder, this)));
+			XINPUT_GAMEPAD_X, VK_NUMPAD5, anemoia::ButtonState::Down, [this]()
+			{
+				m_pParent->Notify(anemoia::Events::ABILITY_USE);
+			}));
 	}
 	else
 	{
@@ -130,7 +133,7 @@ void MaitaBehaviour::Update(float elapsedSec)
 		else if (m_ShootRequested)
 		{
 			m_ShootRequested = false;
-			PrepareBoulder();
+			m_pParent->Notify(anemoia::Events::ABILITY_USE);
 		}
 
 		break;
@@ -163,6 +166,8 @@ void MaitaBehaviour::Update(float elapsedSec)
 			m_pParent->SetEnabled(false);
 			static_cast<BaseGameScene*>(m_pParent->GetParentScene())->NotifyEnemyDeath(m_pParent);
 		}
+
+		break;
 	}
 }
 

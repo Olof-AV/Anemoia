@@ -46,6 +46,12 @@ void PlayerObserver::Notify(anemoia::Events event)
 	}
 		break;
 
+	case anemoia::Events::ABILITY_USE:
+	{
+		m_pBehaviour->ShootBubble();
+	}
+		break;
+
 	default:
 		break;
 	}
