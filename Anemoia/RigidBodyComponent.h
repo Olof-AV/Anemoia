@@ -29,7 +29,7 @@ namespace anemoia
 #pragma region Delete
 		const Transform& GetTransform() const = delete;
 		void SetTransform(const Transform & newTransform) = delete;
-#pragma region Delete
+#pragma endregion Delete
 
 		//Functions
 		void Move(const glm::vec2& newPos);

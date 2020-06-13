@@ -58,8 +58,6 @@ public:
 	void GetBubbled(bool isP1);
 	void CalmDown();
 
-#pragma region Delete
-
 private:
 	void SpawnItem();
 

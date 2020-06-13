@@ -26,7 +26,7 @@ namespace anemoia
 #pragma region Delete
 		const Transform& GetTransform() const = delete;
 		void SetTransform(const Transform& newTransform) = delete;
-#pragma region Delete
+#pragma endregion Delete
 
 		//Functions
 		float GetFPS() const;
