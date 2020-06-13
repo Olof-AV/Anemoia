@@ -165,6 +165,12 @@ void MaitaBehaviour::Update(float elapsedSec)
 			SpawnItem();
 			m_pParent->SetEnabled(false);
 			static_cast<BaseGameScene*>(m_pParent->GetParentScene())->NotifyEnemyDeath(m_pParent);
+
+			//Reset vibration if needed
+			if (m_IsPlayer)
+			{
+				anemoia::InputManager::GetInstance()->SetControllerState(1, 0.f, 0.f);
+			}
 		}
 
 		break;
@@ -214,6 +220,12 @@ void MaitaBehaviour::SetState(MaitaState newState)
 		m_pRigid->AddIgnoreTag("Bubble");
 		m_pAnimComp->SetAnim("Death");
 		m_pSound_Death->Play(0);
+
+		//Use vibration if needed
+		if (m_IsPlayer)
+		{
+			anemoia::InputManager::GetInstance()->SetControllerState(1, 1.f, 1.f);
+		}
 
 		break;
 	}
