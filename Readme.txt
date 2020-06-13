@@ -42,7 +42,7 @@ GitHub link: https://github.com/Olof-AV/Anemoia
 
 -Engine components:
 	-Animated sprites (can load several animations, swap between them, play linearly/pong mode, callback on finish, transform...)
-	-Collider (defines a hitbox, draws collider in debug)
+	-Collider (defines a hitbox, draws collider in debug, can be set to not affect RigidBodies/let them pass from below)
 	-Rigid Body (defines a moving body, interacts with colliders, use ignore tags to stop collision with specific objects)
 	-Text (draws some text, using the transform it can be rotated/scaled/flipped/... as you want)
 	-Texture (a stripped down version of animated sprites, some shared functionality: transparency, colouring)
